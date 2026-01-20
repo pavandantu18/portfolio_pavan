@@ -7,6 +7,8 @@ import Notes from "./components/windows/Notes"
 import Cli from './components/windows/Cli'
 import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import Spotify from './components/windows/Spotify'
+
+import DesktopOnly from "./DesktopOnly";
 const App = () => {
 
   const [windowState, setwindowState] = useState({
@@ -18,6 +20,7 @@ const App = () => {
   })
 
   return (
+    <DesktopOnly >
     <main>
       <Nav />
       <Dock windowState={windowState} setwindowState={setwindowState} />
@@ -26,6 +29,7 @@ const App = () => {
         {windowState.cli && <Cli windowName="cli" setwindowState={setwindowState} />}
         {windowState.spotify && <Spotify windowName="spotify" setwindowState={setwindowState} />}
     </main>
+    </DesktopOnly>
   )
 }
 
