@@ -1,0 +1,131 @@
+.dock {
+  display: flex;
+  gap: 0.65rem;
+  position: absolute;
+  bottom: 1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.8rem 1.15rem;
+  border-radius: 1rem;
+  background: linear-gradient(145deg, rgba(14, 14, 18, 0.82), rgba(26, 26, 34, 0.62));
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  animation: dock-breathe 6s ease-in-out infinite;
+}
+
+/* ================= ICON BASE ================= */
+.dock .icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: .1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.65rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.22s cubic-bezier(0.22, 0.61, 0.36, 1),
+              box-shadow 0.22s ease,
+              filter 0.22s ease;
+  filter: saturate(1.18) brightness(1.08);
+  transform-origin: bottom center;
+}
+
+/* ================= macOS HOVER ================= */
+.dock:hover .icon {
+  transform: scale(0.92);
+}
+
+.dock .icon:hover {
+  transform: translateY(-10px) scale(1.5);
+  z-index: 4;
+}
+
+.dock .icon:hover + .icon,
+.dock .icon:has(+ .icon:hover) {
+  transform: translateY(-6px) scale(1.25);
+  z-index: 3;
+}
+
+.dock .icon:hover + .icon + .icon,
+.dock .icon:has(+ .icon + .icon:hover) {
+  transform: translateY(-3px) scale(1.1);
+  z-index: 2;
+}
+
+/* ================= LIQUID GLASS SHEEN ================= */
+.dock .icon::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.35),
+    transparent 70%
+  );
+  opacity: 0;
+  transform: translateX(-60%);
+  transition: opacity 0.25s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+.dock .icon:hover::before {
+  opacity: 0.45;
+  transform: translateX(60%);
+}
+
+/* ================= CHROMATIC EDGE GLOW ================= */
+.dock .icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 0, 80, 0.25),
+    rgba(255, 255, 255, 0.05),
+    rgba(0, 140, 255, 0.25)
+  );
+  opacity: 0;
+  mix-blend-mode: screen;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.dock .icon:hover::after {
+  opacity: 0.35;
+}
+
+/* ================= COLOR SYSTEM ================= */
+.dock .github { color: #ff6b6b; }
+.dock .note { color: #ffd08a; }
+.dock .pdf { color: #d97a92; }
+.dock .calender { color: #f7df8a; }
+.dock .spotify { color: #4fd1a5; }
+.dock .mail { color: #ff9a9a; }
+.dock .link { color: #82c4ff; }
+.dock .cli { color: #e8c96a; }
+
+/* ================= SOFT GLOW ================= */
+.dock .github:hover { box-shadow: 0 0 14px rgba(255, 107, 107, 0.7); }
+.dock .note:hover { box-shadow: 0 0 14px rgba(255, 208, 138, 0.8); }
+.dock .pdf:hover { box-shadow: 0 0 14px rgba(217, 122, 146, 0.8); }
+.dock .calender:hover { box-shadow: 0 0 14px rgba(247, 223, 138, 0.9); }
+.dock .spotify:hover { box-shadow: 0 0 14px rgba(79, 209, 165, 0.75); }
+.dock .mail:hover { box-shadow: 0 0 14px rgba(255, 154, 154, 0.8); }
+.dock .link:hover { box-shadow: 0 0 14px rgba(130, 196, 255, 0.85); }
+.dock .cli:hover { box-shadow: 0 0 14px rgba(232, 201, 106, 0.9); }
+
+/* ================= IDLE ANIMATION ================= */
+@keyframes dock-breathe {
+  0%, 100% {
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+  50% {
+    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+}

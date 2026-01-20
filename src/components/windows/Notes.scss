@@ -1,0 +1,81 @@
+.note-window {
+  padding: 1.25rem 1.5rem;
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+  padding-bottom: 10rem;
+
+  /* Readability */
+  font-size: 1.05rem;
+  line-height: 1.7;
+
+  /* Spider-Man suit surface */
+  background:
+    linear-gradient(
+      180deg,
+      rgba(8, 10, 14, 0.96),   /* deep black */
+      rgba(12, 14, 18, 0.92)   /* suit shadow */
+    );
+
+  color: rgba(230, 235, 240, 0.9); /* soft off-white */
+
+  /* Subtle suit panel depth */
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.025),
+    inset 0 0 60px rgba(180, 0, 0, 0.06),  /* red glow */
+    inset 0 0 80px rgba(40, 90, 180, 0.05); /* blue tint */
+
+  border-radius: 0.5rem;
+}
+
+/* ================= CODE BLOCKS ================= */
+
+.note-window pre {
+  background: transparent !important;
+  padding: 0.75rem 0;
+  margin: 1rem 0;
+
+  /* no bars, no outlines */
+  border: none;
+  box-shadow: none;
+}
+
+/* Inline code */
+.note-window code {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 0.95em;
+  color: #f87171; /* Spider red */
+}
+
+/* ================= HEADINGS ================= */
+
+.note-window h1,
+.note-window h2,
+.note-window h3 {
+  color: #ef4444; /* classic suit red */
+  font-weight: 600;
+  margin-top: 1.8rem;
+}
+
+/* ================= LINKS ================= */
+
+.note-window a {
+  color: #60a5fa; /* Spider blue */
+  text-decoration: none;
+}
+
+.note-window a:hover {
+  color: #93c5fd;
+}
+
+/* ================= TEXT ================= */
+
+.note-window p {
+  margin: 0.6rem 0;
+}
+
+/* ================= SELECTION ================= */
+
+.note-window ::selection {
+  background: rgba(220, 38, 38, 0.35);
+  color: #fff;
+}

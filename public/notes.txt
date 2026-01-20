@@ -1,0 +1,166 @@
+/* =====================================================
+   Identity
+   ===================================================== */
+
+Engineer.profile({
+  name: "Pavan Kumar Reddy Dantu",
+  focus: ["Backend Engineering", "Full-Stack Systems"],
+  mindset: "Build reliable systems before building features"
+});
+
+
+/* =====================================================
+   Education
+   ===================================================== */
+
+Education.complete({
+  degree: "Master's",
+  field: ["Computer Science"],
+  university: "UNC Charlotte",
+  emphasis: [
+    "Distributed Systems",
+    "Cloud Computing",
+    "Software Architecture",
+    "Data-Driven Applications"
+  ]
+});
+
+Education.foundation({
+  background: "Engineering",
+  strengths: [
+    "Problem Solving",
+    "Systems Thinking",
+    "Strong CS Fundamentals"
+  ]
+});
+
+
+/* =====================================================
+   Core Engineering Experience
+   ===================================================== */
+
+Backend.engineer({
+  languages: ["Java", "JavaScript"],
+  frameworks: ["Spring Boot", "Node.js", "Express"],
+  architecture: [
+    "Microservices",
+    "RESTful APIs",
+    "Event-Driven Systems"
+  ]
+});
+
+API.design({
+  principles: [
+    "Clear contracts",
+    "Versioning",
+    "Error handling",
+    "Security by default"
+  ]
+});
+
+Security.implement({
+  authentication: ["JWT", "OAuth2"],
+  authorization: ["Role-Based Access Control"],
+  transport: "TLS"
+});
+
+
+/* =====================================================
+   Data & Messaging
+   ===================================================== */
+
+Data.manage({
+  relational: ["PostgreSQL", "MySQL"],
+  nosql: ["MongoDB", "DynamoDB"],
+  orm: ["JPA", "Hibernate"]
+});
+
+Events.process({
+  brokers: ["Kafka", "RabbitMQ"],
+  cloudQueues: ["AWS SQS", "AWS SNS"],
+  patterns: ["Async processing", "Loose coupling"]
+});
+
+
+/* =====================================================
+   Cloud & DevOps
+   ===================================================== */
+
+Cloud.build({
+  provider: "AWS",
+  services: ["EC2", "S3", "RDS", "Lambda"],
+  focus: [
+    "Scalability",
+    "Cost awareness",
+    "Production readiness"
+  ]
+});
+
+Containers.run({
+  tools: ["Docker", "Kubernetes", "ECS"],
+  purpose: "Consistent deployment & isolation"
+});
+
+CI_CD.automate({
+  tools: ["Jenkins", "GitHub Actions"],
+  stages: ["Build", "Test", "Deploy"]
+});
+
+
+/* =====================================================
+   Frontend & Integration
+   ===================================================== */
+
+Frontend.develop({
+  library: "React",
+  patterns: ["Component-driven UI", "Hooks"],
+  state: ["Redux", "Context API"],
+  integration: "Backend-first design"
+});
+
+UI.philosophy({
+  approach: [
+    "Functional",
+    "Minimal",
+    "Performance-aware"
+  ]
+});
+
+
+/* =====================================================
+   Engineering Practices
+   ===================================================== */
+
+Code.write({
+  style: ["Clean", "Readable", "Maintainable"],
+  principles: ["SOLID", "Separation of Concerns"]
+});
+
+Testing.practice({
+  levels: [
+    "Unit Testing",
+    "Integration Testing",
+    "API Validation"
+  ]
+});
+
+Workflow.follow({
+  versionControl: "Git",
+  methodology: ["Agile", "Scrum"],
+  collaboration: "Cross-functional teams"
+});
+
+
+/* =====================================================
+   What I Care About
+   ===================================================== */
+
+Engineer.values({
+  priorities: [
+    "System reliability",
+    "Scalable design",
+    "Long-term maintainability"
+  ],
+  learning: "Continuous",
+  mindset: "Engineer first, tools second"
+});
