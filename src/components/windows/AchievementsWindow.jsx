@@ -28,7 +28,7 @@ export default function AchievementsWindow({windowName, setwindowState}) {
     return (
         <MacWindow windowName={windowName} setwindowState={setwindowState}>
             <div className="achieve-window">
-                <h2>🏆Your Achievements</h2>
+                <h2>🏆 Earn Achievements by exploring my portfolio</h2>
 
                 <div className="achieve-list">
                     {Object.keys(achievements).map((key) => {
