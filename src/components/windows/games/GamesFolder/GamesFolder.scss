@@ -1,0 +1,102 @@
+/* ===================== GAMES FOLDER ===================== */
+
+@keyframes spider-glow {
+  0%   { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.08), inset 0 0 80px rgba(30, 64, 175, 0.05); }
+  50%  { box-shadow: inset 0 0 70px rgba(220, 38, 38, 0.16), inset 0 0 120px rgba(30, 64, 175, 0.10); }
+  100% { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.08), inset 0 0 80px rgba(30, 64, 175, 0.05); }
+}
+
+@keyframes tile-in {
+  from { opacity: 0; transform: scale(0.85) translateY(10px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+.games-folder {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1.25rem 1.5rem;
+
+  background: linear-gradient(180deg, rgba(8, 10, 14, 0.96), rgba(12, 14, 18, 0.92));
+  border-radius: 0.6rem;
+  animation: spider-glow 4s ease-in-out infinite;
+}
+
+/* ===================== GAME TILE ===================== */
+
+.game-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  animation: tile-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+
+  &:nth-child(2) { animation-delay: 0.08s; }
+  &:nth-child(3) { animation-delay: 0.16s; }
+  &:nth-child(4) { animation-delay: 0.24s; }
+
+  &:hover .game-tile__icon {
+    transform: translateY(-6px) scale(1.08);
+    box-shadow:
+      0 12px 28px rgba(0, 0, 0, 0.6),
+      0 0 20px rgba(220, 38, 38, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: rgba(220, 38, 38, 0.55);
+  }
+
+  &:hover .game-tile__name {
+    color: #ef4444;
+  }
+
+  &:active .game-tile__icon {
+    transform: translateY(-2px) scale(0.97);
+  }
+}
+
+.game-tile__icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+
+  background: linear-gradient(
+    145deg,
+    rgba(220, 38, 38, 0.12),
+    rgba(29, 78, 216, 0.10)
+  );
+  border: 1px solid rgba(220, 38, 38, 0.28);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.22s ease,
+              border-color 0.22s ease;
+
+  /* make dark/monochrome emojis (🕸) visible on dark bg */
+  filter: drop-shadow(0 0 6px rgba(220, 38, 38, 0.55))
+          drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
+}
+
+.game-tile__name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(220, 235, 255, 0.8);
+  text-align: center;
+  max-width: 100px;
+  line-height: 1.3;
+  transition: color 0.18s ease;
+}

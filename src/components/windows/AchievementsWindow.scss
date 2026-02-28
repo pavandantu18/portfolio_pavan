@@ -1,168 +1,11 @@
-.achieve-window {
-  padding: 1.25rem 1.5rem;
-  height: calc(100vh - 120px);
-  overflow-y: auto;
-  padding-bottom: 8rem;
+/* ===================== ANIMATIONS ===================== */
 
-  /* EXACT Spider-Man suit background like note-window */
-  background: linear-gradient(
-    180deg,
-    rgba(8, 10, 14, 0.96),
-    rgba(12, 14, 18, 0.92)
-  );
-
-  color: rgba(230, 235, 240, 0.9);
-
-  border-radius: 0.6rem;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.025),
-    inset 0 0 60px rgba(180, 0, 0, 0.06),
-    inset 0 0 80px rgba(40, 90, 180, 0.05);
-
-  /* SMOOTH ENTRY */
-  animation: fadeIn 0.4s ease-out forwards;
-
-  /* ===================== Scrollbar ===================== */
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: rgba(10, 10, 12, 0.85);
-    border-radius: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: linear-gradient(
-      180deg,
-      rgba(180, 30, 30, 0.85),
-      rgba(90, 10, 10, 0.85)
-    );
-    border-radius: 10px;
-    border: 2px solid rgba(10, 10, 12, 0.9);
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(
-      180deg,
-      rgba(220, 50, 50, 0.95),
-      rgba(120, 15, 15, 0.95)
-    );
-  }
-
-  /* ===================== Title ===================== */
-  h2 {
-    font-size: 1.75rem;
-    color: #ef4444;
-    margin-bottom: 1.2rem;
-    font-family: "Bangers", sans-serif;
-
-    text-shadow:
-      3px 3px #000,
-      -3px 3px #000,
-      3px -3px #000,
-      -3px -3px #000;
-  }
-
-  /* ===================== Achievement List ===================== */
-  .achieve-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
-  }
-
-  /* ===================== Achievement Item ===================== */
-  .achieve-item {
-    padding: 1.1rem 1.3rem;
-    border-radius: 14px;
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-
-    /* Dark Spider-Man suit card */
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-
-    box-shadow:
-      5px 5px 0 rgba(0, 0, 0, 0.7),
-      0 0 14px rgba(0, 0, 0, 0.45);
-
-    backdrop-filter: blur(4px);
-
-    opacity: 0;
-    transform: translateY(18px);
-    animation: itemFade 0.5s ease-out forwards;
-
-    /* Sequential fade effect */
-    &:nth-child(1) { animation-delay: 0.1s; }
-    &:nth-child(2) { animation-delay: 0.2s; }
-    &:nth-child(3) { animation-delay: 0.3s; }
-    &:nth-child(4) { animation-delay: 0.4s; }
-
-    /* Hover */
-    transition: 0.25s ease;
-    &:hover {
-      transform: translateY(0px) scale(1.02);
-      box-shadow:
-        6px 6px 0 rgba(0, 0, 0, 1),
-        0 0 18px rgba(255, 50, 50, 0.25);
-    }
-
-    /* ========== UNLOCKED STATE ========== */
-    &.unlocked {
-      border: 1px solid rgba(220, 38, 38, 0.55);
-      box-shadow:
-        5px 5px 0 rgba(0, 0, 0, 0.85),
-        0 0 12px rgba(255, 40, 40, 0.35);
-
-      /* subtle inner red glow */
-      background: linear-gradient(
-        145deg,
-        rgba(255, 255, 255, 0.05),
-        rgba(255, 70, 70, 0.05)
-      );
-    }
-
-    /* Icon */
-    .icon {
-      font-size: 2rem;
-    }
-
-    /* Info */
-    .info {
-      display: flex;
-      flex-direction: column;
-
-      .top-row {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-
-      .name {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: #ef4444;
-        font-family: "Comic Sans MS", sans-serif;
-        text-shadow: 1px 1px #000;
-      }
-
-      .status {
-        font-size: 1rem;
-        color: #888;
-      }
-
-      .description {
-        margin-top: 3px;
-        font-size: 0.9rem;
-        color: rgba(210, 210, 210, 0.85);
-        line-height: 1.4;
-      }
-    }
-  }
+@keyframes spider-glow {
+  0%   { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.08), inset 0 0 80px rgba(30, 64, 175, 0.05); }
+  50%  { box-shadow: inset 0 0 70px rgba(220, 38, 38, 0.16), inset 0 0 120px rgba(30, 64, 175, 0.10); }
+  100% { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.08), inset 0 0 80px rgba(30, 64, 175, 0.05); }
 }
 
-/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -173,14 +16,17 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.achieve-window {
-  padding: 1.25rem 1.5rem;
-  height: calc(100vh - 120px);
-  overflow-y: auto;             /* same as note-window */
-  padding-bottom: 10rem;        /* same as note-window */
+/* ===================== CONTAINER ===================== */
 
-  font-size: 1.05rem;
-  line-height: 1.7;
+.achieve-window {
+  font-family: 'Exo 2', system-ui, sans-serif;
+  padding: 1.5rem 1.75rem;
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+  padding-bottom: 10rem;
+
+  font-size: 1rem;
+  line-height: 1.6;
 
   background: linear-gradient(
     180deg,
@@ -189,35 +35,154 @@
   );
 
   color: rgba(230, 235, 240, 0.9);
+  border-radius: 0.6rem;
 
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.025),
-    inset 0 0 60px rgba(180, 0, 0, 0.06),
-    inset 0 0 80px rgba(40, 90, 180, 0.05);
+  animation: fadeIn 0.4s ease-out forwards, spider-glow 4s ease-in-out 0.4s infinite;
 
-  border-radius: 0.5rem;
+  /* ===================== Scrollbar ===================== */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(220, 38, 38, 0.5) transparent;
 
-  /* Scrollbar same as note window */
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-  &::-webkit-scrollbar-track {
-    background: rgba(10,10,12,0.9);
-    border-radius: 10px;
-  }
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; margin: 0; border-radius: 0; }
   &::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg,
-      rgba(180, 30, 30, 0.85),
-      rgba(90, 10, 10, 0.85)
-    );
-    border-radius: 10px;
-    border: 2px solid rgba(10,10,12,0.9);
+    background: linear-gradient(180deg, rgba(220, 38, 38, 0.7), rgba(29, 78, 216, 0.7));
+    border-radius: 2px;
+    min-height: 30px;
   }
-  &::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(
-      180deg,
-      rgba(220, 50, 50, 0.95),
-      rgba(120, 15, 15, 0.95)
-    );
+
+  /* ===================== Title ===================== */
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ef4444;
+    margin-bottom: 1.4rem;
+
+    text-shadow:
+      0 0 20px rgba(220, 38, 38, 0.5),
+      0 2px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  /* ===================== Achievement List ===================== */
+  .achieve-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  /* ===================== Achievement Item ===================== */
+  .achieve-item {
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+    backdrop-filter: blur(4px);
+
+    opacity: 0;
+    transform: translateY(18px);
+    animation: itemFade 0.5s ease-out forwards;
+
+    &:nth-child(1) { animation-delay: 0.1s; }
+    &:nth-child(2) { animation-delay: 0.2s; }
+    &:nth-child(3) { animation-delay: 0.3s; }
+    &:nth-child(4) { animation-delay: 0.4s; }
+    &:nth-child(5) { animation-delay: 0.5s; }
+    &:nth-child(6) { animation-delay: 0.6s; }
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.6),
+        0 0 14px rgba(220, 38, 38, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ========== UNLOCKED STATE ========== */
+    &.unlocked {
+      border-color: rgba(220, 38, 38, 0.45);
+      background: linear-gradient(
+        145deg,
+        rgba(220, 38, 38, 0.06),
+        rgba(29, 78, 216, 0.04)
+      );
+
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.5),
+        0 0 12px rgba(220, 38, 38, 0.2),
+        inset 0 1px 0 rgba(220, 38, 38, 0.1);
+    }
+
+    /* Icon */
+    .icon {
+      font-size: 1.9rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Info */
+    .info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      min-width: 0;
+
+      .top-row {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+
+      .name {
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: #f1f1f1;
+      }
+
+      .status {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.15rem 0.5rem;
+        border-radius: 20px;
+
+        &.unlocked-text {
+          color: #4ade80;
+          background: rgba(74, 222, 128, 0.12);
+          border: 1px solid rgba(74, 222, 128, 0.25);
+        }
+
+        &.locked-text {
+          color: rgba(180, 180, 180, 0.6);
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+      }
+
+      .description {
+        font-size: 0.85rem;
+        font-weight: 400;
+        color: rgba(190, 195, 205, 0.75);
+        line-height: 1.45;
+        letter-spacing: 0.01em;
+      }
+    }
   }
 }

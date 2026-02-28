@@ -1,28 +1,11 @@
 import { useContext } from "react";
-import { AchievementContext } from "../..//context/AchievementContext";
+import { AchievementContext } from "../../context/AchievementContext";
+import { ACHIEVEMENT_LABELS, ACHIEVEMENT_ICONS, ACHIEVEMENT_DESCRIPTIONS } from "../../config/constants";
 import "./AchievementsWindow.scss";
 import MacWindow from "./MacWindow";
 
 export default function AchievementsWindow({windowName, setwindowState}) {
     const { achievements } = useContext(AchievementContext);
-
-    const labels = {
-        websiteRuiner: "Website Ruiner",
-        musicEnthusiastic: "Music Enthusiastic",
-        knowMe: "Know About Me",
-    };
-
-    const icons = {
-        websiteRuiner: "😭",
-        musicEnthusiastic: "🎶",
-        knowMe: "🔗",
-    };
-
-    const descriptions = {
-        websiteRuiner: "Change the website background using the Background Game.",
-        musicEnthusiastic: "Open Spotify.",
-        knowMe: "Unlock by visiting my LinkedIn profile.",
-    };
 
 
     return (
@@ -39,11 +22,11 @@ export default function AchievementsWindow({windowName, setwindowState}) {
                                 key={key}
                                 className={`achieve-item ${a.unlocked ? "unlocked" : ""}`}
                             >
-                                <div className="icon">{icons[key]}</div>
+                                <div className="icon">{ACHIEVEMENT_ICONS[key]}</div>
 
                                 <div className="info">
                                     <div className="top-row">
-                                        <span className="name">{labels[key]}</span>
+                                        <span className="name">{ACHIEVEMENT_LABELS[key]}</span>
                                         {a.unlocked ? (
                                             <span className="status unlocked-text">Unlocked ✔</span>
                                         ) : (
@@ -52,7 +35,7 @@ export default function AchievementsWindow({windowName, setwindowState}) {
                                     </div>
 
                                     <div className="description">
-                                        {descriptions[key]}
+                                        {ACHIEVEMENT_DESCRIPTIONS[key]}
                                     </div>
                                 </div>
 

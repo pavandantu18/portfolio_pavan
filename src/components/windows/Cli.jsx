@@ -81,19 +81,19 @@ const Cli = ({windowName, setwindowState}) => {
             <div style={{ color: '#ef4444', fontWeight: '600', marginBottom: '1rem' }}>
               ╔═══════════════════════════════════════════════════════════════╗<br/>
               ║ PAVAN KUMAR REDDY DANTU                                       ║<br/>
-              ║ <span style={{ color: '#60a5fa' }}>Software Engineer | System Architect</span>                          ║<br/>
+              ║ <span style={{ color: '#60a5fa' }}>Senior Software Engineer | System Architect</span>                  ║<br/>
               ╚═══════════════════════════════════════════════════════════════╝
             </div>
             <div style={{ color: '#fbbf24', marginBottom: '1rem' }}>
               With great code comes great responsibility.
             </div>
             <div style={{ color: '#e5e7eb', marginBottom: '1rem' }}>
-              4+ years building scalable backend systems and full-stack solutions.<br/>
+              5+ years building scalable backend systems and full-stack solutions.<br/>
               Specializing in <span style={{ color: '#60a5fa' }}>microservices</span>, <span style={{ color: '#60a5fa' }}>cloud infrastructure</span>, and <span style={{ color: '#60a5fa' }}>high-performance APIs</span>.
             </div>
             <div style={{ color: '#e5e7eb' }}>
               Masters in Computer Science @ UNC Charlotte <span style={{ color: '#fbbf24' }}>(4.0 GPA)</span><br/>
-              Currently: <span style={{ color: '#ef4444', fontWeight: '600' }}>Software Engineer @ Bread Financial</span>
+              Currently: <span style={{ color: '#ef4444', fontWeight: '600' }}>Senior Software Engineer @ Molina Healthcare</span>
             </div>
           </div>
         );
@@ -158,36 +158,51 @@ const Cli = ({windowName, setwindowState}) => {
               🦸 MISSION LOG
             </div>
             <div style={{ color: '#fbbf24' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
-            
+
             <div style={{ color: '#60a5fa', fontWeight: '600', marginTop: '1rem' }}>
-              🏢 Bread Financial | Columbus, OH <span style={{ color: '#a1a1aa' }}>(Jan 2025 - Present)</span>
+              🏢 Molina Healthcare <span style={{ color: '#a1a1aa' }}>(Sep 2025 - Present)</span>
             </div>
-            <div style={{ color: '#fbbf24', marginLeft: '1rem' }}>Software Engineer</div>
+            <div style={{ color: '#fbbf24', marginLeft: '1rem' }}>Senior Software Engineer</div>
             <div style={{ color: '#e5e7eb', marginLeft: '1rem', marginTop: '0.5rem' }}>
-              ⚡ Achievements:<br/>
-              • Built Spring Boot microservices handling high-volume finance transactions<br/>
-              • Engineered event-driven pipelines with AWS SQS/SNS<br/>
-              • <span style={{ color: '#fbbf24' }}>Reduced release cycle time by 50%</span> with CI/CD automation<br/>
-              • <span style={{ color: '#fbbf24' }}>Optimized PostgreSQL queries - 55% faster</span> report generation<br/>
-              • Deployed containerized apps on AWS ECS<br/>
-              • Implemented OAuth 2.0 & JWT secured REST APIs
+              ⚡ Responsibilities:<br/>
+              • Leading architecture and design of scalable healthcare solutions<br/>
+              • Mentoring junior engineers on best practices and system design<br/>
+              • Building robust backend systems for patient data management<br/>
+              • Implementing microservices for healthcare workflows<br/>
+              • Optimizing performance and ensuring high availability<br/>
+              • Collaborating with cross-functional teams for enterprise solutions
             </div>
 
             <div style={{ color: '#fbbf24', marginTop: '1rem' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
 
             <div style={{ color: '#60a5fa', fontWeight: '600', marginTop: '1rem' }}>
-              🚗 Uhnder Inc. | Chennai, India <span style={{ color: '#a1a1aa' }}>(Nov 2021 - Aug 2024)</span>
+              🏦 Truist <span style={{ color: '#a1a1aa' }}>(May 2022 - Jul 2024)</span>
             </div>
-            <div style={{ color: '#fbbf24', marginLeft: '1rem' }}>Software Engineer</div>
+            <div style={{ color: '#fbbf24', marginLeft: '1rem' }}>Software Developer</div>
             <div style={{ color: '#e5e7eb', marginLeft: '1rem', marginTop: '0.5rem' }}>
               ⚡ Achievements:<br/>
-              • Scaled microservices to process <span style={{ color: '#fbbf24' }}>10M+ sensor packets daily</span><br/>
-              • Built ProViz: Data visualization platform with <span style={{ color: '#fbbf24' }}>45% lower latency</span><br/>
-              • Achieved <span style={{ color: '#fbbf24' }}>99.9% uptime</span> across 5 environments using Kubernetes<br/>
-              • <span style={{ color: '#fbbf24' }}>Reduced release times by 60%</span> with Jenkins/Docker CI/CD<br/>
-              • Implemented RabbitMQ message-driven ingestion system<br/>
-              • <span style={{ color: '#fbbf24' }}>Optimized MongoDB aggregation queries by 60%</span><br/>
-              • Cut incident response time by 30% with CloudWatch metrics
+              • Developed and maintained full-stack applications for financial services<br/>
+              • Built RESTful APIs handling <span style={{ color: '#fbbf24' }}>high-volume transactions</span><br/>
+              • Implemented database optimization improving query performance by <span style={{ color: '#fbbf24' }}>40%</span><br/>
+              • Collaborated with teams to deliver features on schedule<br/>
+              • Conducted code reviews and ensured code quality standards<br/>
+              • Participated in CI/CD pipeline improvements
+            </div>
+
+            <div style={{ color: '#fbbf24', marginTop: '1rem' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+
+            <div style={{ color: '#60a5fa', fontWeight: '600', marginTop: '1rem' }}>
+              🛍️ Fred Meyer <span style={{ color: '#a1a1aa' }}>(Dec 2019 - Apr 2022)</span>
+            </div>
+            <div style={{ color: '#fbbf24', marginLeft: '1rem' }}>Junior Software Engineer</div>
+            <div style={{ color: '#e5e7eb', marginLeft: '1rem', marginTop: '0.5rem' }}>
+              ⚡ Achievements:<br/>
+              • Built web applications using modern frameworks and technologies<br/>
+              • Developed features for e-commerce platform serving thousands of users<br/>
+              • Participated in backend API development and maintenance<br/>
+              • Fixed bugs and contributed to platform stability<br/>
+              • Collaborated with senior engineers to grow technical skills<br/>
+              • Implemented responsive frontend interfaces
             </div>
           </div>
         );
@@ -269,7 +284,7 @@ const Cli = ({windowName, setwindowState}) => {
             
             <div style={{ color: '#e5e7eb', marginTop: '1rem' }}>
               <span style={{ color: '#60a5fa', fontWeight: '600' }}>Professional Stats:</span><br/>
-              Experience:          <span style={{ color: '#fbbf24' }}>4+ years</span> in Full-Stack & DevOps<br/>
+              Experience:          <span style={{ color: '#fbbf24' }}>5+ years</span> in Full-Stack & DevOps<br/>
               System Uptime:       <span style={{ color: '#fbbf24' }}>99.9%</span> across production environments<br/>
               Performance Gains:   <span style={{ color: '#fbbf24' }}>Up to 60%</span> optimization achieved<br/>
               Release Speed:       <span style={{ color: '#fbbf24' }}>2x faster</span> with CI/CD automation<br/>

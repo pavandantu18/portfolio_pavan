@@ -7,12 +7,14 @@ export default function FunBackgroundGame({windowName, setwindowState}) {
   const [ruined, setRuined] = useState(false);
   const { unlockAchievement } = useContext(AchievementContext);
 
-  const originalBg = "url('/your-original-bg.jpg')"; // update this if needed
+  // Original dark gradient background from app.scss
+  const originalBgGradient = "linear-gradient(135deg, #0a0a0f 0%, #1a0f1f 50%, #0f1f2e 100%)";
+  const originalBgImage = "url('/background.png')";
 
   const handleColorChange = (e) => {
     const color = e.target.value;
 
-    // Change background image
+    // Change background to solid color
     document.body.style.background = color;
     document.body.style.backgroundImage = "none";
 
@@ -24,8 +26,11 @@ export default function FunBackgroundGame({windowName, setwindowState}) {
   };
 
   const resetBackground = () => {
-    document.body.style.background = "";
-    document.body.style.backgroundImage = originalBg;
+    // Clear inline styles to let CSS take over
+    document.body.style.background = '';
+    document.body.style.backgroundImage = '';
+    document.body.style.removeProperty('background');
+    document.body.style.removeProperty('background-image');
     setRuined(false);
   };
 

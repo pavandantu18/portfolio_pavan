@@ -1,69 +1,219 @@
+/* ===================== SPIDER-MAN TERMINAL THEME ===================== */
+
+@keyframes web-pulse {
+  0%   { opacity: 0.03; }
+  50%  { opacity: 0.08; }
+  100% { opacity: 0.03; }
+}
+
+@keyframes spider-glow {
+  0%   { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.10), inset 0 0 80px rgba(30, 64, 175, 0.06); }
+  50%  { box-shadow: inset 0 0 70px rgba(220, 38, 38, 0.18), inset 0 0 120px rgba(30, 64, 175, 0.12); }
+  100% { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.10), inset 0 0 80px rgba(30, 64, 175, 0.06); }
+}
+
+@keyframes web-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ===================== BASE CONTAINER ===================== */
+
 .cli-window {
   width: 100%;
   height: calc(100vh - 120px);
   overflow-y: auto;
   overflow-x: hidden;
   padding-bottom: 10rem;
+  position: relative;
 
-  /* Spider-Man suit surface */
+  /* Spider-Man deep dark — red corner, blue corner */
   background:
-    linear-gradient(
-      180deg,
-      rgba(8, 10, 14, 0.96),
-      rgba(12, 14, 18, 0.92)
-    );
+    radial-gradient(ellipse 55% 45% at 0% 0%,   rgba(185, 28, 28, 0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 45% at 100% 100%, rgba(29, 78, 216, 0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 70% 70% at 50% 50%,  rgba(5, 7, 15, 0.0) 0%, rgba(5, 7, 15, 0.55) 100%),
+    linear-gradient(155deg, #06080f 0%, #090d1a 55%, #06090f 100%);
 
-  color: rgba(230, 235, 240, 0.9);
+  color: rgba(226, 232, 240, 0.92);
   font-family: "JetBrains Mono", "Fira Code", monospace;
   font-size: 0.9rem;
-
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.025),
-    inset 0 0 60px rgba(180, 0, 0, 0.06),
-    inset 0 0 80px rgba(40, 90, 180, 0.05),
-    inset 0 0 100px rgba(234, 179, 8, 0.04);
+  line-height: 1.6;
 
   border-radius: 0.5rem;
+  border: 1px solid rgba(220, 38, 38, 0.22);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  animation: spider-glow 4s ease-in-out infinite;
+
+  /* Spider web pattern — concentric arcs + spokes from top-left corner */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      repeating-conic-gradient(
+        from 0deg at 0% 0%,
+        rgba(220, 38, 38, 0.055) 0deg,
+        transparent 1deg,
+        transparent 44deg,
+        rgba(220, 38, 38, 0.055) 45deg
+      ),
+      repeating-radial-gradient(
+        circle at 0% 0%,
+        transparent 0px,
+        transparent 58px,
+        rgba(220, 38, 38, 0.045) 60px,
+        transparent 62px
+      );
+    animation: web-pulse 5s ease-in-out infinite;
+  }
+
+  /* CRT scanlines */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 1;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.05) 2px,
+      rgba(0, 0, 0, 0.05) 4px
+    );
+  }
 }
 
-/* Terminal container */
+/* ===================== TERMINAL CONTAINER ===================== */
+
 .cli-window div[name="react-console-emulator"] {
   width: 100%;
   height: auto;
   min-height: 100%;
   background: transparent !important;
+  position: relative;
+  z-index: 2;
 }
 
-/* Inner padding */
+/* Inner content — sits above web pattern */
 .cli-window .react-console-emulator__content {
   width: 100%;
   padding: 1.25rem 1.5rem;
   box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+
+  /* Red-blue top rule line */
+  &::before {
+    content: "";
+    display: block;
+    height: 1px;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(
+      90deg,
+      rgba(220, 38, 38, 0.7) 0%,
+      rgba(220, 38, 38, 0.25) 35%,
+      rgba(29, 78, 216, 0.25) 65%,
+      rgba(29, 78, 216, 0.7) 100%
+    );
+  }
+
+  /* Spider emoji watermark — top right */
+  &::after {
+    content: "🕷";
+    position: absolute;
+    top: 0.5rem;
+    right: 1.2rem;
+    font-size: 1rem;
+    opacity: 0.2;
+    pointer-events: none;
+    filter: drop-shadow(0 0 5px rgba(220, 38, 38, 0.9));
+    animation: web-pulse 4s ease-in-out infinite;
+  }
+
+  & > * {
+    transition: all 0.15s ease;
+  }
 }
 
-/* ================= SCROLLBAR ================= */
+/* ===================== SCROLLBAR ===================== */
 
-.cli-window::-webkit-scrollbar {
-  width: 8px;
+.cli-window {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(220, 38, 38, 0.5) transparent;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(220, 38, 38, 0.7), rgba(29, 78, 216, 0.7));
+    border-radius: 2px;
+    min-height: 30px;
+  }
 }
 
-.cli-window::-webkit-scrollbar-track {
-  background: rgba(10, 10, 12, 0.9);
-  border-radius: 10px;
-}
-
-.cli-window::-webkit-scrollbar-thumb {
-  background-color: rgba(180, 0, 0, 0.45);
-  border-radius: 4px;
-}
-
-.cli-window::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(220, 38, 38, 0.75);
-}
-
-/* ================= SELECTION ================= */
+/* ===================== TEXT SELECTION ===================== */
 
 .cli-window ::selection {
-  background: rgba(220, 38, 38, 0.35);
+  background: rgba(220, 38, 38, 0.38);
   color: #fff;
+  text-shadow: 0 0 6px rgba(220, 38, 38, 0.5);
+}
+
+/* ===================== COMMAND OUTPUT ===================== */
+
+.cli-window .react-console-emulator__message {
+  padding: 0.4rem 0;
+  border-left: 2px solid transparent;
+  transition: border-left-color 0.2s ease, padding-left 0.2s ease, text-shadow 0.2s ease;
+
+  &:hover {
+    border-left-color: rgba(220, 38, 38, 0.55);
+    padding-left: 0.5rem;
+    text-shadow: 0 0 8px rgba(220, 38, 38, 0.12);
+  }
+}
+
+/* ===================== INPUT FIELD ===================== */
+
+.cli-window input {
+  background-color: transparent !important;
+  color: rgba(147, 197, 253, 0.98) !important;
+  border: none !important;
+  outline: none !important;
+  font-family: inherit;
+  font-size: inherit;
+  caret-color: #ef4444;
+
+  &::placeholder {
+    color: rgba(180, 180, 180, 0.35);
+  }
+}
+
+/* ===================== LINKS ===================== */
+
+.cli-window a {
+  color: #60a5fa;
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+
+  &:hover {
+    color: #93c5fd;
+    text-shadow: 0 0 8px rgba(96, 165, 250, 0.5);
+    text-decoration: underline;
+  }
 }

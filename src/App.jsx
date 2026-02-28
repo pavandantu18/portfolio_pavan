@@ -1,46 +1,77 @@
-import React, {useState, useContext} from 'react'
+import React, { useState, useContext } from 'react'
 import "./app.scss"
 import Dock from './components/Dock'
 import Nav from './components/Nav'
-import MacWindow from './components/windows/MacWindow'
 import Notes from "./components/windows/Notes"
 import Cli from './components/windows/Cli'
-import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import Spotify from './components/windows/Spotify'
-import PickColor from './components/windows/PickColor'
 import AchievementsWindow from './components/windows/AchievementsWindow'
 import AchievementPopup from './components/AchievementPopup'
-import { AchievementProvider, AchievementContext } from './context/AchievementContext'
+import ErrorBoundary from './components/ErrorBoundary'
+import BootScreen from './components/BootScreen'
+import ContextMenu from './components/ContextMenu'
+import GamesFolder from './components/windows/games/GamesFolder/GamesFolder'
+import BackgroundChanger from './components/windows/games/BackgroundChanger/BackgroundChanger'
+import MemoryWeb from './components/windows/games/MemoryWeb/MemoryWeb'
+import SpiderType from './components/windows/games/SpiderType/SpiderType'
+import SpiderSense from './components/windows/games/SpiderSense/SpiderSense'
+import { AchievementContext } from './context/AchievementContext'
 
 import DesktopOnly from "./DesktopOnly";
+
 const App = () => {
+  const [booted, setBooted] = useState(false)
+  const [contextMenu, setContextMenu] = useState(null)
 
   const [windowState, setwindowState] = useState({
-    github: false,
     note: false,
     resume: false,
     spotify: false,
     cli: false,
+    games: false,
     color: false,
-    achievement: false
+    achievement: false,
+    memory: false,
+    spiderType: false,
+    spiderSense: false,
   })
 
   const { popup } = useContext(AchievementContext);
 
+  const handleContextMenu = (e) => {
+    e.preventDefault()
+    setContextMenu({ x: e.clientX, y: e.clientY })
+  }
+
   return (
-    <DesktopOnly >
-    {popup.type && <AchievementPopup key={popup.id} type={popup.type} />}
+    <DesktopOnly>
+      {!booted && <BootScreen onDone={() => setBooted(true)} />}
 
-    <main>
-      <Nav />
-      <Dock windowState={windowState} setwindowState={setwindowState} />
+      {popup.type && <AchievementPopup key={popup.id} type={popup.type} />}
 
-        {windowState.note && <Notes windowName="note" setwindowState={setwindowState} />}
-        {windowState.cli && <Cli windowName="cli" setwindowState={setwindowState} />}
-        {windowState.spotify && <Spotify windowName="spotify" setwindowState={setwindowState} />}
-        {windowState.color && <PickColor windowName="color" setwindowState={setwindowState} />}
-        {windowState.achievement && <AchievementsWindow windowName="achievement" setwindowState={setwindowState}/>}
-    </main>
+      <main onContextMenu={handleContextMenu}>
+        <Nav />
+        <Dock windowState={windowState} setwindowState={setwindowState} />
+
+        {windowState.note        && <ErrorBoundary><Notes              windowName="note"        setwindowState={setwindowState} /></ErrorBoundary>}
+        {windowState.cli         && <ErrorBoundary><Cli                windowName="cli"         setwindowState={setwindowState} /></ErrorBoundary>}
+        {windowState.spotify     && <ErrorBoundary><Spotify            windowName="spotify"     setwindowState={setwindowState} /></ErrorBoundary>}
+        {windowState.games       && <ErrorBoundary><GamesFolder        windowName="games"       setwindowState={setwindowState} /></ErrorBoundary>}
+        {windowState.color       && <ErrorBoundary><BackgroundChanger  windowName="color"       setwindowState={setwindowState} /></ErrorBoundary>}
+        {windowState.achievement && <ErrorBoundary><AchievementsWindow windowName="achievement" setwindowState={setwindowState} /></ErrorBoundary>}
+        {windowState.memory      && <ErrorBoundary><MemoryWeb          windowName="memory"      setwindowState={setwindowState} /></ErrorBoundary>}
+        {windowState.spiderType  && <ErrorBoundary><SpiderType         windowName="spiderType"  setwindowState={setwindowState} /></ErrorBoundary>}
+        {windowState.spiderSense && <ErrorBoundary><SpiderSense        windowName="spiderSense" setwindowState={setwindowState} /></ErrorBoundary>}
+      </main>
+
+      {contextMenu && (
+        <ContextMenu
+          x={contextMenu.x}
+          y={contextMenu.y}
+          onClose={() => setContextMenu(null)}
+          setwindowState={setwindowState}
+        />
+      )}
     </DesktopOnly>
   )
 }

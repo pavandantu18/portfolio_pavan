@@ -1,0 +1,56 @@
+@keyframes web-spin-3d {
+  from { transform: perspective(700px) rotateX(55deg) rotateZ(0deg); }
+  to   { transform: perspective(700px) rotateX(55deg) rotateZ(360deg); }
+}
+
+@keyframes web-float {
+  0%, 100% { margin-top: 0; }
+  50%       { margin-top: -18px; }
+}
+
+.spiderweb-3d {
+  position: fixed;
+  top: 42%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 520px;
+  height: 520px;
+  pointer-events: none;
+  z-index: 0;
+
+  animation: web-float 8s ease-in-out infinite;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    animation: web-spin-3d 18s linear infinite;
+    transform-origin: center center;
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 0 12px rgba(220, 38, 38, 0.25))
+            drop-shadow(0 0 30px rgba(29, 78, 216, 0.12));
+  }
+
+  .spoke {
+    fill: none;
+    stroke: rgba(220, 38, 38, 0.35);
+    stroke-width: 1px;
+  }
+
+  .ring {
+    fill: none;
+    stroke: rgba(220, 38, 38, 0.55);
+    stroke-width: 0.8px;
+  }
+
+  .centre {
+    fill: rgba(220, 38, 38, 0.9);
+    filter: drop-shadow(0 0 4px rgba(220, 38, 38, 1));
+  }
+
+  .glow-fill {
+    fill: url(#webGlow);
+    opacity: 0.06;
+    pointer-events: none;
+  }
+}

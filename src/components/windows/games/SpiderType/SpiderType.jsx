@@ -1,0 +1,161 @@
+import { useState, useRef, useEffect, useContext } from "react";
+import { AchievementContext } from "../../../../context/AchievementContext";
+import { ACHIEVEMENTS } from "../../../../config/constants";
+import MacWindow from "../../MacWindow";
+import "./SpiderType.scss";
+
+const SENTENCES = [
+  "React and TypeScript are my weapons of choice as a developer.",
+  "I build fast, accessible, and beautiful web applications.",
+  "With great power comes great responsibility in software engineering.",
+  "Every bug is a villain and clean code is my superpower.",
+  "Full-stack development from database design to pixel-perfect UI.",
+  "Node.js, Python, and React form the core of my tech stack.",
+  "I craft user experiences as smooth as web-slinging across Manhattan.",
+  "Spider-Man swings through the city and I navigate through codebases.",
+];
+
+const RANKS = [
+  { min: 100, label: "Spider-Sense",   emoji: "⚡", color: "#ef4444" },
+  { min: 70,  label: "Spider-Man",     emoji: "🕷",  color: "#dc2626" },
+  { min: 50,  label: "S.H.I.E.L.D.",  emoji: "🛡️", color: "#3b82f6" },
+  { min: 30,  label: "Daily Bugler",   emoji: "📰", color: "#f59e0b" },
+  { min: 0,   label: "Civilian",       emoji: "🐌", color: "#6b7280" },
+];
+
+const getRank = (wpm) => RANKS.find(r => wpm >= r.min);
+
+export default function SpiderType({ windowName, setwindowState }) {
+  const { unlockAchievement } = useContext(AchievementContext);
+
+  const [sentenceIdx, setSentenceIdx] = useState(0);
+  const [userInput, setUserInput]     = useState("");
+  const [status, setStatus]           = useState("idle"); // idle | typing | done
+  const [wpm, setWpm]                 = useState(0);
+  const [accuracy, setAccuracy]       = useState(100);
+
+  const startTimeRef = useRef(null);
+  const inputRef     = useRef(null);
+
+  const sentence = SENTENCES[sentenceIdx];
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [sentenceIdx]);
+
+  const handleChange = (e) => {
+    const val = e.target.value;
+    if (val.length > sentence.length) return;
+
+    if (status === "idle" && val.length > 0) {
+      setStatus("typing");
+      startTimeRef.current = Date.now();
+    }
+
+    setUserInput(val);
+
+    if (val.length === sentence.length) {
+      const elapsed   = (Date.now() - startTimeRef.current) / 60000; // minutes
+      const calcWpm   = Math.round((sentence.length / 5) / elapsed);
+      const correct   = [...val].filter((c, i) => c === sentence[i]).length;
+      const calcAcc   = Math.round((correct / sentence.length) * 100);
+
+      setWpm(calcWpm);
+      setAccuracy(calcAcc);
+      setStatus("done");
+
+      if (calcWpm >= 60) unlockAchievement(ACHIEVEMENTS.SPEED_TYPIST);
+    }
+  };
+
+  const reset = () => {
+    setSentenceIdx(i => (i + 1) % SENTENCES.length);
+    setUserInput("");
+    setStatus("idle");
+    setWpm(0);
+    setAccuracy(100);
+    startTimeRef.current = null;
+    setTimeout(() => inputRef.current?.focus(), 30);
+  };
+
+  const rank = getRank(wpm);
+
+  return (
+    <MacWindow windowName={windowName} setwindowState={setwindowState} initialWidth={640} initialHeight={390}>
+      <div className="spider-type" onClick={() => inputRef.current?.focus()}>
+
+        {/* Header */}
+        <div className="spider-type__header">
+          <h2 className="spider-type__title">🕷 Spider-Type</h2>
+          <button className="spider-type__btn" onClick={reset}>New Sentence</button>
+        </div>
+
+        {/* Text display */}
+        <div className="spider-type__display">
+          {sentence.split("").map((char, i) => {
+            let cls = "schar";
+            if (i < userInput.length) {
+              cls += userInput[i] === char ? " schar--ok" : " schar--bad";
+            } else if (i === userInput.length && status !== "done") {
+              cls += " schar--cursor";
+            }
+            return (
+              <span key={i} className={cls}>
+                {char === " " ? "\u00A0" : char}
+              </span>
+            );
+          })}
+        </div>
+
+        {/* Input */}
+        {status !== "done" && (
+          <div className="spider-type__input-row">
+            <input
+              ref={inputRef}
+              className="spider-type__input"
+              value={userInput}
+              onChange={handleChange}
+              placeholder={status === "idle" ? "Click here and start typing…" : ""}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
+            />
+          </div>
+        )}
+
+        {/* Results */}
+        {status === "done" && (
+          <div className="spider-type__results">
+            <div className="spider-type__stat">
+              <span className="spider-type__stat-val">{wpm}</span>
+              <span className="spider-type__stat-label">WPM</span>
+            </div>
+            <div className="spider-type__divider" />
+            <div className="spider-type__stat">
+              <span className="spider-type__stat-val">{accuracy}%</span>
+              <span className="spider-type__stat-label">Accuracy</span>
+            </div>
+            <div className="spider-type__divider" />
+            <div className="spider-type__rank" style={{ color: rank.color }}>
+              <span className="spider-type__rank-emoji">{rank.emoji}</span>
+              <span className="spider-type__rank-label">{rank.label}</span>
+            </div>
+            <button className="spider-type__btn spider-type__btn--next" onClick={reset}>
+              Next →
+            </button>
+          </div>
+        )}
+
+        {/* Progress bar */}
+        <div className="spider-type__progress">
+          <div
+            className="spider-type__progress-fill"
+            style={{ width: `${(userInput.length / sentence.length) * 100}%` }}
+          />
+        </div>
+
+      </div>
+    </MacWindow>
+  );
+}
