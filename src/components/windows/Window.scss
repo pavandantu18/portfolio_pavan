@@ -1,67 +1,92 @@
 @keyframes win-open {
-  from {
-    opacity: 0;
-    transform: scale(0.88) translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  from { opacity: 0; transform: scale(0.88) translateY(12px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
 }
 
 @keyframes win-close {
-  from {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0.88) translateY(12px);
-  }
+  from { opacity: 1; transform: scale(1)    translateY(0); }
+  to   { opacity: 0; transform: scale(0.88) translateY(12px); }
+}
+
+/* Shared across all windows — vars set by ThemeContext */
+@keyframes spider-glow {
+  0%, 100% { box-shadow: 0 20px 50px rgba(0,0,0,0.85), inset 0 0 40px var(--t-glow1), inset 0 0 80px var(--t-glow2); }
+  50%       { box-shadow: 0 24px 60px rgba(0,0,0,0.9),  inset 0 0 70px var(--t-glow1h), inset 0 0 120px var(--t-glow2h); }
+}
+
+@keyframes web-pulse {
+  0%, 100% { opacity: 0.035; }
+  50%       { opacity: 0.08; }
 }
 
 .window {
   height: 500px;
   width: 700px;
   box-sizing: border-box;
+  position: relative;
 
-  background: linear-gradient(
-    180deg,
-    rgba(18, 18, 22, 0.92),
-    rgba(12, 12, 18, 0.88)
-  );
+  /* Theme-aware background */
+  background:
+    radial-gradient(ellipse 55% 45% at 0%   0%,   var(--t-c1) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 45% at 100% 100%, var(--t-c2) 0%, transparent 70%),
+    linear-gradient(155deg, var(--t-bg1) 0%, var(--t-bg2) 55%, var(--t-bg3) 100%);
 
   border-radius: 0.9rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 
-  color: rgb(180, 180, 180);
+  color: var(--t-text, rgba(226, 232, 240, 0.92));
   font-family: 'Exo 2', system-ui, sans-serif;
   font-weight: 500;
 
   backdrop-filter: blur(20px) saturate(1.1);
   -webkit-backdrop-filter: blur(20px) saturate(1.1);
 
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--t-border);
+  border-top: 1px solid var(--t-border-top);
 
-  box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.85),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-    0 0 30px rgba(255, 60, 60, 0.04);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-
-  animation: win-open 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation: win-open 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+             spider-glow 4s ease-in-out 0.32s infinite;
 
   &.closing {
     animation: win-close 0.22s ease forwards;
   }
 
-  position: relative;
+  /* ── Default (Classic): spider-web spokes + rings from top-left corner ── */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      repeating-conic-gradient(
+        from 0deg at 0% 0%,
+        var(--t-web) 0deg,
+        transparent 1deg,
+        transparent 44deg,
+        var(--t-web) 45deg
+      ),
+      repeating-radial-gradient(
+        circle at 0% 0%,
+        transparent 0px,
+        transparent 58px,
+        var(--t-web-ring) 60px,
+        transparent 62px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.04) 2px,
+        rgba(0, 0, 0, 0.04) 4px
+      );
+    animation: web-pulse 5s ease-in-out infinite;
+  }
 
   /* ================= RESIZE HANDLE ================= */
   &::after {
@@ -75,12 +100,13 @@
       135deg,
       transparent 0%,
       transparent 50%,
-      rgba(220, 50, 50, 0.3) 50%,
-      rgba(220, 50, 50, 0.3) 100%
+      var(--t-border-top) 50%,
+      var(--t-border-top) 100%
     );
     cursor: nwse-resize;
     pointer-events: auto;
     transition: all 0.2s ease;
+    z-index: 10;
   }
 
   &:hover::after {
@@ -88,17 +114,10 @@
       135deg,
       transparent 0%,
       transparent 50%,
-      rgba(220, 50, 50, 0.6) 50%,
-      rgba(220, 50, 50, 0.6) 100%
+      var(--t-accent) 50%,
+      var(--t-accent) 100%
     );
-  }
-
-  &:hover {
-    box-shadow:
-      0 24px 60px rgba(0, 0, 0, 0.9),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.4),
-      0 0 40px rgba(255, 60, 60, 0.06);
+    opacity: 0.7;
   }
 
   /* ================= WINDOW NAV ================= */
@@ -108,6 +127,8 @@
     flex-shrink: 0;
     overflow: hidden;
     padding: 0 0.85rem;
+    position: relative;
+    z-index: 2;
 
     display: flex;
     align-items: center;
@@ -122,20 +143,17 @@
     backdrop-filter: blur(12px) saturate(1.1);
     -webkit-backdrop-filter: blur(12px) saturate(1.1);
 
-    /* Spider-Man accent line with glow */
-    border-bottom: 1.5px solid rgba(255, 60, 60, 0.5);
+    border-bottom: 1.5px solid var(--t-primary);
 
     box-shadow:
       inset 0 -1px 0 rgba(255, 255, 255, 0.06),
-      inset 0 1px 0 rgba(255, 60, 60, 0.1),
+      inset 0 1px 0 var(--t-glow1),
       0 4px 12px rgba(0, 0, 0, 0.3);
 
     user-select: none;
     cursor: grab;
 
-    &:active {
-      cursor: grabbing;
-    }
+    &:active { cursor: grabbing; }
 
     /* ================= WINDOW DOTS ================= */
 
@@ -149,14 +167,13 @@
       width: 12px;
       border-radius: 50%;
       position: relative;
+      cursor: pointer;
+      transition: all 0.2s ease;
 
       box-shadow:
         inset 0 1px 2px rgba(255, 255, 255, 0.3),
         0 0 0 1px rgba(0, 0, 0, 0.6),
         0 2px 4px rgba(0, 0, 0, 0.3);
-
-      cursor: pointer;
-      transition: all 0.2s ease;
 
       &:hover {
         transform: scale(1.15);
@@ -167,9 +184,7 @@
           0 0 12px rgba(0, 0, 0, 0.3);
       }
 
-      &:active {
-        transform: scale(0.95);
-      }
+      &:active { transform: scale(0.95); }
     }
 
     .red {
@@ -218,17 +233,105 @@
   .main-content {
     flex: 1;
     min-height: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    transition: all 0.2s ease;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
     word-wrap: break-word;
     word-break: break-word;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
+}
 
+/* ═══════════════════════════════════════════════════════════════
+   PER-THEME UNIQUE WINDOW TEXTURES  (override ::before pattern)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Miles Morales — halftone dot grid (Spider-Verse pop-art) */
+[data-theme="miles"] .window::before {
+  background:
+    radial-gradient(circle, var(--t-web-ring) 1.2px, transparent 1.2px),
+    radial-gradient(circle, var(--t-web) 1px, transparent 1px) 8px 8px,
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    );
+  background-size: 16px 16px, 16px 16px, 100% 4px;
+  animation: web-pulse 4s ease-in-out infinite;
+}
+
+/* Ghost-Spider — delicate diagonal diamond lattice */
+[data-theme="gwen"] .window::before {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      var(--t-web) 0px,
+      var(--t-web) 0.5px,
+      transparent 0.5px,
+      transparent 24px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      var(--t-web) 0px,
+      var(--t-web) 0.5px,
+      transparent 0.5px,
+      transparent 24px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.025) 2px,
+      rgba(0, 0, 0, 0.025) 4px
+    );
+  animation: web-pulse 6s ease-in-out infinite;
+}
+
+/* Spider-Noir — dense horizontal film scanlines + heavy grain */
+[data-theme="noir"] .window::before {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      rgba(0, 0, 0, 0.12) 1px,
+      rgba(0, 0, 0, 0.12) 2px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(180, 190, 200, 0.015) 0px,
+      rgba(180, 190, 200, 0.015) 1px,
+      transparent 1px,
+      transparent 80px
+    );
+  animation: none;
+  opacity: 1;
+}
+
+/* Scarlet Spider — aggressive diagonal warning stripes */
+[data-theme="scarlet"] .window::before {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      transparent,
+      transparent 18px,
+      var(--t-web) 18px,
+      var(--t-web) 19px
+    ),
+    repeating-radial-gradient(
+      circle at 100% 0%,
+      transparent 0px,
+      transparent 58px,
+      var(--t-web-ring) 60px,
+      transparent 62px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.05) 2px,
+      rgba(0, 0, 0, 0.05) 4px
+    );
+  animation: web-pulse 3.5s ease-in-out infinite;
 }

@@ -1,11 +1,5 @@
 /* ===================== MEMORY WEB GAME ===================== */
 
-@keyframes spider-glow {
-  0%   { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.08), inset 0 0 80px rgba(30, 64, 175, 0.05); }
-  50%  { box-shadow: inset 0 0 70px rgba(220, 38, 38, 0.16), inset 0 0 120px rgba(30, 64, 175, 0.10); }
-  100% { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.08), inset 0 0 80px rgba(30, 64, 175, 0.05); }
-}
-
 @keyframes match-pop {
   0%   { transform: scale(1); }
   40%  { transform: scale(1.1); }
@@ -14,14 +8,13 @@
 }
 
 @keyframes win-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.4); }
-  50%       { box-shadow: 0 0 40px rgba(29, 78, 216, 0.6); }
+  0%, 100% { box-shadow: 0 0 20px var(--t-glow1); }
+  50%       { box-shadow: 0 0 40px var(--t-glow2h); }
 }
 
 /* ===================== CONTAINER ===================== */
 
 .memory-web {
-  /* Fill .main-content exactly — no scroll */
   height: 100%;
   overflow: hidden;
 
@@ -30,10 +23,7 @@
   gap: 0.55rem;
   padding: 0.75rem 1rem;
 
-  background: linear-gradient(180deg, rgba(8, 10, 14, 0.96), rgba(12, 14, 18, 0.92));
-  color: rgba(230, 235, 240, 0.9);
-  border-radius: 0.6rem;
-  animation: spider-glow 4s ease-in-out infinite;
+  color: var(--t-text, rgba(230, 235, 240, 0.9));
 }
 
 /* ===================== HEADER ===================== */
@@ -50,10 +40,10 @@
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #ef4444;
+  color: var(--t-accent);
   margin: 0;
   flex: 1;
-  text-shadow: 0 0 12px rgba(220, 38, 38, 0.45);
+  text-shadow: 0 0 12px var(--t-glow1h);
 }
 
 .memory-web__stats {
@@ -76,22 +66,22 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(220, 38, 38, 0.8);
+    color: var(--t-primary);
   }
 
   &__val {
     font-size: 0.95rem;
     font-weight: 700;
-    color: #f5f5f5;
+    color: var(--t-text, #f5f5f5);
   }
 }
 
 .memory-web__btn {
   padding: 0.35rem 0.85rem;
   border-radius: 6px;
-  border: 1px solid rgba(220, 38, 38, 0.5);
-  background: rgba(220, 38, 38, 0.12);
-  color: #ef4444;
+  border: 1px solid var(--t-border-top);
+  background: var(--t-btn-bg);
+  color: var(--t-accent);
   font-weight: 700;
   font-size: 0.75rem;
   letter-spacing: 0.05em;
@@ -100,7 +90,7 @@
   transition: background 0.15s ease, transform 0.1s ease;
   flex-shrink: 0;
 
-  &:hover  { background: rgba(220, 38, 38, 0.22); }
+  &:hover  { background: var(--t-glow1h); }
   &:active { transform: scale(0.96); }
 }
 
@@ -113,23 +103,23 @@
   text-align: center;
   font-weight: 700;
   font-size: 0.88rem;
-  color: #f5f5f5;
-  background: linear-gradient(90deg, rgba(220, 38, 38, 0.18), rgba(29, 78, 216, 0.18));
-  border: 1px solid rgba(220, 38, 38, 0.4);
+  color: var(--t-text, #f5f5f5);
+  background: linear-gradient(90deg, var(--t-card-bg1), var(--t-card-bg2));
+  border: 1px solid var(--t-border-top);
   animation: win-glow 2s ease-in-out infinite;
 
-  strong { color: #ef4444; }
+  strong { color: var(--t-accent); }
 }
 
 /* ===================== GRID — fills all remaining height ===================== */
 
 .memory-web__grid {
   flex: 1;
-  min-height: 0;          /* lets flex child shrink below content size */
+  min-height: 0;
 
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);   /* 4 equal rows, total fills flex space */
+  grid-template-rows: repeat(4, 1fr);
   gap: 0.45rem;
 }
 
@@ -140,7 +130,7 @@
   perspective: 600px;
   border-radius: 8px;
   user-select: none;
-  min-height: 0;          /* allow grid to compress it */
+  min-height: 0;
 
   &__inner {
     position: relative;
@@ -166,15 +156,15 @@
 
   /* Back (face-down) */
   &__back {
-    background: linear-gradient(145deg, rgba(220, 38, 38, 0.14), rgba(29, 78, 216, 0.10));
-    border: 1px solid rgba(220, 38, 38, 0.28);
+    background: linear-gradient(145deg, var(--t-card-bg1), var(--t-card-bg2));
+    border: 1px solid var(--t-border);
     font-size: 1.3rem;
     transition: background 0.2s ease;
   }
 
   /* Front (face-up) */
   &__front {
-    background: linear-gradient(145deg, rgba(18, 10, 14, 0.95), rgba(10, 8, 20, 0.92));
+    background: linear-gradient(145deg, var(--t-bg2), var(--t-bg1));
     border: 1px solid rgba(255, 255, 255, 0.08);
     transform: rotateY(180deg);
   }
@@ -185,7 +175,7 @@
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: rgba(220, 235, 255, 0.65);
+    color: var(--t-text-dim, rgba(220, 235, 255, 0.65));
   }
 
   /* Hover peek (unflipped only) */
@@ -193,8 +183,8 @@
     transform: rotateY(18deg);
   }
   &:not(.flipped):hover .mem-card__back {
-    background: linear-gradient(145deg, rgba(220, 38, 38, 0.22), rgba(29, 78, 216, 0.16));
-    border-color: rgba(220, 38, 38, 0.5);
+    background: linear-gradient(145deg, var(--t-glow1h), var(--t-glow2h));
+    border-color: var(--t-border-top);
   }
 
   /* Flipped */
@@ -208,12 +198,12 @@
 
     .mem-card__inner   { transform: rotateY(180deg); }
     .mem-card__front   {
-      background: linear-gradient(145deg, rgba(220, 38, 38, 0.13), rgba(29, 78, 216, 0.09));
-      border-color: rgba(220, 38, 38, 0.5);
-      box-shadow: 0 0 10px rgba(220, 38, 38, 0.2), inset 0 1px 0 rgba(220, 38, 38, 0.12);
+      background: linear-gradient(145deg, var(--t-card-bg1), var(--t-card-bg2));
+      border-color: var(--t-border-top);
+      box-shadow: 0 0 10px var(--t-glow1), inset 0 1px 0 var(--t-glow1);
       animation: match-pop 0.38s ease;
     }
-    .mem-card__emoji   { filter: drop-shadow(0 0 5px rgba(220, 38, 38, 0.55)); }
-    .mem-card__label   { color: rgba(220, 38, 38, 0.8); }
+    .mem-card__emoji   { filter: drop-shadow(0 0 5px var(--t-glow1h)); }
+    .mem-card__label   { color: var(--t-primary); }
   }
 }

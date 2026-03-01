@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AchievementContext } from "../context/AchievementContext";
 import { ACHIEVEMENTS, SOCIAL_LINKS } from "../config/constants";
-import { RiGithubFill, RiStickyNoteFill, RiMedalFill, RiCalendarFill, RiSpotifyFill, RiMailFill, RiLinksLine, RiTerminalBoxFill, RiGamepadFill } from "@remixicon/react";
+import { RiGithubFill, RiMedalFill, RiSpotifyFill, RiMailFill, RiLinksLine, RiTerminalBoxFill, RiGamepadFill } from "@remixicon/react";
 import './dock.scss'
 
 const Dock = ({ setwindowState }) => {
@@ -13,16 +13,6 @@ const Dock = ({ setwindowState }) => {
         () => { setwindowState(state => ({ ...state, cli: true })) }
       } aria-label="Open Terminal"
       title="Terminal" />
-
-      <RiStickyNoteFill size={36} className='icon note' color='white' onClick={
-        () => { setwindowState(state => ({ ...state, note: true })) }
-      } aria-label="Open Notes" title="Skills & Notes" />
-
-
-      {/* <RiFilePdf2Fill  size={36}  className='icon pdf'/> */}
-      <RiCalendarFill size={36} className='icon mail' onClick={() => {
-        window.open(SOCIAL_LINKS.calendar, "_blank")
-      }} aria-label="Open Calendar" title="Google Calendar" />
 
       <RiSpotifyFill size={36} className='icon spotify' onClick={
         () => {
@@ -44,8 +34,8 @@ const Dock = ({ setwindowState }) => {
       />
 
       <RiMailFill size={36} className='icon cli' onClick={() => {
-        window.open(`mailto:${SOCIAL_LINKS.email}`, "_blank")
-      }} aria-label="Send Email" title="Email" />
+        setwindowState(state => ({ ...state, contact: true }))
+      }} aria-label="Send a Message" title="Send a Message" />
 
       <RiGithubFill size={36} className='icon github' color='white' onClick={() => {
         window.open(SOCIAL_LINKS.github, "_blank")

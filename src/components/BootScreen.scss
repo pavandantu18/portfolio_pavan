@@ -48,25 +48,17 @@
   user-select: none;
 
   background:
-    radial-gradient(ellipse at 30% 70%, rgba(220, 38, 38, 0.12) 0%, transparent 55%),
-    radial-gradient(ellipse at 70% 30%, rgba(29, 78, 216, 0.12) 0%, transparent 55%),
-    linear-gradient(160deg, #08080f 0%, #12050a 50%, #050810 100%);
+    radial-gradient(ellipse at 30% 70%, rgba(220, 38, 38, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 30%, rgba(29, 78, 216, 0.07) 0%, transparent 55%),
+    linear-gradient(160deg, #08080f 0%, #0a080e 50%, #060810 100%);
 
-  &--enter {
-    animation: boot-fade-in 0.5s ease forwards;
-  }
-
-  &--idle {
-    opacity: 1;
-  }
-
-  &--exit {
-    animation: boot-fade-out 0.6s ease forwards;
-    pointer-events: none;
-  }
+  &--enter { animation: boot-fade-in  0.5s ease forwards; }
+  &--idle  { opacity: 1; }
+  &--exit  { animation: boot-fade-out 0.6s ease forwards; pointer-events: none; }
 }
 
 /* SVG web background */
+
 .boot-web {
   position: absolute;
   top: 50%;
@@ -75,7 +67,7 @@
   height: min(90vmin, 520px);
   transform: translate(-50%, -50%);
   animation: web-spin 30s linear infinite;
-  opacity: 0.6;
+  opacity: 0.3;
 }
 
 /* ===================== CONTENT ===================== */
@@ -106,16 +98,15 @@
   animation: title-reveal 0.7s ease 0.7s both;
 
   &__name {
-    color: #dc2626;
-    text-shadow: 0 0 24px rgba(220, 38, 38, 0.6);
+    color: #ffffff;
+    text-shadow: 0 0 28px rgba(220, 38, 38, 0.7), 0 0 8px rgba(220, 38, 38, 0.4);
   }
 
-  &__dot {
-    color: rgba(255, 255, 255, 0.3);
-  }
+  &__dot  { color: #dc2626; }
 
   &__role {
-    color: rgba(255, 255, 255, 0.85);
+    color: #dc2626;
+    text-shadow: 0 0 16px rgba(220, 38, 38, 0.5);
   }
 }
 

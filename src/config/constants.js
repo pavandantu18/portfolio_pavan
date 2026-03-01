@@ -35,12 +35,21 @@ export const ACHIEVEMENT_DESCRIPTIONS = {
   spiderSense: "React in under 300ms in Spider-Sense.",
 };
 
+// EmailJS — fill these in after setting up https://www.emailjs.com
+// Service ID: Dashboard → Email Services → your service
+// Template ID: Dashboard → Email Templates → your template
+// Public Key:  Dashboard → Account → Public Key
+export const EMAILJS = {
+  SERVICE_ID:  "service_m0s9iua",
+  TEMPLATE_ID: "template_jb90i8k",
+  PUBLIC_KEY:  "fGcJmfwiWhzMYyGf5",
+};
+
 // Social & Contact URLs
 export const SOCIAL_LINKS = {
   linkedin: "https://www.linkedin.com/in/pavandantu18/",
   github: "https://github.com/pavandantu18",
-  email: "pavandantu2507@gmail.com",
-  calendar: "https://calendar.google.com/",
+  email: "pavandantu18@gmail.com",
 };
 
 // Terminal commands

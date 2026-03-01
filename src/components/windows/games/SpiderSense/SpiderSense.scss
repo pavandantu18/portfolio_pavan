@@ -1,10 +1,5 @@
 /* ===================== SPIDER-SENSE ===================== */
 
-@keyframes sense-glow {
-  0%, 100% { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.08), inset 0 0 80px rgba(30, 64, 175, 0.05); }
-  50%       { box-shadow: inset 0 0 70px rgba(220, 38, 38, 0.16), inset 0 0 120px rgba(30, 64, 175, 0.10); }
-}
-
 @keyframes strand-grow {
   from { height: 0; opacity: 0; }
   to   { height: 110px; opacity: 1; }
@@ -39,20 +34,18 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
-  border-radius: 0.6rem;
-  background: linear-gradient(180deg, rgba(8, 10, 14, 0.97), rgba(12, 14, 20, 0.93));
-  animation: sense-glow 4s ease-in-out infinite;
   cursor: pointer;
   user-select: none;
-
-  &--waiting {
-    background: linear-gradient(180deg, rgba(6, 8, 12, 0.98), rgba(8, 10, 14, 0.96));
-  }
+  color: var(--t-text, rgba(226, 232, 240, 0.92));
 
   &--dropped {
     cursor: crosshair;
-    animation: none;
-    background: linear-gradient(180deg, rgba(16, 6, 6, 0.98), rgba(22, 8, 8, 0.96));
+    /* Themed tint overlay when spider appears */
+    background:
+      linear-gradient(180deg, var(--t-card-bg1), var(--t-card-bg2)),
+      radial-gradient(ellipse 55% 45% at 0% 0%, var(--t-c1) 0%, transparent 70%),
+      radial-gradient(ellipse 55% 45% at 100% 100%, var(--t-c2) 0%, transparent 70%),
+      linear-gradient(155deg, var(--t-bg1) 0%, var(--t-bg2) 55%, var(--t-bg3) 100%);
   }
 }
 
@@ -82,7 +75,7 @@
   cursor: crosshair;
   animation: spider-drop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   filter:
-    drop-shadow(0 0 14px rgba(220, 38, 38, 0.8))
+    drop-shadow(0 0 14px var(--t-glow1h))
     drop-shadow(0 4px 16px rgba(0, 0, 0, 0.9));
 }
 
@@ -109,11 +102,11 @@
 .spider-sense__big-emoji {
   font-size: 3.8rem;
   line-height: 1;
-  filter: drop-shadow(0 0 18px rgba(220, 38, 38, 0.55));
+  filter: drop-shadow(0 0 18px var(--t-glow1h));
 
   &--pulse {
     animation: eye-pulse 1.1s ease-in-out infinite;
-    filter: drop-shadow(0 0 12px rgba(220, 38, 38, 0.4));
+    filter: drop-shadow(0 0 12px var(--t-glow1));
   }
 }
 
@@ -123,16 +116,16 @@
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #ef4444;
-  text-shadow: 0 0 22px rgba(220, 38, 38, 0.5);
+  color: var(--t-accent);
+  text-shadow: 0 0 22px var(--t-glow1h);
 
-  &--bad { color: #f87171; }
+  &--bad { color: var(--t-primary); }
 }
 
 .spider-sense__sub {
   margin: 0;
   font-size: 0.86rem;
-  color: rgba(190, 205, 230, 0.7);
+  color: var(--t-text-dim, rgba(190, 205, 230, 0.7));
   line-height: 1.55;
 }
 
@@ -140,7 +133,7 @@
   margin: 0;
   font-size: 0.72rem;
   font-weight: 600;
-  color: rgba(220, 38, 38, 0.5);
+  color: var(--t-border-top);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -149,9 +142,9 @@
   margin-top: 0.4rem;
   padding: 0.45rem 1.3rem;
   border-radius: 6px;
-  border: 1px solid rgba(220, 38, 38, 0.5);
-  background: rgba(220, 38, 38, 0.13);
-  color: #ef4444;
+  border: 1px solid var(--t-border-top);
+  background: var(--t-btn-bg);
+  color: var(--t-accent);
   font-weight: 700;
   font-size: 0.78rem;
   letter-spacing: 0.06em;
@@ -159,7 +152,7 @@
   cursor: pointer;
   transition: background 0.15s ease, transform 0.1s ease;
 
-  &:hover  { background: rgba(220, 38, 38, 0.26); }
+  &:hover  { background: var(--t-glow1h); }
   &:active { transform: scale(0.95); }
 }
 
@@ -176,7 +169,7 @@
 .spider-sense__time {
   font-size: 3.6rem;
   font-weight: 900;
-  color: #f5f5f5;
+  color: var(--t-text, #f5f5f5);
   line-height: 1;
   letter-spacing: -0.03em;
 }
@@ -184,7 +177,7 @@
 .spider-sense__unit {
   font-size: 1.1rem;
   font-weight: 600;
-  color: rgba(190, 205, 230, 0.55);
+  color: var(--t-text-dim, rgba(190, 205, 230, 0.55));
   margin-left: 0.2rem;
 }
 
@@ -207,7 +200,7 @@
 .spider-sense__rank-desc {
   margin: 0;
   font-size: 0.78rem;
-  color: rgba(190, 205, 230, 0.5);
+  color: var(--t-text-dim, rgba(190, 205, 230, 0.5));
   letter-spacing: 0.03em;
 }
 
@@ -215,7 +208,7 @@
   margin: 0.1rem 0 0;
   font-size: 0.78rem;
   font-weight: 700;
-  color: #ef4444;
+  color: var(--t-accent);
   letter-spacing: 0.04em;
   animation: achievement-flash 1.2s ease-in-out infinite;
 }

@@ -38,22 +38,24 @@ export default function SpiderSense({ windowName, setwindowState }) {
     }, delay);
   };
 
-  const handleClick = () => {
+  // Container click: handles everything except the dropped phase
+  const handleContainerClick = () => {
     if (phase === "idle" || phase === "result" || phase === "false_start") {
       startGame();
-      return;
-    }
-    if (phase === "waiting") {
+    } else if (phase === "waiting") {
       clearTimeout(timerRef.current);
       setPhase("false_start");
-      return;
     }
-    if (phase === "dropped") {
-      const ms = Math.round(performance.now() - dropTimeRef.current);
-      setReactionMs(ms);
-      setPhase("result");
-      if (ms < 300) unlockAchievement(ACHIEVEMENTS.SPIDER_SENSE);
-    }
+  };
+
+  // Spider click: only registers in dropped phase
+  const handleSpiderClick = (e) => {
+    e.stopPropagation();
+    if (phase !== "dropped") return;
+    const ms = Math.round(performance.now() - dropTimeRef.current);
+    setReactionMs(ms);
+    setPhase("result");
+    if (ms < 300) unlockAchievement(ACHIEVEMENTS.SPIDER_SENSE);
   };
 
   useEffect(() => () => clearTimeout(timerRef.current), []);
@@ -62,12 +64,12 @@ export default function SpiderSense({ windowName, setwindowState }) {
 
   return (
     <MacWindow windowName={windowName} setwindowState={setwindowState} initialWidth={500} initialHeight={400}>
-      <div className={`spider-sense spider-sense--${phase}`} onClick={handleClick}>
+      <div className={`spider-sense spider-sense--${phase}`} onClick={handleContainerClick}>
 
         {phase === "dropped" && (
           <div className="spider-sense__web" style={{ left: `${spiderX}%` }}>
             <div className="spider-sense__strand" />
-            <div className="spider-sense__spider">🕷️</div>
+            <div className="spider-sense__spider" onClick={handleSpiderClick}>🕷️</div>
           </div>
         )}
 

@@ -1,23 +1,24 @@
-import React, { useEffect, useRef } from 'react'
-import { RiStickyNoteFill, RiTerminalBoxFill, RiSpotifyFill, RiGameFill, RiMedalFill, RiGithubFill, RiLinksLine } from '@remixicon/react'
+import React, { useEffect, useRef, useContext } from 'react'
+import { RiTerminalBoxFill, RiSpotifyFill, RiGameFill, RiMedalFill, RiGithubFill, RiLinksLine, RiMailFill } from '@remixicon/react'
 import { SOCIAL_LINKS } from '../config/constants'
+import { ThemeContext } from '../context/ThemeContext'
 import './ContextMenu.scss'
 
 const items = [
-  { icon: RiTerminalBoxFill, label: 'Open Terminal',   action: (set) => set(s => ({ ...s, cli: true })) },
-  { icon: RiStickyNoteFill,  label: 'Open Notes',      action: (set) => set(s => ({ ...s, note: true })) },
-  { icon: RiSpotifyFill,     label: 'Open Spotify',    action: (set) => set(s => ({ ...s, spotify: true })) },
-  { icon: RiGameFill,        label: 'Open Color Game',  action: (set) => set(s => ({ ...s, color: true })) },
-  { icon: RiMedalFill,       label: 'Achievements',    action: (set) => set(s => ({ ...s, achievement: true })) },
-  null, // divider
-  { icon: RiGithubFill,      label: 'GitHub',          action: () => window.open(SOCIAL_LINKS.github, '_blank') },
-  { icon: RiLinksLine,       label: 'LinkedIn',        action: () => window.open(SOCIAL_LINKS.linkedin, '_blank') },
+  { icon: RiTerminalBoxFill, label: 'Open Terminal', action: (set) => set(s => ({ ...s, cli: true })) },
+  { icon: RiSpotifyFill,     label: 'Open Spotify',  action: (set) => set(s => ({ ...s, spotify: true })) },
+  { icon: RiGameFill,        label: 'Games',         action: (set) => set(s => ({ ...s, games: true })) },
+  { icon: RiMedalFill,       label: 'Achievements',  action: (set) => set(s => ({ ...s, achievement: true })) },
+  { icon: RiMailFill,        label: 'Contact',       action: (set) => set(s => ({ ...s, contact: true })) },
+  null,
+  { icon: RiGithubFill,  label: 'GitHub',   action: () => window.open(SOCIAL_LINKS.github,   '_blank') },
+  { icon: RiLinksLine,   label: 'LinkedIn', action: () => window.open(SOCIAL_LINKS.linkedin, '_blank') },
 ]
 
 const ContextMenu = ({ x, y, onClose, setwindowState }) => {
   const menuRef = useRef(null)
+  const { themeId, setThemeId, themes } = useContext(ThemeContext)
 
-  // Close on outside click or Escape
   useEffect(() => {
     const handleClick = () => onClose()
     const handleKey = (e) => { if (e.key === 'Escape') onClose() }
@@ -29,9 +30,8 @@ const ContextMenu = ({ x, y, onClose, setwindowState }) => {
     }
   }, [onClose])
 
-  // Keep menu within viewport
-  const safeX = Math.min(x, window.innerWidth  - 200)
-  const safeY = Math.min(y, window.innerHeight - 300)
+  const safeX = Math.min(x, window.innerWidth  - 220)
+  const safeY = Math.min(y, window.innerHeight - 380)
 
   const handleItem = (item) => {
     item.action(setwindowState)
@@ -60,6 +60,26 @@ const ContextMenu = ({ x, y, onClose, setwindowState }) => {
             </button>
           )
       )}
+
+      <div className="ctx-menu__divider" />
+
+      <div className="ctx-menu__theme-section">
+        <span className="ctx-menu__theme-label">🎨 Theme</span>
+        <div className="ctx-menu__swatches">
+          {Object.values(themes).map((t) => (
+            <button
+              key={t.id}
+              className={`ctx-menu__swatch${themeId === t.id ? ' ctx-menu__swatch--active' : ''}`}
+              style={{ '--swatch-color': t.swatch }}
+              title={`${t.name} · ${t.subtitle}`}
+              onClick={() => setThemeId(t.id)}
+            />
+          ))}
+        </div>
+        <span className="ctx-menu__theme-name">
+          {themes[themeId]?.name} &middot; <em>{themes[themeId]?.subtitle}</em>
+        </span>
+      </div>
     </div>
   )
 }

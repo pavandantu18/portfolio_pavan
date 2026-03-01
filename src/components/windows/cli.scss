@@ -1,94 +1,18 @@
 /* ===================== SPIDER-MAN TERMINAL THEME ===================== */
 
-@keyframes web-pulse {
-  0%   { opacity: 0.03; }
-  50%  { opacity: 0.08; }
-  100% { opacity: 0.03; }
-}
-
-@keyframes spider-glow {
-  0%   { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.10), inset 0 0 80px rgba(30, 64, 175, 0.06); }
-  50%  { box-shadow: inset 0 0 70px rgba(220, 38, 38, 0.18), inset 0 0 120px rgba(30, 64, 175, 0.12); }
-  100% { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.10), inset 0 0 80px rgba(30, 64, 175, 0.06); }
-}
-
-@keyframes web-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
 /* ===================== BASE CONTAINER ===================== */
 
 .cli-window {
   width: 100%;
-  height: calc(100vh - 120px);
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 10rem;
   position: relative;
 
-  /* Spider-Man deep dark — red corner, blue corner */
-  background:
-    radial-gradient(ellipse 55% 45% at 0% 0%,   rgba(185, 28, 28, 0.22) 0%, transparent 70%),
-    radial-gradient(ellipse 55% 45% at 100% 100%, rgba(29, 78, 216, 0.22) 0%, transparent 70%),
-    radial-gradient(ellipse 70% 70% at 50% 50%,  rgba(5, 7, 15, 0.0) 0%, rgba(5, 7, 15, 0.55) 100%),
-    linear-gradient(155deg, #06080f 0%, #090d1a 55%, #06090f 100%);
-
-  color: rgba(226, 232, 240, 0.92);
+  color: var(--t-text, rgba(226, 232, 240, 0.92));
   font-family: "JetBrains Mono", "Fira Code", monospace;
   font-size: 0.9rem;
   line-height: 1.6;
-
-  border-radius: 0.5rem;
-  border: 1px solid rgba(220, 38, 38, 0.22);
-
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  animation: spider-glow 4s ease-in-out infinite;
-
-  /* Spider web pattern — concentric arcs + spokes from top-left corner */
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    z-index: 0;
-    background:
-      repeating-conic-gradient(
-        from 0deg at 0% 0%,
-        rgba(220, 38, 38, 0.055) 0deg,
-        transparent 1deg,
-        transparent 44deg,
-        rgba(220, 38, 38, 0.055) 45deg
-      ),
-      repeating-radial-gradient(
-        circle at 0% 0%,
-        transparent 0px,
-        transparent 58px,
-        rgba(220, 38, 38, 0.045) 60px,
-        transparent 62px
-      );
-    animation: web-pulse 5s ease-in-out infinite;
-  }
-
-  /* CRT scanlines */
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    z-index: 1;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 0, 0, 0.05) 2px,
-      rgba(0, 0, 0, 0.05) 4px
-    );
-  }
 }
 
 /* ===================== TERMINAL CONTAINER ===================== */
@@ -110,7 +34,7 @@
   position: relative;
   z-index: 2;
 
-  /* Red-blue top rule line */
+  /* Primary-to-secondary top rule line */
   &::before {
     content: "";
     display: block;
@@ -118,10 +42,10 @@
     margin-bottom: 0.75rem;
     background: linear-gradient(
       90deg,
-      rgba(220, 38, 38, 0.7) 0%,
-      rgba(220, 38, 38, 0.25) 35%,
-      rgba(29, 78, 216, 0.25) 65%,
-      rgba(29, 78, 216, 0.7) 100%
+      var(--t-border-top) 0%,
+      var(--t-border) 35%,
+      var(--t-glow2h) 65%,
+      var(--t-glow2h) 100%
     );
   }
 
@@ -134,7 +58,7 @@
     font-size: 1rem;
     opacity: 0.2;
     pointer-events: none;
-    filter: drop-shadow(0 0 5px rgba(220, 38, 38, 0.9));
+    filter: drop-shadow(0 0 5px var(--t-glow1h));
     animation: web-pulse 4s ease-in-out infinite;
   }
 
@@ -147,7 +71,7 @@
 
 .cli-window {
   scrollbar-width: thin;
-  scrollbar-color: rgba(220, 38, 38, 0.5) transparent;
+  scrollbar-color: var(--t-scrollbar, rgba(220, 38, 38, 0.5)) transparent;
 
   &::-webkit-scrollbar {
     width: 4px;
@@ -160,7 +84,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(220, 38, 38, 0.7), rgba(29, 78, 216, 0.7));
+    background: linear-gradient(180deg, var(--t-scrollbar), var(--t-glow2h));
     border-radius: 2px;
     min-height: 30px;
   }
@@ -169,9 +93,9 @@
 /* ===================== TEXT SELECTION ===================== */
 
 .cli-window ::selection {
-  background: rgba(220, 38, 38, 0.38);
+  background: var(--t-selection-bg, rgba(220, 38, 38, 0.38));
   color: #fff;
-  text-shadow: 0 0 6px rgba(220, 38, 38, 0.5);
+  text-shadow: 0 0 6px var(--t-glow1h);
 }
 
 /* ===================== COMMAND OUTPUT ===================== */
@@ -182,9 +106,9 @@
   transition: border-left-color 0.2s ease, padding-left 0.2s ease, text-shadow 0.2s ease;
 
   &:hover {
-    border-left-color: rgba(220, 38, 38, 0.55);
+    border-left-color: var(--t-border-top);
     padding-left: 0.5rem;
-    text-shadow: 0 0 8px rgba(220, 38, 38, 0.12);
+    text-shadow: 0 0 8px var(--t-glow1);
   }
 }
 
@@ -197,7 +121,7 @@
   outline: none !important;
   font-family: inherit;
   font-size: inherit;
-  caret-color: #ef4444;
+  caret-color: var(--t-accent);
 
   &::placeholder {
     color: rgba(180, 180, 180, 0.35);
@@ -207,13 +131,13 @@
 /* ===================== LINKS ===================== */
 
 .cli-window a {
-  color: #60a5fa;
+  color: var(--t-secondary, #60a5fa);
   text-decoration: none;
   transition: color 0.2s ease, text-shadow 0.2s ease;
 
   &:hover {
-    color: #93c5fd;
-    text-shadow: 0 0 8px rgba(96, 165, 250, 0.5);
+    color: var(--t-accent, #93c5fd);
+    text-shadow: 0 0 8px var(--t-glow2h);
     text-decoration: underline;
   }
 }

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './BootScreen.scss'
 
 const BootScreen = ({ onDone }) => {
-  const [phase, setPhase] = useState('enter') // enter → idle → exit
+  const [phase, setPhase] = useState('enter')
 
   useEffect(() => {
     const idle = setTimeout(() => setPhase('exit'), 2800)
@@ -17,14 +17,11 @@ const BootScreen = ({ onDone }) => {
 
   return (
     <div className={`boot-screen boot-screen--${phase}`} onClick={() => setPhase('exit')}>
-      {/* Spider web SVG background */}
       <svg className="boot-web" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-        {/* Spokes */}
         {Array.from({ length: 8 }, (_, i) => {
           const angle = (i * 45 * Math.PI) / 180
           return (
-            <line
-              key={i}
+            <line key={i}
               x1="200" y1="200"
               x2={200 + Math.cos(angle) * 200}
               y2={200 + Math.sin(angle) * 200}
@@ -32,12 +29,10 @@ const BootScreen = ({ onDone }) => {
             />
           )
         })}
-        {/* Rings */}
         {[30, 65, 105, 150, 200].map((r, i) => (
           <circle key={i} cx="200" cy="200" r={r}
             fill="none" stroke="rgba(220,38,38,0.25)" strokeWidth="1" />
         ))}
-        {/* Centre dot */}
         <circle cx="200" cy="200" r="6" fill="rgba(220,38,38,0.8)" />
       </svg>
 

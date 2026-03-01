@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react'
 import "./app.scss"
 import Dock from './components/Dock'
 import Nav from './components/Nav'
-import Notes from "./components/windows/Notes"
 import Cli from './components/windows/Cli'
 import Spotify from './components/windows/Spotify'
 import AchievementsWindow from './components/windows/AchievementsWindow'
@@ -15,6 +14,7 @@ import BackgroundChanger from './components/windows/games/BackgroundChanger/Back
 import MemoryWeb from './components/windows/games/MemoryWeb/MemoryWeb'
 import SpiderType from './components/windows/games/SpiderType/SpiderType'
 import SpiderSense from './components/windows/games/SpiderSense/SpiderSense'
+import ContactWindow from './components/windows/ContactWindow'
 import { AchievementContext } from './context/AchievementContext'
 
 import DesktopOnly from "./DesktopOnly";
@@ -24,7 +24,6 @@ const App = () => {
   const [contextMenu, setContextMenu] = useState(null)
 
   const [windowState, setwindowState] = useState({
-    note: false,
     resume: false,
     spotify: false,
     cli: false,
@@ -34,6 +33,7 @@ const App = () => {
     memory: false,
     spiderType: false,
     spiderSense: false,
+    contact: false,
   })
 
   const { popup } = useContext(AchievementContext);
@@ -53,7 +53,6 @@ const App = () => {
         <Nav />
         <Dock windowState={windowState} setwindowState={setwindowState} />
 
-        {windowState.note        && <ErrorBoundary><Notes              windowName="note"        setwindowState={setwindowState} /></ErrorBoundary>}
         {windowState.cli         && <ErrorBoundary><Cli                windowName="cli"         setwindowState={setwindowState} /></ErrorBoundary>}
         {windowState.spotify     && <ErrorBoundary><Spotify            windowName="spotify"     setwindowState={setwindowState} /></ErrorBoundary>}
         {windowState.games       && <ErrorBoundary><GamesFolder        windowName="games"       setwindowState={setwindowState} /></ErrorBoundary>}
@@ -62,6 +61,7 @@ const App = () => {
         {windowState.memory      && <ErrorBoundary><MemoryWeb          windowName="memory"      setwindowState={setwindowState} /></ErrorBoundary>}
         {windowState.spiderType  && <ErrorBoundary><SpiderType         windowName="spiderType"  setwindowState={setwindowState} /></ErrorBoundary>}
         {windowState.spiderSense && <ErrorBoundary><SpiderSense        windowName="spiderSense" setwindowState={setwindowState} /></ErrorBoundary>}
+        {windowState.contact     && <ErrorBoundary><ContactWindow      windowName="contact"     setwindowState={setwindowState} /></ErrorBoundary>}
       </main>
 
       {contextMenu && (

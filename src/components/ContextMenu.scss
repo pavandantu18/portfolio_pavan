@@ -97,6 +97,63 @@
 }
 
 .ctx-menu__icon {
-  color: rgba(220, 38, 38, 0.75);
+  color: var(--t-primary, rgba(220, 38, 38, 0.75));
   flex-shrink: 0;
+}
+
+/* ===================== THEME SWITCHER ===================== */
+
+.ctx-menu__theme-section {
+  padding: 0.5rem 0.65rem 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.ctx-menu__theme-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.ctx-menu__swatches {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.ctx-menu__swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  background: var(--swatch-color);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  flex-shrink: 0;
+  padding: 0;
+
+  &:hover {
+    transform: scale(1.2);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  &--active {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 2px var(--swatch-color), 0 0 8px var(--swatch-color);
+    transform: scale(1.15);
+  }
+}
+
+.ctx-menu__theme-name {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.02em;
+
+  em {
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.3);
+  }
 }

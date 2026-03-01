@@ -1,11 +1,5 @@
 /* ===================== ANIMATIONS ===================== */
 
-@keyframes spider-glow {
-  0%   { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.08), inset 0 0 80px rgba(30, 64, 175, 0.05); }
-  50%  { box-shadow: inset 0 0 70px rgba(220, 38, 38, 0.16), inset 0 0 120px rgba(30, 64, 175, 0.10); }
-  100% { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.08), inset 0 0 80px rgba(30, 64, 175, 0.05); }
-}
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -21,32 +15,24 @@
 .achieve-window {
   font-family: 'Exo 2', system-ui, sans-serif;
   padding: 1.5rem 1.75rem;
-  height: calc(100vh - 120px);
+  height: 100%;
   overflow-y: auto;
-  padding-bottom: 10rem;
 
   font-size: 1rem;
   line-height: 1.6;
 
-  background: linear-gradient(
-    180deg,
-    rgba(8, 10, 14, 0.96),
-    rgba(12, 14, 18, 0.92)
-  );
+  color: var(--t-text, rgba(230, 235, 240, 0.9));
 
-  color: rgba(230, 235, 240, 0.9);
-  border-radius: 0.6rem;
-
-  animation: fadeIn 0.4s ease-out forwards, spider-glow 4s ease-in-out 0.4s infinite;
+  animation: fadeIn 0.4s ease-out both;
 
   /* ===================== Scrollbar ===================== */
   scrollbar-width: thin;
-  scrollbar-color: rgba(220, 38, 38, 0.5) transparent;
+  scrollbar-color: var(--t-scrollbar, rgba(220, 38, 38, 0.5)) transparent;
 
   &::-webkit-scrollbar { width: 4px; }
   &::-webkit-scrollbar-track { background: transparent; margin: 0; border-radius: 0; }
   &::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(220, 38, 38, 0.7), rgba(29, 78, 216, 0.7));
+    background: linear-gradient(180deg, var(--t-scrollbar), var(--t-glow2h, rgba(29, 78, 216, 0.7)));
     border-radius: 2px;
     min-height: 30px;
   }
@@ -57,11 +43,11 @@
     font-weight: 800;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: #ef4444;
+    color: var(--t-accent);
     margin-bottom: 1.4rem;
 
     text-shadow:
-      0 0 20px rgba(220, 38, 38, 0.5),
+      0 0 20px var(--t-glow1h),
       0 2px 4px rgba(0, 0, 0, 0.8);
   }
 
@@ -106,24 +92,20 @@
       transform: translateY(-2px);
       box-shadow:
         0 8px 20px rgba(0, 0, 0, 0.6),
-        0 0 14px rgba(220, 38, 38, 0.15),
+        0 0 14px var(--t-glow1),
         inset 0 1px 0 rgba(255, 255, 255, 0.06);
       border-color: rgba(255, 255, 255, 0.1);
     }
 
     /* ========== UNLOCKED STATE ========== */
     &.unlocked {
-      border-color: rgba(220, 38, 38, 0.45);
-      background: linear-gradient(
-        145deg,
-        rgba(220, 38, 38, 0.06),
-        rgba(29, 78, 216, 0.04)
-      );
+      border-color: var(--t-border-top);
+      background: linear-gradient(145deg, var(--t-card-bg1), var(--t-card-bg2));
 
       box-shadow:
         0 4px 14px rgba(0, 0, 0, 0.5),
-        0 0 12px rgba(220, 38, 38, 0.2),
-        inset 0 1px 0 rgba(220, 38, 38, 0.1);
+        0 0 12px var(--t-glow1),
+        inset 0 1px 0 var(--t-glow1);
     }
 
     /* Icon */
@@ -152,7 +134,7 @@
         font-size: 1.05rem;
         font-weight: 700;
         letter-spacing: 0.02em;
-        color: #f1f1f1;
+        color: var(--t-text, #f1f1f1);
       }
 
       .status {
@@ -170,7 +152,7 @@
         }
 
         &.locked-text {
-          color: rgba(180, 180, 180, 0.6);
+          color: var(--t-text-dim, rgba(180, 180, 180, 0.6));
           background: rgba(255, 255, 255, 0.04);
           border: 1px solid rgba(255, 255, 255, 0.08);
         }
@@ -179,7 +161,7 @@
       .description {
         font-size: 0.85rem;
         font-weight: 400;
-        color: rgba(190, 195, 205, 0.75);
+        color: var(--t-text-dim, rgba(190, 195, 205, 0.75));
         line-height: 1.45;
         letter-spacing: 0.01em;
       }

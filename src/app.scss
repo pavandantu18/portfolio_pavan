@@ -15,20 +15,21 @@ body,
 
 body {
   font-family: 'Exo 2', system-ui, -apple-system, sans-serif;
-  background: linear-gradient(135deg, #0a0a0f 0%, #1a0f1f 50%, #0f1f2e 100%);
+  background: var(--t-body-bg, linear-gradient(135deg, #0a0508 0%, #1a0a0f 50%, #0f0f2e 100%));
   overflow: hidden;
   position: relative;
+  transition: background 0.5s ease;
 
   &::before {
     content: "";
     position: fixed;
     inset: 0;
     background:
-      radial-gradient(circle at 20% 80%, rgba(255, 60, 60, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(0, 150, 255, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 50% 50%, rgba(255, 200, 0, 0.03) 0%, transparent 60%);
+      radial-gradient(circle at 20% 80%, var(--t-c1, rgba(220, 38, 38, 0.08)) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, var(--t-c2, rgba(29, 78, 216, 0.08)) 0%, transparent 50%);
     pointer-events: none;
     z-index: -1;
+    transition: background 0.5s ease;
   }
 }
 

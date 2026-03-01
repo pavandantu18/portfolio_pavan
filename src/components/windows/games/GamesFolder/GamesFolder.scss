@@ -1,11 +1,5 @@
 /* ===================== GAMES FOLDER ===================== */
 
-@keyframes spider-glow {
-  0%   { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.08), inset 0 0 80px rgba(30, 64, 175, 0.05); }
-  50%  { box-shadow: inset 0 0 70px rgba(220, 38, 38, 0.16), inset 0 0 120px rgba(30, 64, 175, 0.10); }
-  100% { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.08), inset 0 0 80px rgba(30, 64, 175, 0.05); }
-}
-
 @keyframes tile-in {
   from { opacity: 0; transform: scale(0.85) translateY(10px); }
   to   { opacity: 1; transform: scale(1)    translateY(0); }
@@ -18,10 +12,6 @@
   justify-content: center;
   gap: 2rem;
   padding: 1.25rem 1.5rem;
-
-  background: linear-gradient(180deg, rgba(8, 10, 14, 0.96), rgba(12, 14, 18, 0.92));
-  border-radius: 0.6rem;
-  animation: spider-glow 4s ease-in-out infinite;
 }
 
 /* ===================== GAME TILE ===================== */
@@ -47,13 +37,13 @@
     transform: translateY(-6px) scale(1.08);
     box-shadow:
       0 12px 28px rgba(0, 0, 0, 0.6),
-      0 0 20px rgba(220, 38, 38, 0.3),
+      0 0 20px var(--t-glow1h),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    border-color: rgba(220, 38, 38, 0.55);
+    border-color: var(--t-border-top);
   }
 
   &:hover .game-tile__name {
-    color: #ef4444;
+    color: var(--t-accent);
   }
 
   &:active .game-tile__icon {
@@ -70,12 +60,8 @@
   justify-content: center;
   font-size: 2.8rem;
 
-  background: linear-gradient(
-    145deg,
-    rgba(220, 38, 38, 0.12),
-    rgba(29, 78, 216, 0.10)
-  );
-  border: 1px solid rgba(220, 38, 38, 0.28);
+  background: linear-gradient(145deg, var(--t-card-bg1), var(--t-card-bg2));
+  border: 1px solid var(--t-border);
 
   box-shadow:
     0 8px 20px rgba(0, 0, 0, 0.5),
@@ -85,8 +71,7 @@
               box-shadow 0.22s ease,
               border-color 0.22s ease;
 
-  /* make dark/monochrome emojis (🕸) visible on dark bg */
-  filter: drop-shadow(0 0 6px rgba(220, 38, 38, 0.55))
+  filter: drop-shadow(0 0 6px var(--t-glow1h))
           drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
 }
 
@@ -94,7 +79,7 @@
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: rgba(220, 235, 255, 0.8);
+  color: var(--t-text, rgba(220, 235, 255, 0.8));
   text-align: center;
   max-width: 100px;
   line-height: 1.3;
