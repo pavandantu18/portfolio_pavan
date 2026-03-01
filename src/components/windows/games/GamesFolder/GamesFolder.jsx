@@ -21,20 +21,20 @@ const GAMES = [
     desc: "Type to test speed",
   },
   {
-    key: "spiderSense",
-    emoji: "⚡",
-    name: "Spider-Sense",
-    desc: "Test your reaction time",
+    key: "omnitrixTimeout",
+    emoji: "⬡",
+    name: "Countdown to Timeout",
+    desc: "Complete tasks before the Omnitrix beeps",
   },
 ];
 
-export default function GamesFolder({ windowName, setwindowState }) {
+export default function GamesFolder({ windowName, setwindowState, zIndex, onFocus }) {
   const openGame = (key) => {
     setwindowState(state => ({ ...state, [key]: true }));
   };
 
   return (
-    <MacWindow windowName={windowName} setwindowState={setwindowState} initialWidth={660} initialHeight={260}>
+    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} initialWidth={660} initialHeight={260}>
       <div className="games-folder">
         {GAMES.map(game => (
           <button

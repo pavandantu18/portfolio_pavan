@@ -4,7 +4,7 @@ import MacWindow from "./MacWindow";
 import { EMAILJS } from "../../config/constants";
 import "./ContactWindow.scss";
 
-export default function ContactWindow({ windowName, setwindowState }) {
+export default function ContactWindow({ windowName, setwindowState, zIndex, onFocus }) {
   const formRef = useRef(null);
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
   const [errorMsg, setErrorMsg] = useState("");
@@ -35,7 +35,7 @@ export default function ContactWindow({ windowName, setwindowState }) {
   };
 
   return (
-    <MacWindow windowName={windowName} setwindowState={setwindowState} initialWidth={460} initialHeight={470}>
+    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} initialWidth={460} initialHeight={470}>
       <div className="contact-window">
         <div className="contact-window__header">
           <h2 className="contact-window__title">✉️ Send a Message</h2>

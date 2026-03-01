@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef } from "react";
 import { AchievementContext } from "../context/AchievementContext";
 import { ACHIEVEMENTS, SOCIAL_LINKS } from "../config/constants";
 import { RiGithubFill, RiMedalFill, RiSpotifyFill, RiMailFill, RiLinksLine, RiTerminalBoxFill, RiGamepadFill } from "@remixicon/react";
-import './dock.scss'
+import './Dock.scss'
 
 const Dock = ({ setwindowState }) => {
   const { unlockAchievement } = useContext(AchievementContext);

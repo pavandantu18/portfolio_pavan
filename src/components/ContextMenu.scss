@@ -104,10 +104,10 @@
 /* ===================== THEME SWITCHER ===================== */
 
 .ctx-menu__theme-section {
-  padding: 0.5rem 0.65rem 0.4rem;
+  padding: 0.45rem 0.65rem 0.4rem;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.28rem;
 }
 
 .ctx-menu__theme-label {
@@ -116,19 +116,38 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 0.08rem;
+}
+
+/* One franchise row: label + dot cluster */
+.ctx-menu__swatch-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ctx-menu__swatch-row-label {
+  font-size: 0.56rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.28);
+  white-space: nowrap;
+  width: 52px;
+  flex-shrink: 0;
 }
 
 .ctx-menu__swatches {
   display: flex;
-  gap: 0.45rem;
+  gap: 0.32rem;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .ctx-menu__swatch {
-  width: 20px;
-  height: 20px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
   background: var(--swatch-color);
   cursor: pointer;
   transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
@@ -136,24 +155,26 @@
   padding: 0;
 
   &:hover {
-    transform: scale(1.2);
-    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.35);
+    border-color: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 0 6px var(--swatch-color);
   }
 
   &--active {
     border-color: #ffffff;
-    box-shadow: 0 0 0 2px var(--swatch-color), 0 0 8px var(--swatch-color);
-    transform: scale(1.15);
+    box-shadow: 0 0 0 2px var(--swatch-color), 0 0 7px var(--swatch-color);
+    transform: scale(1.25);
   }
 }
 
 .ctx-menu__theme-name {
-  font-size: 0.68rem;
-  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.66rem;
+  color: rgba(255, 255, 255, 0.42);
   letter-spacing: 0.02em;
+  margin-top: 0.1rem;
 
   em {
     font-style: italic;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.28);
   }
 }

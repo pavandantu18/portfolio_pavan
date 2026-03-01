@@ -5,8 +5,7 @@ export const ACHIEVEMENTS = {
   KNOW_ME: "knowMe",
   MEMORY_MASTER: "memoryMaster",
   SPEED_TYPIST: "speedTypist",
-  SPIDER_SENSE: "spiderSense",
-  KONAMI: "konami",
+  OMNITRIX_TIMEOUT: "omnitrixTimeout",
 };
 
 export const ACHIEVEMENT_LABELS = {
@@ -15,8 +14,7 @@ export const ACHIEVEMENT_LABELS = {
   knowMe: "Know About Me",
   memoryMaster: "Memory Master",
   speedTypist: "Speed Typist",
-  spiderSense: "Spider-Sense",
-  konami: "↑↑↓↓←→←→BA",
+  omnitrixTimeout: "Omnitrix Master",
 };
 
 export const ACHIEVEMENT_ICONS = {
@@ -25,18 +23,16 @@ export const ACHIEVEMENT_ICONS = {
   knowMe: "🔗",
   memoryMaster: "🧠",
   speedTypist: "⌨️",
-  spiderSense: "⚡",
-  konami: "🎮",
+  omnitrixTimeout: "🟢",
 };
 
 export const ACHIEVEMENT_DESCRIPTIONS = {
-  spiderVerse: "Activate all 5 Spider-Verse themes in the Theme Explorer.",
+  spiderVerse: "Activate all 10 themes across Spider-Verse, Pokémon, and Ben 10 in the Theme Explorer.",
   musicEnthusiastic: "Open Spotify.",
   knowMe: "Unlock by visiting my LinkedIn profile.",
   memoryMaster: "Complete the Memory Web card match game.",
   speedTypist: "Type at 60+ WPM in Spider-Type.",
-  spiderSense: "React in under 300ms in Spider-Sense.",
-  konami: "You found the secret. Legendary.",
+  omnitrixTimeout: "Complete all 3 rounds of Countdown to Timeout before the Omnitrix beeps.",
 };
 
 // Character lore for Theme Explorer
@@ -65,6 +61,35 @@ export const THEME_LORE = {
     universe: "Earth-616B",
     power:    "Enhanced Healing · Strength · Web Fluid",
     quote:    "There can be more than one.",
+  },
+
+  // Pokémon
+  pikachu: {
+    universe: "Kanto Region · Route 1",
+    power:    "Thunderbolt · Agility · Iron Tail",
+    quote:    "Pika pika!",
+  },
+  mewtwo: {
+    universe: "Cerulean Cave · Kanto",
+    power:    "Psychic · Shadow Ball · Aura Storm",
+    quote:    "The circumstances of one's birth are irrelevant.",
+  },
+  gengar: {
+    universe: "Lavender Town · Ghost Tower",
+    power:    "Shadow Ball · Dream Eater · Hypnosis",
+    quote:    "In the darkness, I am the shadow that haunts you.",
+  },
+
+  // Ben 10
+  fourarms: {
+    universe: "Khoros · Omnitrix DNA",
+    power:    "Super Strength · Quake Slam · Multi-Strike",
+    quote:    "Four arms are better than two!",
+  },
+  diamondhead: {
+    universe: "Petropia · Omnitrix DNA",
+    power:    "Crystal Shards · Diamond Armor · Refraction",
+    quote:    "Harder than diamond, sharper than any blade.",
   },
 };
 

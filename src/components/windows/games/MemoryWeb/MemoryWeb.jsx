@@ -21,7 +21,7 @@ function buildDeck() {
     .sort(() => Math.random() - 0.5);
 }
 
-export default function MemoryWeb({ windowName, setwindowState }) {
+export default function MemoryWeb({ windowName, setwindowState, zIndex, onFocus }) {
   const { unlockAchievement } = useContext(AchievementContext);
 
   const [cards, setCards]     = useState(buildDeck);
@@ -76,7 +76,7 @@ export default function MemoryWeb({ windowName, setwindowState }) {
   const matchedPairs = matched.size / 2;
 
   return (
-    <MacWindow windowName={windowName} setwindowState={setwindowState} initialWidth={680} initialHeight={580}>
+    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} initialWidth={680} initialHeight={580}>
       <div className="memory-web">
 
         {/* Header */}

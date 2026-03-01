@@ -1,9 +1,9 @@
 import React from "react";
 import MacWindow from "./MacWindow";
 import Terminal from "react-console-emulator";
-import "./cli.scss";
+import "./Cli.scss";
 
-const Cli = ({windowName, setwindowState}) => {
+const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
   const terminalRef = React.useRef(null);
 
   const commands = {
@@ -310,7 +310,7 @@ const Cli = ({windowName, setwindowState}) => {
   };
 
   return (
-    <MacWindow windowName={windowName} setwindowState={setwindowState}>
+    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus}>
       <div className="cli-window">
         <Terminal
           ref={terminalRef}

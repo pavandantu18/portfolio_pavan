@@ -119,11 +119,21 @@
   }
 }
 
+.boot-char-name {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--t-accent, #dc2626);
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 12px var(--t-glow1h, rgba(220, 38, 38, 0.5));
+  animation: title-reveal 0.6s ease 0.9s both;
+}
+
 .boot-sub {
   margin: 0;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.4);
-  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.38);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   animation: title-reveal 0.6s ease 1s both;
 }

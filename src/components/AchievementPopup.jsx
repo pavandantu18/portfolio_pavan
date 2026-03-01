@@ -1,21 +1,21 @@
 import "./AchievementPopup.scss";
 
 const badgeLabels = {
-  websiteRuiner: "Website Ruiner",
+  websiteRuiner:     "Website Ruiner",
   musicEnthusiastic: "Music Enthusiastic",
-  knowMe: "Know About Me",
-  memoryMaster: "Memory Master",
-  speedTypist: "Speed Typist",
-  spiderSense: "Spider-Sense",
+  knowMe:            "Know About Me",
+  memoryMaster:      "Memory Master",
+  speedTypist:       "Speed Typist",
+  omnitrixTimeout:   "Omnitrix Master",
 };
 
 const badgeIcons = {
-  websiteRuiner: "😭",
+  websiteRuiner:     "😭",
   musicEnthusiastic: "🎶",
-  knowMe: "🔗",
-  memoryMaster: "🧠",
-  speedTypist: "⌨️",
-  spiderSense: "⚡",
+  knowMe:            "🔗",
+  memoryMaster:      "🧠",
+  speedTypist:       "⌨️",
+  omnitrixTimeout:   "🟢",
 };
 
 export default function AchievementPopup({ type }) {

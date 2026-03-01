@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useEffect, useRef } from 'react'
+import React, { useState, useContext, useCallback, useRef } from 'react'
 import "./app.scss"
 import Dock from './components/Dock'
 import Nav from './components/Nav'
@@ -13,43 +13,19 @@ import GamesFolder from './components/windows/games/GamesFolder/GamesFolder'
 import ThemeExplorer from './components/windows/games/ThemeExplorer/ThemeExplorer'
 import MemoryWeb from './components/windows/games/MemoryWeb/MemoryWeb'
 import SpiderType from './components/windows/games/SpiderType/SpiderType'
-import SpiderSense from './components/windows/games/SpiderSense/SpiderSense'
+import OmnitrixTimeout from './components/windows/games/OmnitrixTimeout/OmnitrixTimeout'
 import ContactWindow from './components/windows/ContactWindow'
 import WebCursorTrail from './components/WebCursorTrail'
 import DesktopSpider from './components/DesktopSpider'
 import DesktopParticles from './components/DesktopParticles'
 import { AchievementContext } from './context/AchievementContext'
-import { ACHIEVEMENTS } from './config/constants'
 
-import DesktopOnly from "./DesktopOnly";
-
-// ── Konami code hook ──────────────────────────────────────────────────────────
-const KONAMI_SEQ = [
-  'ArrowUp','ArrowUp','ArrowDown','ArrowDown',
-  'ArrowLeft','ArrowRight','ArrowLeft','ArrowRight',
-  'b','a',
-];
-
-function useKonami(onActivate) {
-  const buf = useRef([]);
-  useEffect(() => {
-    const handler = (e) => {
-      buf.current = [...buf.current, e.key].slice(-KONAMI_SEQ.length);
-      if (buf.current.join(',') === KONAMI_SEQ.join(',')) {
-        onActivate();
-        buf.current = [];
-      }
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [onActivate]);
-}
+import DesktopOnly from "./components/DesktopOnly";
 
 // ── App ───────────────────────────────────────────────────────────────────────
 const App = () => {
   const [booted,      setBooted]      = useState(false)
   const [contextMenu, setContextMenu] = useState(null)
-  const [konamiFlash, setKonamiFlash] = useState(false)
 
   const [windowState, setwindowState] = useState({
     resume:        false,
@@ -59,9 +35,9 @@ const App = () => {
     themeExplorer: false,
     achievement:   false,
     memory:        false,
-    spiderType:    false,
-    spiderSense:   false,
-    contact:       false,
+    spiderType:      false,
+    omnitrixTimeout: false,
+    contact:         false,
   })
 
   // z-index: clicking any window brings it to front
@@ -72,15 +48,7 @@ const App = () => {
     setWindowZ(wz => ({ ...wz, [name]: zCounter.current }));
   }, []);
 
-  const { popup, unlockAchievement } = useContext(AchievementContext);
-
-  // Konami code
-  const triggerKonami = useCallback(() => {
-    unlockAchievement(ACHIEVEMENTS.KONAMI);
-    setKonamiFlash(true);
-    setTimeout(() => setKonamiFlash(false), 900);
-  }, [unlockAchievement]);
-  useKonami(triggerKonami);
+  const { popup } = useContext(AchievementContext);
 
   const handleContextMenu = (e) => {
     e.preventDefault()
@@ -101,8 +69,6 @@ const App = () => {
 
       {popup.type && <AchievementPopup key={popup.id} type={popup.type} />}
 
-      {konamiFlash && <div className="konami-flash" />}
-
       <WebCursorTrail />
 
       <main onContextMenu={handleContextMenu}>
@@ -117,9 +83,9 @@ const App = () => {
         {windowState.themeExplorer && <ErrorBoundary><ThemeExplorer      {...wp('themeExplorer')} /></ErrorBoundary>}
         {windowState.achievement   && <ErrorBoundary><AchievementsWindow {...wp('achievement')}   /></ErrorBoundary>}
         {windowState.memory        && <ErrorBoundary><MemoryWeb          {...wp('memory')}        /></ErrorBoundary>}
-        {windowState.spiderType    && <ErrorBoundary><SpiderType         {...wp('spiderType')}    /></ErrorBoundary>}
-        {windowState.spiderSense   && <ErrorBoundary><SpiderSense        {...wp('spiderSense')}   /></ErrorBoundary>}
-        {windowState.contact       && <ErrorBoundary><ContactWindow      {...wp('contact')}       /></ErrorBoundary>}
+        {windowState.spiderType      && <ErrorBoundary><SpiderType         {...wp('spiderType')}      /></ErrorBoundary>}
+        {windowState.omnitrixTimeout && <ErrorBoundary><OmnitrixTimeout    {...wp('omnitrixTimeout')} /></ErrorBoundary>}
+        {windowState.contact         && <ErrorBoundary><ContactWindow      {...wp('contact')}         /></ErrorBoundary>}
       </main>
 
       {contextMenu && (

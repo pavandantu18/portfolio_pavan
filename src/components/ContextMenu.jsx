@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useRef } from 'react'
 import { RiTerminalBoxFill, RiSpotifyFill, RiGameFill, RiMedalFill, RiGithubFill, RiLinksLine, RiMailFill } from '@remixicon/react'
 import { SOCIAL_LINKS } from '../config/constants'
 import { ThemeContext } from '../context/ThemeContext'
@@ -13,6 +13,12 @@ const items = [
   null,
   { icon: RiGithubFill,  label: 'GitHub',   action: () => window.open(SOCIAL_LINKS.github,   '_blank') },
   { icon: RiLinksLine,   label: 'LinkedIn', action: () => window.open(SOCIAL_LINKS.linkedin, '_blank') },
+]
+
+const GROUPS = [
+  { id: 'spiderman', label: 'Spider-Man' },
+  { id: 'pokemon',   label: 'Pokémon' },
+  { id: 'ben10',     label: 'Ben 10' },
 ]
 
 const ContextMenu = ({ x, y, onClose, setwindowState }) => {
@@ -30,8 +36,16 @@ const ContextMenu = ({ x, y, onClose, setwindowState }) => {
     }
   }, [onClose])
 
-  const safeX = Math.min(x, window.innerWidth  - 220)
-  const safeY = Math.min(y, window.innerHeight - 380)
+  // Clamp to viewport BEFORE first paint — no flicker
+  useLayoutEffect(() => {
+    const el = menuRef.current
+    if (!el) return
+    const pad = 10
+    const cX = Math.max(pad, Math.min(x, window.innerWidth  - el.offsetWidth  - pad))
+    const cY = Math.max(pad, Math.min(y, window.innerHeight - el.offsetHeight - pad))
+    el.style.left = cX + 'px'
+    el.style.top  = cY + 'px'
+  }, [x, y])
 
   const handleItem = (item) => {
     item.action(setwindowState)
@@ -41,13 +55,13 @@ const ContextMenu = ({ x, y, onClose, setwindowState }) => {
   return (
     <div
       className="ctx-menu"
-      style={{ left: safeX, top: safeY }}
+      style={{ left: x, top: y }}   /* corrected by useLayoutEffect before paint */
       ref={menuRef}
       onMouseDown={(e) => e.stopPropagation()}
     >
       <div className="ctx-menu__header">
         <span className="ctx-menu__spider">🕷</span>
-        <span>Spider-Man Desktop</span>
+        <span>Desktop</span>
       </div>
 
       {items.map((item, i) =>
@@ -65,17 +79,28 @@ const ContextMenu = ({ x, y, onClose, setwindowState }) => {
 
       <div className="ctx-menu__theme-section">
         <span className="ctx-menu__theme-label">🎨 Theme</span>
-        <div className="ctx-menu__swatches">
-          {Object.values(themes).map((t) => (
-            <button
-              key={t.id}
-              className={`ctx-menu__swatch${themeId === t.id ? ' ctx-menu__swatch--active' : ''}`}
-              style={{ '--swatch-color': t.swatch }}
-              title={`${t.name} · ${t.subtitle}`}
-              onClick={() => setThemeId(t.id)}
-            />
-          ))}
-        </div>
+
+        {GROUPS.map((grp) => {
+          const grpThemes = Object.values(themes).filter(t => t.group === grp.id)
+          if (!grpThemes.length) return null
+          return (
+            <div key={grp.id} className="ctx-menu__swatch-row">
+              <span className="ctx-menu__swatch-row-label">{grp.label}</span>
+              <div className="ctx-menu__swatches">
+                {grpThemes.map((t) => (
+                  <button
+                    key={t.id}
+                    className={`ctx-menu__swatch${themeId === t.id ? ' ctx-menu__swatch--active' : ''}`}
+                    style={{ '--swatch-color': t.swatch }}
+                    title={`${t.name} · ${t.subtitle}`}
+                    onClick={() => setThemeId(t.id)}
+                  />
+                ))}
+              </div>
+            </div>
+          )
+        })}
+
         <span className="ctx-menu__theme-name">
           {themes[themeId]?.name} &middot; <em>{themes[themeId]?.subtitle}</em>
         </span>

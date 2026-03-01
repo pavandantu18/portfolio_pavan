@@ -16,7 +16,7 @@ function saveVisited(set) {
   localStorage.setItem(VISITED_KEY, JSON.stringify([...set]))
 }
 
-export default function ThemeExplorer({ windowName, setwindowState }) {
+export default function ThemeExplorer({ windowName, setwindowState, zIndex, onFocus }) {
   const { themeId, setThemeId, themes } = useContext(ThemeContext)
   const { unlockAchievement } = useContext(AchievementContext)
 
@@ -31,13 +31,13 @@ export default function ThemeExplorer({ windowName, setwindowState }) {
   }
 
   return (
-    <MacWindow windowName={windowName} setwindowState={setwindowState} initialWidth={800} initialHeight={390}>
+    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} initialWidth={820} initialHeight={480}>
       <div className="te-window">
         <div className="te-header">
           <span className="te-header__icon">🕷</span>
           <div>
-            <p className="te-header__title">Spider-Verse Explorer</p>
-            <p className="te-header__sub">Activate all 5 universes to unlock an achievement</p>
+            <p className="te-header__title">Universe Explorer</p>
+            <p className="te-header__sub">Activate all universes to unlock an achievement</p>
           </div>
           <div className="te-header__progress">
             {Object.keys(themes).map(id => (

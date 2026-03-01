@@ -25,7 +25,7 @@ const RANKS = [
 
 const getRank = (wpm) => RANKS.find(r => wpm >= r.min);
 
-export default function SpiderType({ windowName, setwindowState }) {
+export default function SpiderType({ windowName, setwindowState, zIndex, onFocus }) {
   const { unlockAchievement } = useContext(AchievementContext);
 
   const [sentenceIdx, setSentenceIdx] = useState(0);
@@ -81,7 +81,7 @@ export default function SpiderType({ windowName, setwindowState }) {
   const rank = getRank(wpm);
 
   return (
-    <MacWindow windowName={windowName} setwindowState={setwindowState} initialWidth={640} initialHeight={390}>
+    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} initialWidth={640} initialHeight={390}>
       <div className="spider-type" onClick={() => inputRef.current?.focus()}>
 
         {/* Header */}

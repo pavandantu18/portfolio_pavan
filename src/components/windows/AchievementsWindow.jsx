@@ -4,12 +4,12 @@ import { ACHIEVEMENT_LABELS, ACHIEVEMENT_ICONS, ACHIEVEMENT_DESCRIPTIONS } from 
 import "./AchievementsWindow.scss";
 import MacWindow from "./MacWindow";
 
-export default function AchievementsWindow({windowName, setwindowState}) {
+export default function AchievementsWindow({windowName, setwindowState, zIndex, onFocus}) {
     const { achievements } = useContext(AchievementContext);
 
 
     return (
-        <MacWindow windowName={windowName} setwindowState={setwindowState}>
+        <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus}>
             <div className="achieve-window">
                 <h2>🏆 Earn Achievements by exploring my portfolio</h2>
 

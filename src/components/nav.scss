@@ -3,10 +3,7 @@ nav {
   padding: 0.35rem 0.8rem;
   position: relative;
 
-  /* 3D object setup */
   will-change: transform;
-  transform-origin: 50% 0;          /* pivot from top edge so bottom swings forward */
-  transform-style: preserve-3d;
 
   display: flex;
   align-items: center;
@@ -36,25 +33,6 @@ nav {
   line-height: 1;
   user-select: none;
   caret-color: transparent;
-
-  /* ── Bottom thickness face — visible when nav tilts ──────────── */
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 16px;
-    background: linear-gradient(
-      to bottom,
-      rgba(10, 5, 16, 0.98),
-      rgba(5, 2, 8, 0.5)
-    );
-    border-bottom: 1px solid var(--t-border);
-    transform: rotateX(90deg);
-    transform-origin: bottom center;
-    pointer-events: none;
-  }
 
   /* ── Bottom glow cast onto screen below ──────────────────────── */
   &::after {
@@ -136,38 +114,65 @@ nav {
     &::after { display: none !important; }
   }
 
-  /* ── Theme switcher dots ─────────────────────────────────────── */
+  /* ── Theme switcher — grouped by franchise ───────────────────── */
   .nav-themes {
     display: flex;
     align-items: center;
-    gap: 0.38rem;
+    gap: 0.25rem;
     padding: 0;
+    &::after { display: none !important; }
+  }
 
-    .theme-dot {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      background: var(--td);
-      border: 1.5px solid transparent;
-      outline: none;
-      padding: 0;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  /* One franchise cluster */
+  .nav-theme-group {
+    display: flex;
+    align-items: center;
+    gap: 0.26rem;
+    &::after { display: none !important; }
+  }
 
-      &:hover {
-        transform: scale(1.35) translateZ(8px);
-        box-shadow: 0 0 8px var(--td), 0 0 3px var(--td);
-      }
+  /* "SM" / "PK" / "B10" micro-label */
+  .nav-group-label {
+    font-size: 0.48rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.28);
+    line-height: 1;
+    cursor: default;
+    &::after { display: none !important; }
+  }
 
-      &--active {
-        border-color: rgba(255, 255, 255, 0.75);
-        box-shadow: 0 0 10px var(--td), 0 0 5px var(--td);
-        transform: scale(1.2);
-      }
+  /* Thin vertical rule between franchise clusters */
+  .nav-group-divider {
+    width: 1px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.12);
+    flex-shrink: 0;
+    margin: 0 0.15rem;
+  }
+
+  .theme-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--td);
+    border: 1.5px solid transparent;
+    outline: none;
+    padding: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+
+    &:hover {
+      transform: scale(1.45) translateZ(8px);
+      box-shadow: 0 0 8px var(--td), 0 0 3px var(--td);
     }
 
-    &::after { display: none !important; }
+    &--active {
+      border-color: rgba(255, 255, 255, 0.80);
+      box-shadow: 0 0 10px var(--td), 0 0 5px var(--td);
+      transform: scale(1.25);
+    }
   }
 }
 
