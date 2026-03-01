@@ -8,10 +8,15 @@
   to   { opacity: 0; transform: scale(0.88) translateY(12px); }
 }
 
+@keyframes win-minimize {
+  from { opacity: 1; transform: scale(1)    translateY(0);     transform-origin: bottom center; }
+  to   { opacity: 0; transform: scale(0.08) translateY(260px); transform-origin: bottom center; }
+}
+
 /* Shared across all windows — vars set by ThemeContext */
 @keyframes spider-glow {
-  0%, 100% { box-shadow: 0 20px 50px rgba(0,0,0,0.85), inset 0 0 40px var(--t-glow1), inset 0 0 80px var(--t-glow2); }
-  50%       { box-shadow: 0 24px 60px rgba(0,0,0,0.9),  inset 0 0 70px var(--t-glow1h), inset 0 0 120px var(--t-glow2h); }
+  0%, 100% { box-shadow: 0 20px 50px rgba(0,0,0,0.85), inset 0 0 28px var(--t-glow1), inset 0 0 55px var(--t-glow2); }
+  50%       { box-shadow: 0 24px 60px rgba(0,0,0,0.9),  inset 0 0 45px var(--t-glow1), inset 0 0 80px var(--t-glow2h); }
 }
 
 @keyframes web-pulse {
@@ -53,6 +58,11 @@
 
   &.closing {
     animation: win-close 0.22s ease forwards;
+  }
+
+  &.minimizing {
+    animation: win-minimize 0.32s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+    pointer-events: none;
   }
 
   /* ── Default (Classic): spider-web spokes + rings from top-left corner ── */

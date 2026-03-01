@@ -1,0 +1,28 @@
+.desktop-clock {
+  position: fixed;
+  bottom: 7.2rem;
+  right: 1.6rem;
+  text-align: right;
+  pointer-events: none;
+  user-select: none;
+  z-index: 5;
+
+  &__time {
+    font-size: 2.1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    color: var(--t-text);
+    text-shadow: 0 0 18px var(--t-glow1h);
+    line-height: 1.1;
+  }
+
+  &__date {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--t-text-dim);
+    margin-top: 0.2rem;
+  }
+}

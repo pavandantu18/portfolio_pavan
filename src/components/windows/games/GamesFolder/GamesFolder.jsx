@@ -3,10 +3,10 @@ import "./GamesFolder.scss";
 
 const GAMES = [
   {
-    key: "color",
-    emoji: "🎨",
-    name: "Background Changer",
-    desc: "Ruin the website",
+    key: "themeExplorer",
+    emoji: "🌐",
+    name: "Theme Explorer",
+    desc: "Explore all Spider-Verse universes",
   },
   {
     key: "memory",

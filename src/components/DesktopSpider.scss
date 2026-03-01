@@ -1,0 +1,70 @@
+@keyframes desktop-spider-in {
+  from { opacity: 0; transform: translate(-50%, -46%) scale(0.92); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes desktop-float {
+  0%,  100% { transform: translate(-50%, -50%); }
+  50%        { transform: translate(-50%, calc(-50% - 12px)); }
+}
+
+@keyframes desktop-glow-pulse {
+  0%,  100% { filter: drop-shadow(0 0 28px var(--t-glow1h)) drop-shadow(0 0 60px var(--t-glow1)); }
+  50%        { filter: drop-shadow(0 0 48px var(--t-glow1h)) drop-shadow(0 0 100px var(--t-glow1)); }
+}
+
+.desktop-spider {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+
+  animation:
+    desktop-spider-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    desktop-float     5s ease-in-out 1s infinite;
+
+  /* ── Perspective scene wrapper ───────────────────────────────── */
+  &__scene {
+    perspective: 700px;
+    perspective-origin: 50% 50%;
+  }
+
+  /* ── Character figure ─────────────────────────────────────────── */
+  &__figure {
+    width: clamp(220px, 22vw, 340px);
+    opacity: 0.24;
+    will-change: transform;
+    animation: desktop-glow-pulse 4s ease-in-out infinite;
+    transform-style: preserve-3d;
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+
+  /* ── Name label ──────────────────────────────────────────────── */
+  &__label {
+    opacity: 0.2;
+    text-align: center;
+    will-change: transform;
+    animation: desktop-glow-pulse 4s ease-in-out 0.5s infinite;
+  }
+
+  &__name {
+    font-family: 'Exo 2', system-ui, sans-serif;
+    font-size: clamp(0.7rem, 1.2vw, 0.95rem);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--t-accent);
+  }
+}

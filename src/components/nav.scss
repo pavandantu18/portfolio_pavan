@@ -1,42 +1,78 @@
 nav {
   width: 100%;
   padding: 0.35rem 0.8rem;
+  position: relative;
+
+  /* 3D object setup */
+  will-change: transform;
+  transform-origin: 50% 0;          /* pivot from top edge so bottom swings forward */
+  transform-style: preserve-3d;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  /* Dark glass with subtle red undertone */
   background: linear-gradient(
     to bottom,
-    rgba(15, 4, 8, 0.85),
-    rgba(18, 6, 10, 0.75)
+    rgba(14, 8, 20, 0.92),
+    rgba(10, 6, 16, 0.82)
   );
 
-  backdrop-filter: blur(14px) saturate(1.15);
-  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
 
-  /* Single clean accent line */
-  border-bottom: 1px solid rgba(220, 38, 38, 0.35);
+  border-bottom: 1px solid var(--t-border, rgba(220, 38, 38, 0.35));
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
 
-  /* Reduced shadows – cleaner */
   box-shadow:
-    0 4px 14px rgba(0, 0, 0, 0.6),
-    inset 0 -1px 0 rgba(255, 60, 60, 0.06);
+    0 4px 18px rgba(0, 0, 0, 0.65),
+    0 1px 0   rgba(255, 255, 255, 0.06) inset,
+    inset 0 -1px 0 var(--t-glow1, rgba(220, 38, 38, 0.06));
 
   color: rgba(240, 240, 240, 0.92);
-
   font-family: 'Exo 2', system-ui, sans-serif;
-
   font-size: 0.8rem;
   letter-spacing: 0.25px;
   line-height: 1;
-
   user-select: none;
   caret-color: transparent;
 
-  /* ================= GROUPS ================= */
+  /* ── Bottom thickness face — visible when nav tilts ──────────── */
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 16px;
+    background: linear-gradient(
+      to bottom,
+      rgba(10, 5, 16, 0.98),
+      rgba(5, 2, 8, 0.5)
+    );
+    border-bottom: 1px solid var(--t-border);
+    transform: rotateX(90deg);
+    transform-origin: bottom center;
+    pointer-events: none;
+  }
 
+  /* ── Bottom glow cast onto screen below ──────────────────────── */
+  &::after {
+    content: '';
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    bottom: -20px;
+    height: 20px;
+    background: radial-gradient(ellipse at center, var(--t-glow1h) 0%, transparent 80%);
+    transform: rotateX(90deg) translateZ(-4px);
+    transform-origin: top center;
+    filter: blur(6px);
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  /* ── Groups ─────────────────────────────────────────────────── */
   .left,
   .right {
     display: flex;
@@ -44,27 +80,23 @@ nav {
     gap: 0.9rem;
   }
 
-  /* ================= MENU ITEMS ================= */
-
+  /* ── Menu items ──────────────────────────────────────────────── */
   .left > *,
   .right > * {
     position: relative;
     padding: 0.25rem 0.4rem;
-
     font-weight: 500;
     color: rgba(230, 230, 230, 0.85);
     cursor: pointer;
-
-    transition: color 0.18s ease;
+    transition: color 0.18s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  /* Hover = subtle, not loud */
   .left > *:hover,
   .right > *:hover {
-    color: #ff4d4d;
+    color: var(--t-accent, #ff4d4d);
+    transform: translateZ(10px) translateY(-1px);
   }
 
-  /* Thin underline – your idea, refined */
   .left > *::after,
   .right > *::after {
     content: "";
@@ -72,10 +104,8 @@ nav {
     left: 15%;
     right: 15%;
     bottom: -2px;
-
     height: 1px;
-    background: rgba(220, 38, 38, 0.85);
-
+    background: var(--t-accent, rgba(220, 38, 38, 0.85));
     opacity: 0;
     transform: scaleX(0.6);
     transition: opacity 0.18s ease, transform 0.18s ease;
@@ -87,8 +117,7 @@ nav {
     transform: scaleX(1);
   }
 
-  /* ================= DATETIME ================= */
-
+  /* ── Datetime ────────────────────────────────────────────────── */
   .datetime-container {
     white-space: nowrap;
     font-size: 0.78rem;
@@ -96,16 +125,53 @@ nav {
     color: rgba(245, 245, 245, 0.9);
   }
 
-  /* ================= ACCENT ================= */
+  /* ── Divider ─────────────────────────────────────────────────── */
+  .nav-divider {
+    width: 1px;
+    height: 14px;
+    background: var(--t-border, rgba(220, 38, 38, 0.3));
+    flex-shrink: 0;
+    padding: 0;
+    cursor: default;
+    &::after { display: none !important; }
+  }
 
-  .accent {
-    color: #ef4444;
-    font-weight: 600;
-    letter-spacing: 0.35px;
+  /* ── Theme switcher dots ─────────────────────────────────────── */
+  .nav-themes {
+    display: flex;
+    align-items: center;
+    gap: 0.38rem;
+    padding: 0;
+
+    .theme-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--td);
+      border: 1.5px solid transparent;
+      outline: none;
+      padding: 0;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+
+      &:hover {
+        transform: scale(1.35) translateZ(8px);
+        box-shadow: 0 0 8px var(--td), 0 0 3px var(--td);
+      }
+
+      &--active {
+        border-color: rgba(255, 255, 255, 0.75);
+        box-shadow: 0 0 10px var(--td), 0 0 5px var(--td);
+        transform: scale(1.2);
+      }
+    }
+
+    &::after { display: none !important; }
   }
 }
 
-/* Disable underline for system items */
+/* ── System items with no hover underline ────────────────────────────────── */
 .no-underline::after {
   display: none !important;
 }

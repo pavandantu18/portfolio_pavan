@@ -33,6 +33,26 @@ body {
   }
 }
 
+/* ── Konami flash overlay ─────────────────────────────────────────────────── */
+@keyframes konami-flash {
+  0%   { opacity: 0; }
+  20%  { opacity: 0.75; }
+  100% { opacity: 0; }
+}
+
+.konami-flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center,
+    var(--t-accent, #dc2626) 0%,
+    var(--t-primary, #dc2626) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 99998;
+  animation: konami-flash 0.9s ease-out forwards;
+}
+
 main {
   width: 100%;
   height: 100%;
@@ -50,3 +70,4 @@ main {
     pointer-events: none;
   }
 }
+

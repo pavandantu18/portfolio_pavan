@@ -1,38 +1,71 @@
 // Achievement definitions
 export const ACHIEVEMENTS = {
-  WEBSITE_RUINER: "websiteRuiner",
+  SPIDER_VERSE: "spiderVerse",
   MUSIC_ENTHUSIASTIC: "musicEnthusiastic",
   KNOW_ME: "knowMe",
   MEMORY_MASTER: "memoryMaster",
   SPEED_TYPIST: "speedTypist",
   SPIDER_SENSE: "spiderSense",
+  KONAMI: "konami",
 };
 
 export const ACHIEVEMENT_LABELS = {
-  websiteRuiner: "Website Ruiner",
+  spiderVerse: "Spider-Verse Traveler",
   musicEnthusiastic: "Music Enthusiastic",
   knowMe: "Know About Me",
   memoryMaster: "Memory Master",
   speedTypist: "Speed Typist",
   spiderSense: "Spider-Sense",
+  konami: "↑↑↓↓←→←→BA",
 };
 
 export const ACHIEVEMENT_ICONS = {
-  websiteRuiner: "😭",
+  spiderVerse: "🌐",
   musicEnthusiastic: "🎶",
   knowMe: "🔗",
   memoryMaster: "🧠",
   speedTypist: "⌨️",
   spiderSense: "⚡",
+  konami: "🎮",
 };
 
 export const ACHIEVEMENT_DESCRIPTIONS = {
-  websiteRuiner: "Change the website background using the Background Game.",
+  spiderVerse: "Activate all 5 Spider-Verse themes in the Theme Explorer.",
   musicEnthusiastic: "Open Spotify.",
   knowMe: "Unlock by visiting my LinkedIn profile.",
   memoryMaster: "Complete the Memory Web card match game.",
   speedTypist: "Type at 60+ WPM in Spider-Type.",
   spiderSense: "React in under 300ms in Spider-Sense.",
+  konami: "You found the secret. Legendary.",
+};
+
+// Character lore for Theme Explorer
+export const THEME_LORE = {
+  classic: {
+    universe: "Earth-616",
+    power:    "Strength · Spider-Sense · Web-Slingers",
+    quote:    "With great power comes great responsibility.",
+  },
+  miles: {
+    universe: "Earth-1610B",
+    power:    "Venom Blast · Camouflage · Spider-Sense",
+    quote:    "Anyone can wear the mask.",
+  },
+  gwen: {
+    universe: "Earth-65",
+    power:    "Spider-Sense · Acrobatics · Web Fluid",
+    quote:    "She could be anybody.",
+  },
+  noir: {
+    universe: "Earth-90214",
+    power:    "Stealth · Strength · Detective Skills",
+    quote:    "Wrong neighbourhood, pal.",
+  },
+  scarlet: {
+    universe: "Earth-616B",
+    power:    "Enhanced Healing · Strength · Web Fluid",
+    quote:    "There can be more than one.",
+  },
 };
 
 // EmailJS — fill these in after setting up https://www.emailjs.com

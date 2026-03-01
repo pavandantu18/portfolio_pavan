@@ -1,44 +1,95 @@
-.dock {
-  display: flex;
-  gap: 0.65rem;
+/* ── Perspective scene — dock lives inside here ──────────────────────────── */
+.dock-scene {
   position: absolute;
   bottom: 1.2rem;
   left: 50%;
   transform: translateX(-50%);
+
+  /* Tight perspective = dramatic 3D distortion when tilted */
+  perspective: 380px;
+  perspective-origin: 50% 180%;   /* viewer is slightly below the dock */
+}
+
+/* ── Dock shell ──────────────────────────────────────────────────────────── */
+.dock {
+  display: flex;
+  gap: 0.65rem;
   padding: 0.8rem 1.15rem;
   border-radius: 1rem;
+  position: relative;
+  will-change: transform;
+  transform-style: preserve-3d;   /* children participate in 3D space */
 
   background: linear-gradient(
-    145deg,
-    rgba(14, 14, 18, 0.88),
-    rgba(26, 26, 34, 0.72)
+    160deg,
+    rgba(22, 16, 32, 0.92),
+    rgba(12, 8, 18, 0.82)
   );
 
-  backdrop-filter: blur(20px) saturate(1.2) brightness(1.05);
-  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.05);
+  backdrop-filter: blur(22px) saturate(1.3) brightness(1.08);
+  -webkit-backdrop-filter: blur(22px) saturate(1.3) brightness(1.08);
 
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid var(--t-border-top, rgba(255,255,255,0.18));
   border-left: 1px solid var(--t-glow1);
-  border-top: 1px solid var(--t-border);
 
   box-shadow:
-    0 14px 40px rgba(0, 0, 0, 0.75),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-    0 0 30px var(--t-glow1),
-    0 0 60px var(--t-glow2);
+    0 18px 50px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    0 0 35px var(--t-glow1),
+    0 0 70px var(--t-glow2);
 
   animation: dock-breathe 6s ease-in-out infinite;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* transition only non-transform props — JS lerp handles transform */
+  transition:
+    box-shadow 0.3s ease,
+    border     0.3s ease,
+    background 0.3s ease;
+
+  /* ── Bottom thickness face — visible when dock tilts ────────── */
+  &::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    bottom: 0;
+    height: 14px;
+    background: linear-gradient(
+      to bottom,
+      rgba(8, 4, 14, 0.98),
+      rgba(4, 2, 8, 0.6)
+    );
+    border-radius: 0 0 0.9rem 0.9rem;
+    transform: rotateX(-90deg);
+    transform-origin: bottom center;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-top: 1px solid var(--t-border);
+  }
+
+  /* ── Floor glow / reflection ─────────────────────────────────── */
+  &::after {
+    content: '';
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    bottom: -18px;
+    height: 18px;
+    background: radial-gradient(ellipse at center, var(--t-glow1h) 0%, transparent 75%);
+    transform: rotateX(-90deg) translateZ(-2px);
+    transform-origin: top center;
+    filter: blur(4px);
+  }
 
   &:hover {
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-top: 1px solid var(--t-border-top);
     box-shadow:
-      0 16px 48px rgba(0, 0, 0, 0.8),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      0 22px 60px rgba(0, 0, 0, 0.9),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
       inset 0 -1px 0 rgba(0, 0, 0, 0.4),
-      0 0 40px var(--t-glow1h),
-      0 0 80px var(--t-glow2h);
+      0 0 45px var(--t-glow1h),
+      0 0 90px var(--t-glow2h);
   }
 }
 
@@ -57,46 +108,46 @@
 
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.06),
     rgba(255, 255, 255, 0.02)
   );
 
-  transition: transform 0.22s cubic-bezier(0.22, 0.61, 0.36, 1),
-              box-shadow 0.22s ease,
-              filter 0.22s ease,
-              background 0.22s ease;
+  transition:
+    transform   0.22s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow  0.22s ease,
+    filter      0.22s ease,
+    background  0.22s ease;
 
   filter: saturate(1.18) brightness(1.08);
   transform-origin: bottom center;
-
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* ================= macOS HOVER ================= */
+/* ================= macOS HOVER — 3D magnification ================= */
 .dock:hover .icon {
-  transform: scale(0.92);
+  transform: scale(0.92) translateZ(0);
 }
 
 .dock .icon:hover {
-  transform: translateY(-10px) scale(1.5);
+  transform: translateY(-12px) scale(1.55) translateZ(28px);
   z-index: 4;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.08),
-    rgba(255, 255, 255, 0.04)
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05)
   );
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 .dock .icon:hover + .icon,
 .dock .icon:has(+ .icon:hover) {
-  transform: translateY(-6px) scale(1.25);
+  transform: translateY(-7px) scale(1.28) translateZ(14px);
   z-index: 3;
 }
 
 .dock .icon:hover + .icon + .icon,
 .dock .icon:has(+ .icon + .icon:hover) {
-  transform: translateY(-3px) scale(1.1);
+  transform: translateY(-3px) scale(1.12) translateZ(6px);
   z-index: 2;
 }
 
@@ -108,7 +159,7 @@
   background: linear-gradient(
     120deg,
     transparent 30%,
-    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.45),
     transparent 70%
   );
   opacity: 0;
@@ -120,7 +171,7 @@
 }
 
 .dock .icon:hover::before {
-  opacity: 0.5;
+  opacity: 0.55;
   transform: translateX(60%);
 }
 
@@ -144,109 +195,38 @@
 }
 
 .dock .icon:hover::after {
-  opacity: 0.4;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  opacity: 0.45;
+  border: 1px solid rgba(255, 255, 255, 0.16);
 }
 
-/* ================= COLOR SYSTEM WITH SUBTLE GLOWS ================= */
-.dock .github {
-  color: #ff6b6b;
+/* ================= COLOR SYSTEM ================= */
+.dock .github { color: #ff6b6b; &:hover { box-shadow: 0 0 14px rgba(255,107,107,0.4); } }
+.dock .note   { color: #ffd08a; &:hover { box-shadow: 0 0 14px rgba(255,208,138,0.35); } }
+.dock .pdf    { color: #d97a92; &:hover { box-shadow: 0 0 14px rgba(217,122,146,0.35); } }
+.dock .calender { color: #f7df8a; &:hover { box-shadow: 0 0 14px rgba(247,223,138,0.35); } }
+.dock .spotify  { color: #4fd1a5; &:hover { box-shadow: 0 0 14px rgba(79,209,165,0.35); } }
+.dock .mail     { color: #ff9a9a; &:hover { box-shadow: 0 0 14px rgba(255,154,154,0.35); } }
+.dock .link     { color: #82c4ff; &:hover { box-shadow: 0 0 14px rgba(130,196,255,0.4); } }
+.dock .cli      { color: #e8c96a; &:hover { box-shadow: 0 0 14px rgba(232,201,106,0.35); } }
 
-  &:hover {
-    box-shadow: 0 0 12px rgba(255, 107, 107, 0.35);
-  }
-}
-
-.dock .note {
-  color: #ffd08a;
-
-  &:hover {
-    box-shadow: 0 0 12px rgba(255, 208, 138, 0.3);
-  }
-}
-
-.dock .pdf {
-  color: #d97a92;
-
-  &:hover {
-    box-shadow: 0 0 12px rgba(217, 122, 146, 0.3);
-  }
-}
-
-.dock .calender {
-  color: #f7df8a;
-
-  &:hover {
-    box-shadow: 0 0 12px rgba(247, 223, 138, 0.3);
-  }
-}
-
-.dock .spotify {
-  color: #4fd1a5;
-
-  &:hover {
-    box-shadow: 0 0 12px rgba(79, 209, 165, 0.3);
-  }
-}
-
-.dock .mail {
-  color: #ff9a9a;
-
-  &:hover {
-    box-shadow: 0 0 12px rgba(255, 154, 154, 0.3);
-  }
-}
-
-.dock .link {
-  color: #82c4ff;
-
-  &:hover {
-    box-shadow: 0 0 12px rgba(130, 196, 255, 0.35);
-  }
-}
-
-.dock .cli {
-  color: #e8c96a;
-
-  &:hover {
-    box-shadow: 0 0 12px rgba(232, 201, 106, 0.3);
-  }
-}
-
-/* ================= IDLE BREATHING ANIMATION ================= */
+/* ================= IDLE BREATHING ================= */
 @keyframes dock-breathe {
   0%, 100% {
     box-shadow:
-      0 14px 40px rgba(0, 0, 0, 0.75),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 18px 50px rgba(0, 0, 0, 0.85),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
       inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-      0 0 30px var(--t-glow1),
-      0 0 60px var(--t-glow2);
+      0 0 35px var(--t-glow1),
+      0 0 70px var(--t-glow2);
   }
-
   50% {
     box-shadow:
-      0 18px 48px rgba(0, 0, 0, 0.85),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.35),
-      0 0 35px var(--t-glow1h),
-      0 0 70px var(--t-glow2h);
+      0 22px 60px rgba(0, 0, 0, 0.92),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.38),
+      0 0 42px var(--t-glow1h),
+      0 0 85px var(--t-glow2h);
   }
 }
 
-/* ================= ICON PULSE ANIMATION ================= */
-@keyframes icon-pulse {
-  0%, 100% {
-    opacity: 1;
-    filter: drop-shadow(0 0 0px currentColor);
-  }
-
-  50% {
-    opacity: 0.98;
-    filter: drop-shadow(0 0 4px currentColor);
-  }
-}
-
-.dock .icon:hover {
-  animation: none;
-}
+.dock .icon:hover { animation: none; }

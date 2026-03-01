@@ -4,12 +4,13 @@ import { createContext, useEffect, useState } from "react";
 export const AchievementContext = createContext();
 
 const defaultAchievements = {
-  websiteRuiner: { unlocked: false, timestamp: null },
+  spiderVerse: { unlocked: false, timestamp: null },
   musicEnthusiastic: { unlocked: false, timestamp: null },
   knowMe: { unlocked: false, timestamp: null },
   memoryMaster: { unlocked: false, timestamp: null },
   speedTypist:  { unlocked: false, timestamp: null },
   spiderSense:  { unlocked: false, timestamp: null },
+  konami:       { unlocked: false, timestamp: null },
 };
 
 export function AchievementProvider({ children }) {
