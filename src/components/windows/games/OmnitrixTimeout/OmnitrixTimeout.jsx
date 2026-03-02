@@ -61,6 +61,8 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
   }, [qIdx, phase]);
 
   const beginRound = useCallback((rIdx) => {
+    lockedRef.current = false;
+    setLocked(false);
     const r = OMNITRIX_ROUNDS[rIdx];
     // On round 0, seed the pool with all questions shuffled once
     if (rIdx === 0) poolRef.current = shuffle([...OMNITRIX_QUESTIONS]);
@@ -84,9 +86,11 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
 
   const advance = useCallback((nextQ, total, rIdx) => {
     if (nextQ >= total) {
+      // MUST reset lock here — the else branch never runs, so the ref stays true otherwise
+      lockedRef.current = false;
+      setLocked(false);
       setPhase(rIdx >= OMNITRIX_ROUNDS.length - 1 ? "victory" : "roundComplete");
     } else {
-      // Set ref immediately — no render needed, never stale in closures
       lockedRef.current = true;
       setLocked(true);
       setQIdx(nextQ);
@@ -121,6 +125,8 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
   };
 
   const reset = () => {
+    lockedRef.current = false;
+    setLocked(false);
     setRoundIdx(0);
     setPhase("idle");
     setQuestions([]);
@@ -192,6 +198,15 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
         {/* PLAYING / CORRECT / WRONG */}
         {isActive && currentQ && (
           <div className={`ot-screen ot-screen--playing${phase === "correct" ? " ot-screen--correct" : ""}${phase === "wrong" ? " ot-screen--wrong" : ""}`}>
+            {/* Full-area absorber: blocks all touch/click during flash and lock window */}
+            {(phase !== "playing" || locked) && (
+              <div
+                style={{ position: "absolute", inset: 0, zIndex: 50 }}
+                onTouchStart={(e) => e.preventDefault()}
+                onTouchEnd={(e) => e.preventDefault()}
+                onClick={(e) => e.stopPropagation()}
+              />
+            )}
 
             {/* Timer ring */}
             <div className={`ot-timer${isUrgent ? " urgent" : ""}`}>
@@ -220,12 +235,7 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
             </div>
 
             {/* Choices — keyed by qIdx for stagger re-trigger */}
-            <div
-              className="ot-choices"
-              key={`choices-${qIdx}`}
-              style={{ pointerEvents: locked ? "none" : undefined }}
-              onTouchStart={(e) => { if (lockedRef.current || phase !== "playing") e.preventDefault(); }}
-            >
+            <div className="ot-choices" key={`choices-${qIdx}`}>
               {currentQ.choices.map((name, i) => (
                 <button
                   key={name}
