@@ -156,7 +156,8 @@
     width: 100%;
     max-width: 100%;
     height: auto;
-    min-height: calc(100svh - 52px); // fill screen minus nav bar, grow beyond if content is taller
+    min-height: calc(100svh - 52px);
+    min-height: calc(100dvh - 52px); /* shrinks with keyboard */
     overflow-x: hidden;
     overflow-y: visible;
     touch-action: pan-y;

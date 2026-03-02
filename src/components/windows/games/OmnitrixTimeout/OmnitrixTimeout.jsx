@@ -101,16 +101,24 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
     }
   }, []);
 
+  const isMobile = window.innerWidth < 768;
+
   const handleChoice = (name) => {
     // lockedRef.current is always current even before React re-renders
     if (phase !== "playing" || correctPick || wrongPick || lockedRef.current) return;
     const q = questions[qIdx];
     if (name === q.answer) {
       lockedRef.current = true; // block immediately — before any re-render
-      setPhase("correct");
-      setCorrectPick(name);
-      endTimeRef.current += 500;
-      setTimeout(() => advance(qIdx + 1, questions.length, roundIdx), 500);
+      if (isMobile) {
+        // No flash on mobile — advance instantly, ghost-tap window = 0
+        setCorrectPick(name);
+        advance(qIdx + 1, questions.length, roundIdx);
+      } else {
+        setPhase("correct");
+        setCorrectPick(name);
+        endTimeRef.current += 500;
+        setTimeout(() => advance(qIdx + 1, questions.length, roundIdx), 500);
+      }
     } else {
       setWrongPick(name);
       setPhase("wrong");

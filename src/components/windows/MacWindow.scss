@@ -387,6 +387,7 @@
   width: 100%;
   height: 100vh;
   height: 100svh;
+  height: 100dvh; /* dvh shrinks when virtual keyboard opens — prevents white space */
   border-radius: 0;
   overflow: hidden;
   display: flex;
