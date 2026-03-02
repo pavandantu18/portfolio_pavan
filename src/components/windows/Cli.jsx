@@ -2,10 +2,14 @@ import React from "react";
 import MacWindow from "./MacWindow";
 import Terminal from "react-console-emulator";
 import { PERSONAL_INFO, SOCIAL_LINKS, CLI_PROMPT, WINDOW_SIZES } from "../../config/constants";
+import { useTheme } from "../../context/ThemeContext";
+import { SPIDER_CHARS } from "../../config/spiderChars";
 import "./Cli.scss";
 
 const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
   const terminalRef = React.useRef(null);
+  const { themeId } = useTheme();
+  const char = SPIDER_CHARS[themeId] ?? SPIDER_CHARS.classic;
 
   const commands = {
     help: {
@@ -16,7 +20,7 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
             <div style={{ color: 'var(--t-primary)', fontWeight: '600', fontSize: '1rem', marginBottom: '1rem' }}>
               🕸️ AVAILABLE COMMANDS
             </div>
-            <div style={{ color: 'var(--t-accent)', marginBottom: '1rem' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+            <div style={{ color: 'var(--t-accent)', marginBottom: '1rem' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
 
             <div style={{ marginBottom: '0.75rem' }}>
               <span style={{ color: 'var(--t-secondary)', fontWeight: '600' }}>whoami</span>
@@ -80,10 +84,10 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
         return (
           <div>
             <div style={{ color: 'var(--t-primary)', fontWeight: '600', marginBottom: '1rem' }}>
-              ╔═══════════════════════════════════════════════════════════════╗<br/>
-              ║ {PERSONAL_INFO.FULL_NAME}                                       ║<br/>
-              ║ <span style={{ color: 'var(--t-secondary)' }}>{PERSONAL_INFO.TITLE}</span>                  ║<br/>
-              ╚═══════════════════════════════════════════════════════════════╝
+              ╔═══════════════════════════════════════╗<br/>
+              ║ {PERSONAL_INFO.FULL_NAME}<br/>
+              ║ <span style={{ color: 'var(--t-secondary)' }}>{PERSONAL_INFO.TITLE}</span><br/>
+              ╚═══════════════════════════════════════╝
             </div>
             <div style={{ color: 'var(--t-accent)', marginBottom: '1rem' }}>
               {PERSONAL_INFO.TAGLINE}
@@ -109,7 +113,7 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
             <div style={{ color: 'var(--t-primary)', fontWeight: '600', fontSize: '1rem' }}>
               🕸️ CORE ABILITIES
             </div>
-            <div style={{ color: 'var(--t-accent)' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+            <div style={{ color: 'var(--t-accent)' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
 
             <div style={{ color: 'var(--t-secondary)', fontWeight: '600', marginTop: '1rem' }}>⚡ Backend Mastery</div>
             <div style={{ color: 'var(--t-text)', marginLeft: '1rem' }}>
@@ -158,7 +162,7 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
             <div style={{ color: 'var(--t-primary)', fontWeight: '600', fontSize: '1rem' }}>
               🦸 MISSION LOG
             </div>
-            <div style={{ color: 'var(--t-accent)' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+            <div style={{ color: 'var(--t-accent)' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
 
             <div style={{ color: 'var(--t-secondary)', fontWeight: '600', marginTop: '1rem' }}>
               🏢 {PERSONAL_INFO.CURRENT_COMPANY} <span style={{ color: 'var(--t-text-dim)' }}>(Sep 2025 - Present)</span>
@@ -174,7 +178,7 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
               • Collaborating with cross-functional teams for enterprise solutions
             </div>
 
-            <div style={{ color: 'var(--t-accent)', marginTop: '1rem' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+            <div style={{ color: 'var(--t-accent)', marginTop: '1rem' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
 
             <div style={{ color: 'var(--t-secondary)', fontWeight: '600', marginTop: '1rem' }}>
               🏦 Truist <span style={{ color: 'var(--t-text-dim)' }}>(May 2022 - Jul 2024)</span>
@@ -190,7 +194,7 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
               • Participated in CI/CD pipeline improvements
             </div>
 
-            <div style={{ color: 'var(--t-accent)', marginTop: '1rem' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+            <div style={{ color: 'var(--t-accent)', marginTop: '1rem' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
 
             <div style={{ color: 'var(--t-secondary)', fontWeight: '600', marginTop: '1rem' }}>
               🛍️ Fred Meyer <span style={{ color: 'var(--t-text-dim)' }}>(Dec 2019 - Apr 2022)</span>
@@ -218,7 +222,7 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
             <div style={{ color: 'var(--t-primary)', fontWeight: '600', fontSize: '1rem' }}>
               🎓 TRAINING GROUNDS
             </div>
-            <div style={{ color: 'var(--t-accent)' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+            <div style={{ color: 'var(--t-accent)' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
 
             <div style={{ color: 'var(--t-text)', marginTop: '1rem' }}>
               <span style={{ color: 'var(--t-secondary)', fontWeight: '600' }}>{PERSONAL_INFO.EDUCATION_DEGREE}</span><br/>
@@ -256,7 +260,7 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
             <div style={{ color: 'var(--t-primary)', fontWeight: '600', fontSize: '1rem' }}>
               📡 COMMUNICATION CHANNELS
             </div>
-            <div style={{ color: 'var(--t-accent)' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+            <div style={{ color: 'var(--t-accent)' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
 
             <div style={{ color: 'var(--t-text)', marginTop: '1rem' }}>
               📧 Email:     <a href={`mailto:${SOCIAL_LINKS.email}`} style={{ color: 'var(--t-secondary)', textDecoration: 'none' }} onMouseOver={(e) => e.target.style.textDecoration = 'underline'} onMouseOut={(e) => e.target.style.textDecoration = 'none'}>{SOCIAL_LINKS.email}</a><br/>
@@ -281,7 +285,7 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
             <div style={{ color: 'var(--t-primary)', fontWeight: '600', fontSize: '1rem' }}>
               📊 POWER LEVEL
             </div>
-            <div style={{ color: 'var(--t-accent)' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+            <div style={{ color: 'var(--t-accent)' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
 
             <div style={{ color: 'var(--t-text)', marginTop: '1rem' }}>
               <span style={{ color: 'var(--t-secondary)', fontWeight: '600' }}>Professional Stats:</span><br/>
@@ -319,13 +323,10 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
           welcomeMessage={
             <>
               <div style={{ color: 'var(--t-accent)', fontWeight: '500' }}>
-                ╔═══════════════════════════════════════════════════════════════╗<br/>
-                ║                                                               ║<br/>
-                ║        🕷️  SPIDER-VERSE TERMINAL v4.0                         ║<br/>
-                ║                                                               ║<br/>
-                ║        "{PERSONAL_INFO.TAGLINE}"          ║<br/>
-                ║                                                               ║<br/>
-                ╚═══════════════════════════════════════════════════════════════╝
+                ╔═══════════════════════════════════════╗<br/>
+                ║  🕷️  {char.name} — {char.sub}<br/>
+                ║  {PERSONAL_INFO.TAGLINE}<br/>
+                ╚═══════════════════════════════════════╝
               </div>
               <div style={{ color: 'var(--t-text)', marginTop: '1rem', marginBottom: '1rem' }}>
                 Welcome, web-slinger! 👋
@@ -333,7 +334,7 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
               <div style={{ color: 'var(--t-primary)', fontWeight: '600', fontSize: '1rem', marginBottom: '1rem' }}>
                 🕸️ AVAILABLE COMMANDS (help - To get all commands)
               </div>
-              <div style={{ color: 'var(--t-accent)', marginBottom: '1rem' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+              <div style={{ color: 'var(--t-accent)', marginBottom: '1rem' }}>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
 
               <div style={{ marginBottom: '0.75rem' }}>
                 <span style={{ color: 'var(--t-secondary)', fontWeight: '600' }}>whoami</span>
@@ -394,12 +395,12 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
           }}
           inputTextStyle={{
             color: 'var(--t-secondary)',
-            fontFamily: '"JetBrains Mono", "Fira Code", monospace'
+            fontFamily: "'Exo 2', system-ui, sans-serif",
           }}
           contentStyle={{
-            fontFamily: '"JetBrains Mono", "Fira Code", monospace',
+            fontFamily: "'Exo 2', system-ui, sans-serif",
             fontSize: '0.9rem',
-            lineHeight: '1.8'
+            lineHeight: '1.8',
           }}
           messageStyle={{
             color: 'var(--t-text)'

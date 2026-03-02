@@ -455,10 +455,12 @@
   &__content {
     flex: 1;
     min-height: 0;
-    overflow: auto;
+    overflow-y: auto;
     overflow-x: hidden;
     position: relative;
     z-index: 1;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    overscroll-behavior-x: none;
   }
 }
