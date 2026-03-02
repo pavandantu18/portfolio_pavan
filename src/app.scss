@@ -25,6 +25,9 @@ html {
   // Prevent iOS Safari from auto-scaling text on orientation change (looks like zoom)
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  // iOS uses html background-color for the safe-area behind the virtual keyboard.
+  // --t-bg1 is set on document.documentElement by applyTheme, so this tracks the active theme.
+  background-color: var(--t-bg1, #04060e);
 }
 
 html,

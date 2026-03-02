@@ -146,6 +146,157 @@
 
 /* ===================== MOBILE ===================== */
 
+/* ===================== STYLED OUTPUT CARDS ===================== */
+
+.cli-card { padding: 0.2rem 0; }
+
+.cli-title {
+  color: var(--t-primary);
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.cli-rule {
+  height: 1px;
+  border: none;
+  background: linear-gradient(90deg, var(--t-primary), var(--t-glow2h) 55%, transparent);
+  margin: 0 0 0.8rem;
+}
+
+/* Command grid (help) */
+.cli-cmd-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.3rem 0.5rem;
+}
+.cli-cmd-row { display: flex; gap: 0.4rem; align-items: baseline; }
+.cli-cmd-name { color: var(--t-secondary); font-weight: 700; min-width: 5.5rem; flex-shrink: 0; }
+.cli-cmd-desc { color: var(--t-text); opacity: 0.7; font-size: 0.82rem; }
+
+/* Who-am-i */
+.cli-who-name { display: block; color: var(--t-primary); font-size: 1.05rem; font-weight: 800; letter-spacing: 0.03em; }
+.cli-who-role { display: block; color: var(--t-secondary); font-size: 0.82rem; margin-bottom: 0.6rem; }
+
+/* Paragraphs */
+.cli-para { color: var(--t-text); margin: 0.4rem 0; line-height: 1.65; font-size: 0.87rem; }
+.cli-para--accent { color: var(--t-accent); }
+.cli-hl { color: var(--t-secondary); font-weight: 600; }
+
+/* Bottom stat strip */
+.cli-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.4rem;
+  margin-top: 0.6rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+.cli-strip__item { display: flex; flex-direction: column; gap: 0.1rem; }
+.cli-strip__label { color: var(--t-text); opacity: 0.42; font-size: 0.67rem; text-transform: uppercase; letter-spacing: 0.07em; }
+.cli-strip__val { color: var(--t-accent); font-weight: 700; font-size: 0.8rem; }
+
+/* Category block with left accent */
+.cli-block {
+  border-left: 2px solid var(--t-primary);
+  padding-left: 0.7rem;
+  margin: 0.55rem 0;
+}
+.cli-block__label { color: var(--t-secondary); font-weight: 700; font-size: 0.82rem; margin-bottom: 0.35rem; }
+
+/* Skill pills */
+.cli-pills { display: flex; flex-wrap: wrap; gap: 0.28rem; }
+.cli-pill {
+  padding: 0.14rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  color: var(--t-accent);
+  font-size: 0.73rem;
+  background: rgba(255, 255, 255, 0.04);
+  white-space: nowrap;
+  transition: background 0.15s ease;
+
+  &:hover { background: rgba(255, 255, 255, 0.09); }
+}
+
+/* Timeline entries (missions) */
+.cli-entry {
+  position: relative;
+  padding-left: 0.85rem;
+  margin: 0.65rem 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.3rem;
+    bottom: 0.3rem;
+    width: 2px;
+    border-radius: 1px;
+    background: linear-gradient(to bottom, var(--t-primary), transparent);
+  }
+}
+.cli-entry__head { display: flex; align-items: baseline; gap: 0.55rem; flex-wrap: wrap; }
+.cli-entry__company { color: var(--t-secondary); font-weight: 700; font-size: 0.88rem; }
+.cli-entry__period { color: var(--t-text); opacity: 0.4; font-size: 0.73rem; }
+.cli-entry__role { color: var(--t-accent); font-size: 0.8rem; margin: 0.18rem 0 0.3rem; }
+.cli-entry__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    color: var(--t-text);
+    font-size: 0.82rem;
+    padding: 0.07rem 0;
+    opacity: 0.82;
+
+    &::before { content: '▸ '; color: var(--t-primary); opacity: 0.65; }
+  }
+}
+
+/* Stat rows */
+.cli-stats-grid { display: grid; gap: 0.25rem; }
+.cli-stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.7rem;
+  padding: 0.28rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.025);
+}
+.cli-stat-row__label { color: var(--t-text); opacity: 0.55; font-size: 0.78rem; min-width: 8rem; }
+.cli-stat-row__val { color: var(--t-accent); font-weight: 700; font-size: 0.79rem; }
+
+/* Contact rows */
+.cli-contact-list { display: grid; gap: 0.25rem; }
+.cli-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.28rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.025);
+
+  a {
+    color: var(--t-secondary) !important;
+    text-decoration: none;
+    font-size: 0.82rem;
+
+    &:hover {
+      color: var(--t-accent) !important;
+      text-decoration: underline;
+    }
+  }
+}
+.cli-contact-row__icon { font-size: 0.92rem; flex-shrink: 0; }
+.cli-contact-row__label { color: var(--t-text); opacity: 0.48; font-size: 0.76rem; min-width: 4.5rem; flex-shrink: 0; }
+
+/* ===================== MOBILE ===================== */
+
 @media (max-width: 767px) {
   // mob-sheet__content is the vertical scroller — cli-window must NOT use flex:1
   // (that caps its height); instead use flex:0 0 auto so it takes its natural

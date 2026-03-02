@@ -69,11 +69,16 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
     // Pull the next `r.questions` from the pool (no repeats guaranteed)
     const count  = Math.min(r.questions, poolRef.current.length);
     const picked = poolRef.current.splice(0, count);
-    const qs = picked.map(q => ({
-      clue:    q.clue,
-      answer:  q.answer,
-      choices: shuffle([q.answer, ...q.wrong]),
-    }));
+    const mobile = window.innerWidth < 768;
+    const qs = picked.map(q => {
+      const choices = shuffle([q.answer, ...q.wrong]);
+      if (mobile) {
+        // Pin correct answer to slot B (index 1) on mobile — ghost taps just show the hint
+        const idx = choices.indexOf(q.answer);
+        if (idx !== 1) [choices[1], choices[idx]] = [choices[idx], choices[1]];
+      }
+      return { clue: q.clue, answer: q.answer, choices };
+    });
     totalTimeRef.current = r.time * 1000;
     endTimeRef.current   = Date.now() + r.time * 1000;
     setQuestions(qs);
