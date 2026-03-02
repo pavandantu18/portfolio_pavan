@@ -147,22 +147,26 @@
 @media (max-width: 767px) {
   .cli-window {
     font-size: 0.72rem;
-    // Let parent mob-sheet__content handle scrolling — no inner scroll container
     height: auto;
     min-height: 100%;
-    overflow: visible;
+    // Clip horizontal overflow; vertical scrolling handled by mob-sheet__content
+    overflow-x: hidden;
+    overflow-y: visible;
+    touch-action: pan-y;
+    max-width: 100%;
   }
 
   .cli-window div[name="react-console-emulator"] {
-    max-width: 100%;
     width: 100%;
-    overflow: visible;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .cli-window .react-console-emulator__content {
+    width: 100%;
     max-width: 100%;
     padding: 0.75rem;
-    overflow: visible;
+    overflow-x: hidden;
 
     // Force all terminal output to wrap instead of overflowing sideways
     * {
@@ -170,9 +174,10 @@
       white-space: pre-wrap !important;
       overflow-wrap: anywhere;
       word-break: break-word;
+      box-sizing: border-box;
     }
 
-    // Prevent the input from expanding beyond screen width
+    // Prevent input from expanding beyond screen width
     input {
       width: 1px;
       min-width: 0;

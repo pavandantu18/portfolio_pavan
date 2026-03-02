@@ -23,6 +23,7 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
   const [correctPick,  setCorrectPick] = useState(null);
   const [wrongPick,    setWrongPick]   = useState(null);
   const [showHint,     setShowHint]    = useState(false);
+  const [locked,       setLocked]      = useState(false); // brief ghost-tap guard
 
   const endTimeRef   = useRef(0);
   const totalTimeRef = useRef(0);
@@ -84,16 +85,19 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
     if (nextQ >= total) {
       setPhase(rIdx >= OMNITRIX_ROUNDS.length - 1 ? "victory" : "roundComplete");
     } else {
+      setLocked(true);
       setQIdx(nextQ);
       setCorrectPick(null);
       setWrongPick(null);
       // Resume timer from where it was (endTimeRef unchanged)
       setPhase("playing");
+      // Release ghost-tap lock after the new buttons have fully rendered
+      setTimeout(() => setLocked(false), 300);
     }
   }, []);
 
   const handleChoice = (name) => {
-    if (phase !== "playing" || correctPick || wrongPick) return;
+    if (phase !== "playing" || correctPick || wrongPick || locked) return;
     const q = questions[qIdx];
     if (name === q.answer) {
       // Pause timer during flash by leaving "playing" phase
@@ -228,7 +232,7 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
                     showHint && !correctPick && !wrongPick && name === currentQ.answer ? "ot-choice--hint"    : "",
                   ].filter(Boolean).join(" ")}
                   onClick={(e) => { e.currentTarget.blur(); handleChoice(name); }}
-                  disabled={phase !== "playing"}
+                  disabled={phase !== "playing" || locked}
                 >
                   <span className="ot-choice__letter">{String.fromCharCode(65 + i)}</span>
                   {name}
