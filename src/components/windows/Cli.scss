@@ -147,13 +147,16 @@
 /* ===================== MOBILE ===================== */
 
 @media (max-width: 767px) {
-  // mob-sheet__content is the one vertical scroller — cli-window defers to it
+  // mob-sheet__content is the vertical scroller — cli-window must NOT use flex:1
+  // (that caps its height); instead use flex:0 0 auto so it takes its natural
+  // content height and the scroll container sees the true overflow.
   .cli-window {
     font-size: 0.72rem;
-    flex: 1;
+    flex: 0 0 auto;
     width: 100%;
     max-width: 100%;
     height: auto;
+    min-height: calc(100svh - 52px); // fill screen minus nav bar, grow beyond if content is taller
     overflow-x: hidden;
     overflow-y: visible;
     touch-action: pan-y;
