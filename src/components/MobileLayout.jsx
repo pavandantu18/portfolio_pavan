@@ -140,6 +140,12 @@ const MobileLayout = () => {
 
   return (
     <div className="mob-layout">
+      {/* Portrait-only guard — covers everything in landscape */}
+      <div className="mob-rotate-overlay">
+        <span className="mob-rotate-overlay__icon">📱</span>
+        <p className="mob-rotate-overlay__text">Please rotate your device to portrait mode</p>
+      </div>
+
       {!booted && <BootScreen onDone={() => setBooted(true)} />}
       {popup.type && <AchievementPopup key={popup.id} type={popup.type} />}
 

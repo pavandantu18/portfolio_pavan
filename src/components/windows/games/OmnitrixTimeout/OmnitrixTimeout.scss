@@ -383,6 +383,8 @@
 
   &:active:not(:disabled) { transform: scale(0.97); }
   &:disabled              { cursor: default; }
+  &:focus                 { outline: none; }
+  -webkit-tap-highlight-color: transparent;
 
   &__letter {
     display: inline-flex;

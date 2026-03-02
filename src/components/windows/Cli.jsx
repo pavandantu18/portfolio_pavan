@@ -314,12 +314,21 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
 
   };
 
+  // Case-insensitive: add UPPER and Title variants for every command
+  const ciCommands = Object.fromEntries(
+    Object.entries(commands).flatMap(([key, val]) => [
+      [key, val],
+      [key.toUpperCase(), val],
+      [key.charAt(0).toUpperCase() + key.slice(1), val],
+    ])
+  );
+
   return (
     <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} {...WINDOW_SIZES.CLI}>
       <div className="cli-window">
         <Terminal
           ref={terminalRef}
-          commands={commands}
+          commands={ciCommands}
           welcomeMessage={
             <>
               <div style={{ color: 'var(--t-accent)', fontWeight: '500' }}>

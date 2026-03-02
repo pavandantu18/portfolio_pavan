@@ -47,13 +47,13 @@ export default function ContactWindow({ windowName, setwindowState, zIndex, onFo
             <div className="contact-window__check-wrap">
               <svg className="contact-window__check-svg" viewBox="0 0 80 80">
                 {/* Dim background ring */}
-                <circle cx="40" cy="40" r="34" fill="rgba(220,38,38,0.06)" stroke="rgba(220,38,38,0.15)" strokeWidth="1.5"/>
+                <circle className="contact-window__check-bg" cx="40" cy="40" r="34" strokeWidth="1.5"/>
                 {/* Animated ring */}
-                <circle cx="40" cy="40" r="34" fill="none" stroke="#dc2626" strokeWidth="2.2"
+                <circle cx="40" cy="40" r="34" fill="none" strokeWidth="2.2"
                   strokeLinecap="round" className="contact-window__check-ring"
                   strokeDasharray="214" strokeDashoffset="214"/>
                 {/* Animated checkmark */}
-                <polyline points="22,41 34,53 58,27" fill="none" stroke="#dc2626" strokeWidth="4"
+                <polyline points="22,41 34,53 58,27" fill="none" strokeWidth="4"
                   strokeLinecap="round" strokeLinejoin="round" className="contact-window__check-mark"
                   strokeDasharray="56" strokeDashoffset="56"/>
               </svg>

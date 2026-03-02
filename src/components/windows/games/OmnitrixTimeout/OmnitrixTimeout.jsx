@@ -86,6 +86,7 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
     } else {
       setQIdx(nextQ);
       setCorrectPick(null);
+      setWrongPick(null);
       // Resume timer from where it was (endTimeRef unchanged)
       setPhase("playing");
     }
@@ -226,7 +227,7 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
                     phase === "wrong" && name === currentQ.answer                   ? "ot-choice--reveal"  : "",
                     showHint && !correctPick && !wrongPick && name === currentQ.answer ? "ot-choice--hint"    : "",
                   ].filter(Boolean).join(" ")}
-                  onClick={() => handleChoice(name)}
+                  onClick={(e) => { e.currentTarget.blur(); handleChoice(name); }}
                   disabled={phase !== "playing"}
                 >
                   <span className="ot-choice__letter">{String.fromCharCode(65 + i)}</span>
