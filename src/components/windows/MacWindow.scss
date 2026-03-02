@@ -375,6 +375,7 @@
   inset: 0;
   display: flex;
   align-items: flex-end;
+  background: var(--t-bg1, #0a0a0f); /* dark fill — hides white body if sheet is shorter than backdrop */
   animation: mob-backdrop-in 0.28s ease both;
 
   &.mob-backdrop--closing {
@@ -385,9 +386,7 @@
 
 .mob-sheet {
   width: 100%;
-  height: 100vh;
-  height: 100svh;
-  height: 100dvh; /* dvh shrinks when virtual keyboard opens — prevents white space */
+  height: 100%; /* fill backdrop (which is already inset:0) — no gap regardless of keyboard */
   border-radius: 0;
   overflow: hidden;
   display: flex;
