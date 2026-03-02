@@ -219,7 +219,7 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
             </div>
 
             {/* Choices — keyed by qIdx for stagger re-trigger */}
-            <div className="ot-choices" key={`choices-${qIdx}`}>
+            <div className="ot-choices" key={`choices-${qIdx}`} style={{ pointerEvents: locked ? "none" : undefined }}>
               {currentQ.choices.map((name, i) => (
                 <button
                   key={name}
