@@ -23,10 +23,11 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
   const [correctPick,  setCorrectPick] = useState(null);
   const [wrongPick,    setWrongPick]   = useState(null);
   const [showHint,     setShowHint]    = useState(false);
-  const [locked,       setLocked]      = useState(false); // brief ghost-tap guard
+  const [locked,       setLocked]      = useState(false); // drives disabled/pointerEvents in UI
 
   const endTimeRef   = useRef(0);
   const totalTimeRef = useRef(0);
+  const lockedRef    = useRef(false);  // always-current ref — never stale in closures
   // Single shuffled pool consumed across all rounds — no repeats
   const poolRef      = useRef([]);
 
@@ -85,25 +86,25 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
     if (nextQ >= total) {
       setPhase(rIdx >= OMNITRIX_ROUNDS.length - 1 ? "victory" : "roundComplete");
     } else {
+      // Set ref immediately — no render needed, never stale in closures
+      lockedRef.current = true;
       setLocked(true);
       setQIdx(nextQ);
       setCorrectPick(null);
       setWrongPick(null);
-      // Resume timer from where it was (endTimeRef unchanged)
       setPhase("playing");
-      // Release ghost-tap lock after the new buttons have fully rendered
-      setTimeout(() => setLocked(false), 300);
+      setTimeout(() => { lockedRef.current = false; setLocked(false); }, 400);
     }
   }, []);
 
   const handleChoice = (name) => {
-    if (phase !== "playing" || correctPick || wrongPick || locked) return;
+    // lockedRef.current is always current even before React re-renders
+    if (phase !== "playing" || correctPick || wrongPick || lockedRef.current) return;
     const q = questions[qIdx];
     if (name === q.answer) {
-      // Pause timer during flash by leaving "playing" phase
+      lockedRef.current = true; // block immediately — before any re-render
       setPhase("correct");
       setCorrectPick(name);
-      // Extend the end time by the flash duration so no time is lost
       endTimeRef.current += 500;
       setTimeout(() => advance(qIdx + 1, questions.length, roundIdx), 500);
     } else {
@@ -219,7 +220,12 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
             </div>
 
             {/* Choices — keyed by qIdx for stagger re-trigger */}
-            <div className="ot-choices" key={`choices-${qIdx}`} style={{ pointerEvents: locked ? "none" : undefined }}>
+            <div
+              className="ot-choices"
+              key={`choices-${qIdx}`}
+              style={{ pointerEvents: locked ? "none" : undefined }}
+              onTouchStart={(e) => { if (lockedRef.current || phase !== "playing") e.preventDefault(); }}
+            >
               {currentQ.choices.map((name, i) => (
                 <button
                   key={name}

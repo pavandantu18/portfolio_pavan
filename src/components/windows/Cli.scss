@@ -24,6 +24,7 @@
   background: transparent !important;
   position: relative;
   z-index: 2;
+  overflow-x: hidden !important;
 }
 
 /* Inner content — sits above web pattern */
@@ -33,6 +34,7 @@
   box-sizing: border-box;
   position: relative;
   z-index: 2;
+  overflow-x: hidden !important;
 
   /* Primary-to-secondary top rule line */
   &::before {

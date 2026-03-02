@@ -410,6 +410,7 @@ const Cli = ({windowName, setwindowState, zIndex, onFocus}) => {
             fontFamily: "'Exo 2', system-ui, sans-serif",
             fontSize: '0.9rem',
             lineHeight: '1.8',
+            overflowX: 'hidden',
           }}
           messageStyle={{
             color: 'var(--t-text)'
