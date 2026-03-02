@@ -211,6 +211,7 @@
 .dock .mail     { color: #ff9a9a; &:hover { box-shadow: 0 0 14px rgba(255,154,154,0.35); } }
 .dock .link     { color: #82c4ff; &:hover { box-shadow: 0 0 14px rgba(130,196,255,0.4); } }
 .dock .cli      { color: #e8c96a; &:hover { box-shadow: 0 0 14px rgba(232,201,106,0.35); } }
+.dock .finder   { color: #7dd3fc; &:hover { box-shadow: 0 0 14px rgba(125,211,252,0.38); } }
 
 /* ================= IDLE BREATHING ================= */
 @keyframes dock-breathe {

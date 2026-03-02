@@ -15,6 +15,7 @@ import MemoryWeb from './components/windows/games/MemoryWeb/MemoryWeb'
 import SpiderType from './components/windows/games/SpiderType/SpiderType'
 import OmnitrixTimeout from './components/windows/games/OmnitrixTimeout/OmnitrixTimeout'
 import ContactWindow from './components/windows/ContactWindow'
+import Finder from './components/windows/Finder/Finder'
 import WebCursorTrail from './components/WebCursorTrail'
 import DesktopSpider from './components/DesktopSpider'
 import DesktopParticles from './components/DesktopParticles'
@@ -40,6 +41,7 @@ const App = () => {
     spiderType:      false,
     omnitrixTimeout: false,
     contact:         false,
+    finder:          false,
   })
 
   // z-index: clicking any window brings it to front
@@ -133,6 +135,7 @@ const App = () => {
         {windowState.spiderType      && <ErrorBoundary><SpiderType         {...wp('spiderType')}      /></ErrorBoundary>}
         {windowState.omnitrixTimeout && <ErrorBoundary><OmnitrixTimeout    {...wp('omnitrixTimeout')} /></ErrorBoundary>}
         {windowState.contact         && <ErrorBoundary><ContactWindow      {...wp('contact')}         /></ErrorBoundary>}
+        {windowState.finder          && <ErrorBoundary><Finder             {...wp('finder')}          /></ErrorBoundary>}
       </main>
 
       {contextMenu && (

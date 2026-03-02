@@ -18,8 +18,9 @@ import SpiderType from './windows/games/SpiderType/SpiderType'
 import OmnitrixTimeout from './windows/games/OmnitrixTimeout/OmnitrixTimeout'
 import {
   RiTerminalBoxFill, RiSpotifyFill, RiMailFill,
-  RiGithubFill, RiGamepadFill, RiLinksLine,
+  RiGithubFill, RiGamepadFill, RiLinksLine, RiFolderOpenFill,
 } from '@remixicon/react'
+import Finder from './windows/Finder/Finder'
 import './mobile.scss'
 
 // ── Battery SVG ──────────────────────────────────────────────────────────────
@@ -57,6 +58,7 @@ const MobileLayout = () => {
     cli: false, spotify: false, contact: false,
     games: false, themeExplorer: false, achievement: false,
     memory: false, spiderType: false, omnitrixTimeout: false,
+    finder: false,
   })
 
   const { popup, unlockAchievement } = useContext(AchievementContext)
@@ -99,22 +101,14 @@ const MobileLayout = () => {
   // App definitions
   const apps = [
     {
+      key: 'finder', color: '#7dd3fc', label: 'Finder',
+      icon: <RiFolderOpenFill size={34} />,
+      onClick: () => setWindowState(s => ({ ...s, finder: true })),
+    },
+    {
       key: 'cli', color: '#e8c96a', label: 'Terminal',
       icon: <RiTerminalBoxFill size={34} />,
       onClick: () => setWindowState(s => ({ ...s, cli: true })),
-    },
-    {
-      key: 'spotify', color: '#4fd1a5', label: 'Spotify',
-      icon: <RiSpotifyFill size={34} />,
-      onClick: () => {
-        unlockAchievement(ACHIEVEMENTS.MUSIC_ENTHUSIASTIC)
-        setWindowState(s => ({ ...s, spotify: true }))
-      },
-    },
-    {
-      key: 'contact', color: '#ff9a9a', label: 'Contact',
-      icon: <RiMailFill size={34} />,
-      onClick: () => setWindowState(s => ({ ...s, contact: true })),
     },
     {
       key: 'github', color: '#c9d1d9', label: 'GitHub',
@@ -127,6 +121,19 @@ const MobileLayout = () => {
       onClick: () => {
         unlockAchievement(ACHIEVEMENTS.KNOW_ME)
         window.open(SOCIAL_LINKS.linkedin, '_blank')
+      },
+    },
+    {
+      key: 'contact', color: '#ff9a9a', label: 'Contact',
+      icon: <RiMailFill size={34} />,
+      onClick: () => setWindowState(s => ({ ...s, contact: true })),
+    },
+    {
+      key: 'spotify', color: '#4fd1a5', label: 'Spotify',
+      icon: <RiSpotifyFill size={34} />,
+      onClick: () => {
+        unlockAchievement(ACHIEVEMENTS.MUSIC_ENTHUSIASTIC)
+        setWindowState(s => ({ ...s, spotify: true }))
       },
     },
     {
@@ -200,6 +207,7 @@ const MobileLayout = () => {
       {windowState.memory        && <ErrorBoundary><MemoryWeb          {...wp('memory')}        /></ErrorBoundary>}
       {windowState.spiderType    && <ErrorBoundary><SpiderType         {...wp('spiderType')}    /></ErrorBoundary>}
       {windowState.omnitrixTimeout && <ErrorBoundary><OmnitrixTimeout  {...wp('omnitrixTimeout')} /></ErrorBoundary>}
+      {windowState.finder          && <ErrorBoundary><Finder           {...wp('finder')}          /></ErrorBoundary>}
 
       {/* Bottom dock */}
       {booted && (

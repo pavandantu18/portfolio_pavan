@@ -20,11 +20,14 @@ const MacWindow = ({
   const [isClosing,    setIsClosing]    = useState(false);
   const [tilt,         setTilt]         = useState({ x: 0, y: 0 });
   const [isHovered,    setIsHovered]    = useState(false);
+  // Cap initial size so the window never opens beyond the viewport bounds
+  const safeW = Math.min(initialWidth,  window.innerWidth  - 80);
+  const safeH = Math.min(initialHeight, window.innerHeight - 120);
   const [rndSize,      setRndSize]      = useState({
-    width: initialWidth,
-    height: initialHeight,
-    x: Math.max(40, (window.innerWidth  - initialWidth)  / 2),
-    y: Math.max(40, (window.innerHeight - initialHeight) / 2 - 40),
+    width:  safeW,
+    height: safeH,
+    x: Math.max(40, (window.innerWidth  - safeW) / 2),
+    y: Math.max(40, (window.innerHeight - safeH) / 2 - 40),
   });
 
   const handleMinimize = () => {
@@ -96,9 +99,9 @@ const MacWindow = ({
   const DOCK_H = 110;  // dock + padding
   const PAD    = 22;   // breathing room below navbar
 
-  const maxWidth  = useMemo(() => Math.round(window.innerWidth  * 0.83), []);
-  const maxHeight = useMemo(() => window.innerHeight - NAV_H - PAD - DOCK_H, []);
-  const maxX      = useMemo(() => Math.round((window.innerWidth - window.innerWidth * 0.83) / 2), []);
+  const maxWidth  = useMemo(() => Math.max(Math.round(window.innerWidth  * 0.83), minWidth),  [minWidth]);
+  const maxHeight = useMemo(() => Math.max(window.innerHeight - NAV_H - PAD - DOCK_H, minHeight), [minHeight]);
+  const maxX      = useMemo(() => Math.max(0, Math.round((window.innerWidth - Math.max(Math.round(window.innerWidth * 0.83), minWidth)) / 2)), [minWidth]);
   const maxY      = NAV_H + PAD;
 
   // ── Mobile: render as a bottom sheet instead of a floating window ────────────

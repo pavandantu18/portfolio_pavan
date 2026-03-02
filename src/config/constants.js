@@ -136,7 +136,66 @@ export const WINDOW_SIZES = {
   OMNITRIX:       { initialWidth: 600, initialHeight: 530, minWidth: 600, minHeight: 480 },
   THEME_EXPLORER: { initialWidth: 820, initialHeight: 480 },
   CONTACT:        { initialWidth: 460, initialHeight: 470 },
+  FINDER:         { initialWidth: 860, initialHeight: 540, minWidth: 620, minHeight: 400 },
 };
+
+// ─── Finder — Projects ─────────────────────────────────────────────────────
+export const FINDER_PROJECTS = [
+  {
+    name:   "Spider Portfolio",
+    emoji:  "🕷",
+    desc:   "Interactive macOS-style portfolio with Spider-Man themes, mini-games, achievements, and a built-in CLI terminal.",
+    tags:   ["React", "Vite", "SCSS", "CSS Animations", "EmailJS"],
+    github: "https://github.com/pavandantu18",
+    demo:   null,
+    status: "Live",
+  },
+  {
+    name:   "Healthcare Patient Portal",
+    emoji:  "🏥",
+    desc:   "Microservices-based portal for managing patient records, appointments, and healthcare workflows at enterprise scale.",
+    tags:   ["Java", "Spring Boot", "React", "Kafka", "PostgreSQL", "AWS ECS", "Docker"],
+    github: null,
+    demo:   null,
+    status: "Production",
+  },
+  {
+    name:   "FinTech Transaction Engine",
+    emoji:  "💳",
+    desc:   "High-volume RESTful API processing financial transactions with a 40% query-performance improvement via DB optimization.",
+    tags:   ["Java", "Spring Boot", "PostgreSQL", "AWS RDS", "Jenkins", "Docker"],
+    github: null,
+    demo:   null,
+    status: "Shipped",
+  },
+  {
+    name:   "E-Commerce Platform",
+    emoji:  "🛍️",
+    desc:   "Full-stack e-commerce platform with product catalog, cart, checkout flow, and responsive UI serving thousands of users.",
+    tags:   ["React", "Node.js", "Express", "MongoDB", "AWS S3"],
+    github: "https://github.com/pavandantu18",
+    demo:   null,
+    status: "Shipped",
+  },
+  {
+    name:   "Distributed Event Bus",
+    emoji:  "⚡",
+    desc:   "Event-driven messaging layer using Kafka and RabbitMQ for decoupled, async communication between microservices.",
+    tags:   ["Java", "Kafka", "RabbitMQ", "AWS SQS/SNS", "Spring Boot"],
+    github: null,
+    demo:   null,
+    status: "Production",
+  },
+  {
+    name:   "CI/CD Automation Suite",
+    emoji:  "🔧",
+    desc:   "End-to-end CI/CD pipeline that cut release time by 2× — automated testing, containerisation, and cloud deployment.",
+    tags:   ["Jenkins", "GitHub Actions", "Docker", "Kubernetes", "AWS", "JUnit"],
+    github: null,
+    demo:   null,
+    status: "Internal",
+  },
+];
 
 // ─── Games folder list ─────────────────────────────────────────────────────
 export const GAMES_LIST = [
