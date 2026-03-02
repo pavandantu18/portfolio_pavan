@@ -1,37 +1,14 @@
 import { useContext } from 'react'
 import { ThemeContext } from '../../../../context/ThemeContext'
-import { AchievementContext } from '../../../../context/AchievementContext'
-import { ACHIEVEMENTS, THEME_LORE } from '../../../../config/constants'
+import { THEME_LORE, WINDOW_SIZES } from '../../../../config/constants'
 import MacWindow from '../../MacWindow'
 import './ThemeExplorer.scss'
 
-const VISITED_KEY = 'pavanThemesVisited'
-
-function getVisited() {
-  try { return new Set(JSON.parse(localStorage.getItem(VISITED_KEY) || '[]')) }
-  catch { return new Set() }
-}
-
-function saveVisited(set) {
-  localStorage.setItem(VISITED_KEY, JSON.stringify([...set]))
-}
-
 export default function ThemeExplorer({ windowName, setwindowState, zIndex, onFocus }) {
-  const { themeId, setThemeId, themes } = useContext(ThemeContext)
-  const { unlockAchievement } = useContext(AchievementContext)
-
-  const handleActivate = (id) => {
-    setThemeId(id)
-    const visited = getVisited()
-    visited.add(id)
-    saveVisited(visited)
-    if (visited.size >= Object.keys(themes).length) {
-      unlockAchievement(ACHIEVEMENTS.SPIDER_VERSE)
-    }
-  }
+  const { themeId, setThemeId, themes, visitedThemes } = useContext(ThemeContext)
 
   return (
-    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} initialWidth={820} initialHeight={480}>
+    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} {...WINDOW_SIZES.THEME_EXPLORER}>
       <div className="te-window">
         <div className="te-header">
           <span className="te-header__icon">🕷</span>
@@ -43,7 +20,7 @@ export default function ThemeExplorer({ windowName, setwindowState, zIndex, onFo
             {Object.keys(themes).map(id => (
               <span
                 key={id}
-                className={`te-dot ${getVisited().has(id) ? 'te-dot--done' : ''}`}
+                className={`te-dot ${visitedThemes.has(id) ? 'te-dot--done' : ''}`}
                 style={{ '--tc': themes[id].swatch }}
               />
             ))}
@@ -54,13 +31,13 @@ export default function ThemeExplorer({ windowName, setwindowState, zIndex, onFo
           {Object.values(themes).map((t) => {
             const lore = THEME_LORE[t.id]
             const active = themeId === t.id
-            const visited = getVisited().has(t.id)
+            const visited = visitedThemes.has(t.id)
             return (
               <button
                 key={t.id}
                 className={`te-card ${active ? 'te-card--active' : ''} ${visited && !active ? 'te-card--visited' : ''}`}
                 style={{ '--tc': t.swatch }}
-                onClick={() => handleActivate(t.id)}
+                onClick={() => setThemeId(t.id)}
               >
                 <div className="te-card__glow" />
                 <div className="te-card__top">

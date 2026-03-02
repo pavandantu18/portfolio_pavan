@@ -1,41 +1,41 @@
-// Achievement definitions
+// ─── Achievement definitions ───────────────────────────────────────────────
 export const ACHIEVEMENTS = {
-  SPIDER_VERSE: "spiderVerse",
+  SPIDER_VERSE:       "spiderVerse",
   MUSIC_ENTHUSIASTIC: "musicEnthusiastic",
-  KNOW_ME: "knowMe",
-  MEMORY_MASTER: "memoryMaster",
-  SPEED_TYPIST: "speedTypist",
-  OMNITRIX_TIMEOUT: "omnitrixTimeout",
+  KNOW_ME:            "knowMe",
+  MEMORY_MASTER:      "memoryMaster",
+  SPEED_TYPIST:       "speedTypist",
+  OMNITRIX_TIMEOUT:   "omnitrixTimeout",
 };
 
 export const ACHIEVEMENT_LABELS = {
-  spiderVerse: "Spider-Verse Traveler",
-  musicEnthusiastic: "Music Enthusiastic",
-  knowMe: "Know About Me",
-  memoryMaster: "Memory Master",
-  speedTypist: "Speed Typist",
-  omnitrixTimeout: "Omnitrix Master",
+  spiderVerse:        "Spider-Verse Traveler",
+  musicEnthusiastic:  "Music Enthusiastic",
+  knowMe:             "Know About Me",
+  memoryMaster:       "Memory Master",
+  speedTypist:        "Speed Typist",
+  omnitrixTimeout:    "Omnitrix Master",
 };
 
 export const ACHIEVEMENT_ICONS = {
-  spiderVerse: "🌐",
-  musicEnthusiastic: "🎶",
-  knowMe: "🔗",
-  memoryMaster: "🧠",
-  speedTypist: "⌨️",
-  omnitrixTimeout: "🟢",
+  spiderVerse:        "🌐",
+  musicEnthusiastic:  "🎶",
+  knowMe:             "🔗",
+  memoryMaster:       "🧠",
+  speedTypist:        "⌨️",
+  omnitrixTimeout:    "🟢",
 };
 
 export const ACHIEVEMENT_DESCRIPTIONS = {
-  spiderVerse: "Activate all 10 themes across Spider-Verse, Pokémon, and Ben 10 in the Theme Explorer.",
-  musicEnthusiastic: "Open Spotify.",
-  knowMe: "Unlock by visiting my LinkedIn profile.",
-  memoryMaster: "Complete the Memory Web card match game.",
-  speedTypist: "Type at 60+ WPM in Spider-Type.",
-  omnitrixTimeout: "Complete all 3 rounds of Countdown to Timeout before the Omnitrix beeps.",
+  spiderVerse:        "Activate all 8 themes across Spider-Verse, Pokémon, and Ben 10 in the Theme Explorer.",
+  musicEnthusiastic:  "Open Spotify.",
+  knowMe:             "Unlock by visiting my LinkedIn profile.",
+  memoryMaster:       "Complete the Memory Web card match game.",
+  speedTypist:        `Type at ${60}+ WPM in Spider-Type.`,
+  omnitrixTimeout:    "Complete all 3 rounds of Countdown to Timeout before the Omnitrix beeps.",
 };
 
-// Character lore for Theme Explorer
+// ─── Character lore for Theme Explorer ────────────────────────────────────
 export const THEME_LORE = {
   classic: {
     universe: "Earth-616",
@@ -62,29 +62,15 @@ export const THEME_LORE = {
     power:    "Enhanced Healing · Strength · Web Fluid",
     quote:    "There can be more than one.",
   },
-
-  // Pokémon
   pikachu: {
     universe: "Kanto Region · Route 1",
     power:    "Thunderbolt · Agility · Iron Tail",
     quote:    "Pika pika!",
   },
-  mewtwo: {
-    universe: "Cerulean Cave · Kanto",
-    power:    "Psychic · Shadow Ball · Aura Storm",
-    quote:    "The circumstances of one's birth are irrelevant.",
-  },
   gengar: {
     universe: "Lavender Town · Ghost Tower",
     power:    "Shadow Ball · Dream Eater · Hypnosis",
     quote:    "In the darkness, I am the shadow that haunts you.",
-  },
-
-  // Ben 10
-  fourarms: {
-    universe: "Khoros · Omnitrix DNA",
-    power:    "Super Strength · Quake Slam · Multi-Strike",
-    quote:    "Four arms are better than two!",
   },
   diamondhead: {
     universe: "Petropia · Omnitrix DNA",
@@ -93,39 +79,177 @@ export const THEME_LORE = {
   },
 };
 
-// EmailJS — fill these in after setting up https://www.emailjs.com
-// Service ID: Dashboard → Email Services → your service
-// Template ID: Dashboard → Email Templates → your template
-// Public Key:  Dashboard → Account → Public Key
+// ─── EmailJS ───────────────────────────────────────────────────────────────
 export const EMAILJS = {
   SERVICE_ID:  "service_m0s9iua",
   TEMPLATE_ID: "template_jb90i8k",
   PUBLIC_KEY:  "fGcJmfwiWhzMYyGf5",
 };
 
-// Social & Contact URLs
+// ─── Social & contact links ────────────────────────────────────────────────
 export const SOCIAL_LINKS = {
   linkedin: "https://www.linkedin.com/in/pavandantu18/",
-  github: "https://github.com/pavandantu18",
-  email: "pavandantu18@gmail.com",
+  github:   "https://github.com/pavandantu18",
+  email:    "pavandantu18@gmail.com",
+  phone:    "(728) 212-2693",
+  phoneTel: "+17282122693",
 };
 
-// Terminal commands
+// ─── Personal information ──────────────────────────────────────────────────
+export const PERSONAL_INFO = {
+  FULL_NAME:        "PAVAN KUMAR REDDY DANTU",
+  USERNAME:         "pavankumar",
+  TITLE:            "Senior Software Engineer | System Architect",
+  TAGLINE:          "With great code comes great responsibility.",
+  YEARS_EXP:        "5+",
+  EDUCATION_DEGREE: "Master's in Computer Science",
+  EDUCATION_SCHOOL: "University of North Carolina Charlotte",
+  GPA:              "4.0",
+  CURRENT_ROLE:     "Senior Software Engineer",
+  CURRENT_COMPANY:  "Molina Healthcare",
+};
+
+// ─── Terminal commands ─────────────────────────────────────────────────────
 export const CLI_COMMANDS = {
-  WHOAMI: "whoami",
-  POWERS: "powers",
+  WHOAMI:   "whoami",
+  POWERS:   "powers",
   MISSIONS: "missions",
   TRAINING: "training",
-  CONTACT: "contact",
-  STATS: "stats",
-  HELP: "help",
-  CLEAR: "clear",
+  CONTACT:  "contact",
+  STATS:    "stats",
+  HELP:     "help",
+  CLEAR:    "clear",
 };
 
-// Theme colors
-export const THEME_COLORS = {
-  primary: "#ff6b6b",
-  secondary: "#4ecdc4",
-  background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
-  text: "#ffffff",
+export const CLI_PROMPT = "pavan@web-dev:~$ ";
+
+// ─── Spotify ───────────────────────────────────────────────────────────────
+export const SPOTIFY_EMBED_URL =
+  "https://open.spotify.com/embed/playlist/5muSk2zfQ3LI70S64jbrX7?utm_source=generator&theme=0";
+
+// ─── Window sizes (spread onto MacWindow as props) ─────────────────────────
+export const WINDOW_SIZES = {
+  CLI:            { initialWidth: 700, initialHeight: 500 },
+  GAMES_FOLDER:   { initialWidth: 660, initialHeight: 260 },
+  MEMORY_WEB:     { initialWidth: 680, initialHeight: 580 },
+  SPIDER_TYPE:    { initialWidth: 640, initialHeight: 390 },
+  OMNITRIX:       { initialWidth: 600, initialHeight: 530, minWidth: 600, minHeight: 480 },
+  THEME_EXPLORER: { initialWidth: 820, initialHeight: 480 },
+  CONTACT:        { initialWidth: 460, initialHeight: 470 },
 };
+
+// ─── Games folder list ─────────────────────────────────────────────────────
+export const GAMES_LIST = [
+  { key: "themeExplorer",   emoji: "🌐", name: "Theme Explorer", desc: "Explore all Spider-Verse universes" },
+  { key: "memory",          emoji: "🕸",  name: "Memory Web",     desc: "Match the cards" },
+  { key: "spiderType",      emoji: "⌨️", name: "Spider-Type",    desc: "Type to test speed" },
+  { key: "omnitrixTimeout", emoji: "🟢", name: "Code Scan",       desc: "Identify the tech behind this portfolio before the Omnitrix times out" },
+];
+
+// ─── SpiderType game ───────────────────────────────────────────────────────
+export const SPIDER_TYPE_SENTENCES = [
+  "React and TypeScript are my weapons of choice as a developer.",
+  "I build fast, accessible, and beautiful web applications.",
+  "With great power comes great responsibility in software engineering.",
+  "Every bug is a villain and clean code is my superpower.",
+  "Full-stack development from database design to pixel-perfect UI.",
+  "Node.js, Python, and React form the core of my tech stack.",
+  "I craft user experiences as smooth as web-slinging across Manhattan.",
+  "Spider-Man swings through the city and I navigate through codebases.",
+];
+
+export const SPIDER_TYPE_RANKS = [
+  { min: 100, label: "Spider-Sense",  emoji: "⚡", color: "#ef4444" },
+  { min: 70,  label: "Spider-Man",    emoji: "🕷",  color: "#dc2626" },
+  { min: 50,  label: "S.H.I.E.L.D.", emoji: "🛡️", color: "#3b82f6" },
+  { min: 30,  label: "Daily Bugler",  emoji: "📰", color: "#f59e0b" },
+  { min: 0,   label: "Civilian",      emoji: "🐌", color: "#6b7280" },
+];
+
+export const SPIDER_TYPE_WPM_THRESHOLD = 60;
+
+// ─── MemoryWeb game ────────────────────────────────────────────────────────
+export const MEMORY_CARD_DEFS = [
+  { id: "react",  emoji: "⚛️",  label: "React"      },
+  { id: "js",     emoji: "🟨",  label: "JavaScript" },
+  { id: "css",    emoji: "🎨",  label: "CSS"        },
+  { id: "git",    emoji: "🐙",  label: "GitHub"     },
+  { id: "node",   emoji: "🟢",  label: "Node.js"    },
+  { id: "ts",     emoji: "📘",  label: "TypeScript" },
+  { id: "python", emoji: "🐍",  label: "Python"     },
+  { id: "html",   emoji: "🔶",  label: "HTML"       },
+];
+
+export const MEMORY_FLIP_DELAY = 850;
+
+// ─── OmnitrixTimeout game ──────────────────────────────────────────────────
+export const OMNITRIX_QUESTIONS = [
+  {
+    clue: "This portfolio is a single-page app. Which JavaScript library renders the entire UI as a component tree?",
+    answer: "React",
+    wrong: ["Vue", "Angular", "Svelte"],
+  },
+  {
+    clue: "Achievements unlock everywhere without prop drilling. Which built-in React feature shares that state globally?",
+    answer: "Context API",
+    wrong: ["Redux", "Zustand", "Recoil"],
+  },
+  {
+    clue: "'npm run dev' starts THIS — it serves the project with near-instant hot module replacement.",
+    answer: "Vite",
+    wrong: ["Webpack", "Create React App", "Parcel"],
+  },
+  {
+    clue: "\"Have you visited this Spider-Verse universe before?\" The answer is stored HERE and survives a page refresh.",
+    answer: "localStorage",
+    wrong: ["sessionStorage", "Cookies", "React state"],
+  },
+  {
+    clue: "Every window — terminal, games, contact — is draggable AND resizable thanks to this ONE npm package.",
+    answer: "react-rnd",
+    wrong: ["react-draggable", "framer-motion", "react-dnd"],
+  },
+  {
+    clue: "Styles are authored in this CSS superset. It enables nesting, variables, and mixins — compiled by Vite.",
+    answer: "SCSS",
+    wrong: ["Tailwind CSS", "styled-components", "Less"],
+  },
+  {
+    clue: "Clicking 'Send Message' fires an email with NO backend server at all. Which service makes that possible?",
+    answer: "EmailJS",
+    wrong: ["Nodemailer", "SendGrid", "Supabase"],
+  },
+  {
+    clue: "The dock tilts in 3D as your cursor moves. This browser API drives that smooth animation loop with lerp.",
+    answer: "requestAnimationFrame",
+    wrong: ["CSS transitions", "GSAP", "Web Animations API"],
+  },
+  {
+    clue: "The terminal, Spotify, GitHub, and mail icons in the dock all come from this React icon library.",
+    answer: "@remixicon/react",
+    wrong: ["react-icons", "lucide-react", "heroicons"],
+  },
+  {
+    clue: "If a game crashes, only that window breaks — not the whole app. Which React pattern isolates the error?",
+    answer: "ErrorBoundary",
+    wrong: ["Suspense", "try-catch block", "React.memo"],
+  },
+  {
+    clue: "The desktop spider web animates each frame using THIS browser API, drawing directly onto an HTML element.",
+    answer: "Canvas API",
+    wrong: ["SVG", "Three.js", "WebGL"],
+  },
+  {
+    clue: "The CLI supports commands like 'whoami', 'powers', and 'missions' via this terminal emulator package.",
+    answer: "react-console-emulator",
+    wrong: ["xterm.js", "node-pty", "ink"],
+  },
+];
+
+export const OMNITRIX_ROUNDS = [
+  { questions: 4, time: 45 },
+  { questions: 5, time: 40 },
+  { questions: 6, time: 35 },
+];
+
+export const OMNITRIX_URGENT_MS = 5000;

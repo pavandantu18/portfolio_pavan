@@ -1,29 +1,10 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { AchievementContext } from "../../../../context/AchievementContext";
-import { ACHIEVEMENTS } from "../../../../config/constants";
+import { ACHIEVEMENTS, SPIDER_TYPE_SENTENCES, SPIDER_TYPE_RANKS, SPIDER_TYPE_WPM_THRESHOLD, WINDOW_SIZES } from "../../../../config/constants";
 import MacWindow from "../../MacWindow";
 import "./SpiderType.scss";
 
-const SENTENCES = [
-  "React and TypeScript are my weapons of choice as a developer.",
-  "I build fast, accessible, and beautiful web applications.",
-  "With great power comes great responsibility in software engineering.",
-  "Every bug is a villain and clean code is my superpower.",
-  "Full-stack development from database design to pixel-perfect UI.",
-  "Node.js, Python, and React form the core of my tech stack.",
-  "I craft user experiences as smooth as web-slinging across Manhattan.",
-  "Spider-Man swings through the city and I navigate through codebases.",
-];
-
-const RANKS = [
-  { min: 100, label: "Spider-Sense",   emoji: "⚡", color: "#ef4444" },
-  { min: 70,  label: "Spider-Man",     emoji: "🕷",  color: "#dc2626" },
-  { min: 50,  label: "S.H.I.E.L.D.",  emoji: "🛡️", color: "#3b82f6" },
-  { min: 30,  label: "Daily Bugler",   emoji: "📰", color: "#f59e0b" },
-  { min: 0,   label: "Civilian",       emoji: "🐌", color: "#6b7280" },
-];
-
-const getRank = (wpm) => RANKS.find(r => wpm >= r.min);
+const getRank = (wpm) => SPIDER_TYPE_RANKS.find(r => wpm >= r.min);
 
 export default function SpiderType({ windowName, setwindowState, zIndex, onFocus }) {
   const { unlockAchievement } = useContext(AchievementContext);
@@ -37,7 +18,7 @@ export default function SpiderType({ windowName, setwindowState, zIndex, onFocus
   const startTimeRef = useRef(null);
   const inputRef     = useRef(null);
 
-  const sentence = SENTENCES[sentenceIdx];
+  const sentence = SPIDER_TYPE_SENTENCES[sentenceIdx];
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -64,12 +45,12 @@ export default function SpiderType({ windowName, setwindowState, zIndex, onFocus
       setAccuracy(calcAcc);
       setStatus("done");
 
-      if (calcWpm >= 60) unlockAchievement(ACHIEVEMENTS.SPEED_TYPIST);
+      if (calcWpm >= SPIDER_TYPE_WPM_THRESHOLD) unlockAchievement(ACHIEVEMENTS.SPEED_TYPIST);
     }
   };
 
   const reset = () => {
-    setSentenceIdx(i => (i + 1) % SENTENCES.length);
+    setSentenceIdx(i => (i + 1) % SPIDER_TYPE_SENTENCES.length);
     setUserInput("");
     setStatus("idle");
     setWpm(0);
@@ -81,12 +62,12 @@ export default function SpiderType({ windowName, setwindowState, zIndex, onFocus
   const rank = getRank(wpm);
 
   return (
-    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} initialWidth={640} initialHeight={390}>
+    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} {...WINDOW_SIZES.SPIDER_TYPE}>
       <div className="spider-type" onClick={() => inputRef.current?.focus()}>
 
         {/* Header */}
         <div className="spider-type__header">
-          <h2 className="spider-type__title">🕷 Spider-Type</h2>
+          <h2 className="spider-type__title">⌨️ Spider-Type</h2>
           <button className="spider-type__btn" onClick={reset}>New Sentence</button>
         </div>
 

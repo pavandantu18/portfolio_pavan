@@ -1,7 +1,7 @@
 import "./AchievementPopup.scss";
 
 const badgeLabels = {
-  websiteRuiner:     "Website Ruiner",
+  spiderVerse:       "Spider-Verse Traveler",
   musicEnthusiastic: "Music Enthusiastic",
   knowMe:            "Know About Me",
   memoryMaster:      "Memory Master",
@@ -10,7 +10,7 @@ const badgeLabels = {
 };
 
 const badgeIcons = {
-  websiteRuiner:     "😭",
+  spiderVerse:       "🌐",
   musicEnthusiastic: "🎶",
   knowMe:            "🔗",
   memoryMaster:      "🧠",

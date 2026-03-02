@@ -1,22 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import { AchievementContext } from "../../../../context/AchievementContext";
-import { ACHIEVEMENTS } from "../../../../config/constants";
+import { ACHIEVEMENTS, MEMORY_CARD_DEFS, MEMORY_FLIP_DELAY, WINDOW_SIZES } from "../../../../config/constants";
 import MacWindow from "../../MacWindow";
 import "./MemoryWeb.scss";
 
-const CARD_DEFS = [
-  { id: "react",  emoji: "⚛️",  label: "React"      },
-  { id: "js",     emoji: "🟨",  label: "JavaScript" },
-  { id: "css",    emoji: "🎨",  label: "CSS"        },
-  { id: "git",    emoji: "🐙",  label: "GitHub"     },
-  { id: "node",   emoji: "🟢",  label: "Node.js"    },
-  { id: "ts",     emoji: "📘",  label: "TypeScript" },
-  { id: "python", emoji: "🐍",  label: "Python"     },
-  { id: "html",   emoji: "🔶",  label: "HTML"       },
-];
-
 function buildDeck() {
-  return [...CARD_DEFS, ...CARD_DEFS]
+  return [...MEMORY_CARD_DEFS, ...MEMORY_CARD_DEFS]
     .map((card, i) => ({ ...card, uid: i }))
     .sort(() => Math.random() - 0.5);
 }
@@ -31,7 +20,7 @@ export default function MemoryWeb({ windowName, setwindowState, zIndex, onFocus 
   const [locked, setLocked]   = useState(false); // prevent triple-click during flip
   const [won, setWon]         = useState(false);
 
-  const totalPairs = CARD_DEFS.length;
+  const totalPairs = MEMORY_CARD_DEFS.length;
 
   const handleFlip = (uid) => {
     if (locked || flipped.includes(uid) || matched.has(uid)) return;
@@ -56,7 +45,7 @@ export default function MemoryWeb({ windowName, setwindowState, zIndex, onFocus 
       setTimeout(() => {
         setFlipped([]);
         setLocked(false);
-      }, 850);
+      }, MEMORY_FLIP_DELAY);
     }
   };
 
@@ -76,7 +65,7 @@ export default function MemoryWeb({ windowName, setwindowState, zIndex, onFocus 
   const matchedPairs = matched.size / 2;
 
   return (
-    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} initialWidth={680} initialHeight={580}>
+    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} {...WINDOW_SIZES.MEMORY_WEB}>
       <div className="memory-web">
 
         {/* Header */}

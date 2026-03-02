@@ -1,32 +1,6 @@
 import MacWindow from "../../MacWindow";
+import { GAMES_LIST, WINDOW_SIZES } from "../../../../config/constants";
 import "./GamesFolder.scss";
-
-const GAMES = [
-  {
-    key: "themeExplorer",
-    emoji: "🌐",
-    name: "Theme Explorer",
-    desc: "Explore all Spider-Verse universes",
-  },
-  {
-    key: "memory",
-    emoji: "🕸",
-    name: "Memory Web",
-    desc: "Match the cards",
-  },
-  {
-    key: "spiderType",
-    emoji: "⌨️",
-    name: "Spider-Type",
-    desc: "Type to test speed",
-  },
-  {
-    key: "omnitrixTimeout",
-    emoji: "⬡",
-    name: "Countdown to Timeout",
-    desc: "Complete tasks before the Omnitrix beeps",
-  },
-];
 
 export default function GamesFolder({ windowName, setwindowState, zIndex, onFocus }) {
   const openGame = (key) => {
@@ -34,9 +8,9 @@ export default function GamesFolder({ windowName, setwindowState, zIndex, onFocu
   };
 
   return (
-    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} initialWidth={660} initialHeight={260}>
+    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} {...WINDOW_SIZES.GAMES_FOLDER}>
       <div className="games-folder">
-        {GAMES.map(game => (
+        {GAMES_LIST.map(game => (
           <button
             key={game.key}
             className="game-tile"

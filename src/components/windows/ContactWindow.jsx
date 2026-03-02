@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import emailjs from "@emailjs/browser";
 import MacWindow from "./MacWindow";
-import { EMAILJS } from "../../config/constants";
+import { EMAILJS, WINDOW_SIZES } from "../../config/constants";
 import "./ContactWindow.scss";
 
 export default function ContactWindow({ windowName, setwindowState, zIndex, onFocus }) {
@@ -35,7 +35,7 @@ export default function ContactWindow({ windowName, setwindowState, zIndex, onFo
   };
 
   return (
-    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} initialWidth={460} initialHeight={470}>
+    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} {...WINDOW_SIZES.CONTACT}>
       <div className="contact-window">
         <div className="contact-window__header">
           <h2 className="contact-window__title">✉️ Send a Message</h2>

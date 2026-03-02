@@ -1,53 +1,34 @@
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef, useContext, useCallback } from "react";
 import { AchievementContext } from "../../../../context/AchievementContext";
-import { ACHIEVEMENTS } from "../../../../config/constants";
+import { ACHIEVEMENTS, OMNITRIX_QUESTIONS, OMNITRIX_ROUNDS, OMNITRIX_URGENT_MS, WINDOW_SIZES } from "../../../../config/constants";
 import MacWindow from "../../MacWindow";
 import "./OmnitrixTimeout.scss";
 
-const ROUNDS = [
-  { tasks: 3, time: 14 },
-  { tasks: 4, time: 12 },
-  { tasks: 5, time: 10 },
-];
 
-const TYPE_WORDS = [
-  "OMNITRIX", "PLUMBER", "GALVAN", "UPGRADE",
-  "GHOSTFREAK", "RIPJAWS", "STINKFLY", "WILDMUTT",
-  "CANNONBOLT", "OVERFLOW",
-];
-
-function makeTask(idx) {
-  const isClick = idx % 2 === 0;
-  if (isClick) {
-    return {
-      type: "click",
-      x: 10 + Math.random() * 65,
-      y: 10 + Math.random() * 60,
-    };
-  }
-  const word = TYPE_WORDS[Math.floor(Math.random() * TYPE_WORDS.length)];
-  return { type: "type", word };
-}
-
-const SVG_R = 46;
+const SVG_R    = 46;
 const SVG_CIRC = 2 * Math.PI * SVG_R;
+
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
 
 export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, onFocus }) {
   const { unlockAchievement } = useContext(AchievementContext);
 
-  const [phase, setPhase]         = useState("idle");   // idle | playing | roundComplete | gameOver | victory
-  const [roundIdx, setRoundIdx]   = useState(0);
-  const [taskIdx, setTaskIdx]     = useState(0);
-  const [tasks, setTasks]         = useState([]);
-  const [timeLeft, setTimeLeft]   = useState(0);
-  const [typeInput, setTypeInput] = useState("");
-  const [inputError, setInputError] = useState(false);
+  const [phase,        setPhase]       = useState("idle"); // idle | playing | correct | wrong | roundComplete | gameOver | victory
+  const [roundIdx,     setRoundIdx]    = useState(0);
+  const [qIdx,         setQIdx]        = useState(0);
+  const [questions,    setQuestions]   = useState([]);
+  const [timeLeft,     setTimeLeft]    = useState(0);
+  const [correctPick,  setCorrectPick] = useState(null);
+  const [wrongPick,    setWrongPick]   = useState(null);
 
   const endTimeRef   = useRef(0);
   const totalTimeRef = useRef(0);
-  const inputRef     = useRef(null);
+  // Single shuffled pool consumed across all rounds — no repeats
+  const poolRef      = useRef([]);
 
-  // Countdown timer
+  // Countdown timer — pauses on correct/wrong flash
   useEffect(() => {
     if (phase !== "playing") return;
     const id = setInterval(() => {
@@ -63,60 +44,58 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
     return () => clearInterval(id);
   }, [phase]);
 
-  // Focus input on type tasks
-  useEffect(() => {
-    if (phase === "playing" && tasks[taskIdx]?.type === "type") {
-      setTimeout(() => inputRef.current?.focus(), 50);
-    }
-  }, [taskIdx, phase, tasks]);
-
   // Achievement on victory
   useEffect(() => {
     if (phase === "victory") unlockAchievement(ACHIEVEMENTS.OMNITRIX_TIMEOUT);
   }, [phase]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const beginRound = (rIdx) => {
-    const r = ROUNDS[rIdx];
-    const newTasks = Array.from({ length: r.tasks }, (_, i) => makeTask(i));
+  const beginRound = useCallback((rIdx) => {
+    const r = OMNITRIX_ROUNDS[rIdx];
+    // On round 0, seed the pool with all questions shuffled once
+    if (rIdx === 0) poolRef.current = shuffle([...OMNITRIX_QUESTIONS]);
+    // Pull the next `r.questions` from the pool (no repeats guaranteed)
+    const count  = Math.min(r.questions, poolRef.current.length);
+    const picked = poolRef.current.splice(0, count);
+    const qs = picked.map(q => ({
+      clue:    q.clue,
+      answer:  q.answer,
+      choices: shuffle([q.answer, ...q.wrong]),
+    }));
     totalTimeRef.current = r.time * 1000;
     endTimeRef.current   = Date.now() + r.time * 1000;
-    setTasks(newTasks);
-    setTaskIdx(0);
+    setQuestions(qs);
+    setQIdx(0);
     setTimeLeft(r.time * 1000);
-    setTypeInput("");
-    setInputError(false);
+    setCorrectPick(null);
+    setWrongPick(null);
     setPhase("playing");
-  };
+  }, []);
 
-  const advanceTask = () => {
-    const nextIdx = taskIdx + 1;
-    if (nextIdx >= tasks.length) {
-      if (roundIdx >= ROUNDS.length - 1) {
-        setPhase("victory");
-      } else {
-        setPhase("roundComplete");
-      }
+  const advance = useCallback((nextQ, total, rIdx) => {
+    if (nextQ >= total) {
+      setPhase(rIdx >= OMNITRIX_ROUNDS.length - 1 ? "victory" : "roundComplete");
     } else {
-      setTaskIdx(nextIdx);
-      setTypeInput("");
-      setInputError(false);
+      setQIdx(nextQ);
+      setCorrectPick(null);
+      // Resume timer from where it was (endTimeRef unchanged)
+      setPhase("playing");
     }
-  };
+  }, []);
 
-  const handleTargetClick = () => {
-    if (phase !== "playing" || tasks[taskIdx]?.type !== "click") return;
-    advanceTask();
-  };
-
-  const handleTypeChange = (e) => {
-    const val  = e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
-    const word = tasks[taskIdx]?.word ?? "";
-    setTypeInput(val);
-    setInputError(false);
-    if (val === word) {
-      advanceTask();
-    } else if (val.length >= word.length) {
-      setInputError(true);
+  const handleChoice = (name) => {
+    if (phase !== "playing" || correctPick || wrongPick) return;
+    const q = questions[qIdx];
+    if (name === q.answer) {
+      // Pause timer during flash by leaving "playing" phase
+      setPhase("correct");
+      setCorrectPick(name);
+      // Extend the end time by the flash duration so no time is lost
+      endTimeRef.current += 500;
+      setTimeout(() => advance(qIdx + 1, questions.length, roundIdx), 500);
+    } else {
+      setWrongPick(name);
+      setPhase("wrong");
+      setTimeout(() => setPhase("gameOver"), 950);
     }
   };
 
@@ -129,34 +108,38 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
   const reset = () => {
     setRoundIdx(0);
     setPhase("idle");
-    setTasks([]);
-    setTaskIdx(0);
+    setQuestions([]);
+    setQIdx(0);
     setTimeLeft(0);
-    setTypeInput("");
-    setInputError(false);
+    setCorrectPick(null);
+    setWrongPick(null);
   };
 
-  const currentTask = tasks[taskIdx];
-  const totalTime   = totalTimeRef.current || ROUNDS[roundIdx].time * 1000;
-  const progress    = phase === "playing" ? Math.max(0, timeLeft / totalTime) : 1;
-  const dashOffset  = SVG_CIRC * (1 - progress);
-  const isUrgent    = phase === "playing" && timeLeft < 3000;
+  const currentQ   = questions[qIdx];
+  const totalTime  = totalTimeRef.current || OMNITRIX_ROUNDS[roundIdx].time * 1000;
+  const progress   = (phase === "playing" || phase === "correct") ? Math.max(0, timeLeft / totalTime) : 1;
+  const dashOffset = SVG_CIRC * (1 - progress);
+  const isUrgent   = phase === "playing" && timeLeft < OMNITRIX_URGENT_MS;
+  const isActive   = phase === "playing" || phase === "correct" || phase === "wrong";
 
   return (
-    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} initialWidth={560} initialHeight={500}>
+    <MacWindow windowName={windowName} setwindowState={setwindowState} zIndex={zIndex} onFocus={onFocus} {...WINDOW_SIZES.OMNITRIX}>
       <div className="omnitrix-timeout">
 
         {/* Header */}
         <div className="ot-header">
-          <span className="ot-logo">⬡</span>
-          <h2 className="ot-title">Countdown to Timeout</h2>
+          <span className="ot-logo">🟢</span>
+          <div>
+            <h2 className="ot-title">Code Scan</h2>
+            <p className="ot-subtitle">Omnitrix analyzing source DNA</p>
+          </div>
         </div>
 
         {/* IDLE */}
         {phase === "idle" && (
-          <div className="ot-screen">
+          <div className="ot-screen ot-screen--idle">
             <div className="ot-idle-ring">
-              <svg viewBox="0 0 120 120" width="130" height="130">
+              <svg viewBox="0 0 120 120" width="120" height="120">
                 <circle cx="60" cy="60" r={SVG_R} className="ot-ring-track" />
                 <circle cx="60" cy="60" r={SVG_R}
                   className="ot-ring-fill ot-ring-fill--idle"
@@ -167,27 +150,40 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
                 <text x="60" y="68" textAnchor="middle" className="ot-ring-icon">⬡</text>
               </svg>
             </div>
-            <p className="ot-desc">Complete tasks before the Omnitrix times out!</p>
+
+            <div className="ot-intro">
+              <p className="ot-intro__headline">Can you guess the tech stack?</p>
+              <p className="ot-intro__body">
+                The Omnitrix is scanning this portfolio's source code.
+                Each question reveals a feature try to pick the technology behind it.
+                Answer before the watch times out!
+              </p>
+            </div>
+
             <ul className="ot-preview">
-              {ROUNDS.map((r, i) => (
-                <li key={i}><strong>Round {i + 1}</strong>: {r.tasks} tasks · {r.time}s</li>
+              {OMNITRIX_ROUNDS.map((r, i) => (
+                <li key={i}>
+                  <strong>Round {i + 1}</strong>
+                  <span>{r.questions} questions · {r.time}s</span>
+                </li>
               ))}
             </ul>
             <button className="ot-btn ot-btn--green" onClick={() => { setRoundIdx(0); beginRound(0); }}>
-              Activate Omnitrix
+              Begin Scan
             </button>
           </div>
         )}
 
-        {/* PLAYING */}
-        {phase === "playing" && currentTask && (
-          <div className="ot-screen ot-screen--playing">
+        {/* PLAYING / CORRECT / WRONG */}
+        {isActive && currentQ && (
+          <div className={`ot-screen ot-screen--playing${phase === "correct" ? " ot-screen--correct" : ""}${phase === "wrong" ? " ot-screen--wrong" : ""}`}>
 
+            {/* Timer ring */}
             <div className={`ot-timer${isUrgent ? " urgent" : ""}`}>
-              <svg viewBox="0 0 120 120" width="100" height="100">
+              <svg viewBox="0 0 120 120" width="88" height="88">
                 <circle cx="60" cy="60" r={SVG_R} className="ot-ring-track" />
                 <circle cx="60" cy="60" r={SVG_R}
-                  className={`ot-ring-fill${isUrgent ? " urgent" : ""}`}
+                  className={`ot-ring-fill${isUrgent ? " urgent" : ""}${phase === "correct" ? " correct" : ""}`}
                   strokeDasharray={SVG_CIRC}
                   strokeDashoffset={dashOffset}
                   transform="rotate(-90 60 60)"
@@ -198,40 +194,37 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
                 </text>
               </svg>
               <div className="ot-progress-label">
-                Round {roundIdx + 1}/{ROUNDS.length} · Task {taskIdx + 1}/{tasks.length}
+                Round {roundIdx + 1}/{OMNITRIX_ROUNDS.length} · Q{qIdx + 1}/{questions.length}
               </div>
             </div>
 
-            {currentTask.type === "click" && (
-              <div className="ot-task-area">
-                <p className="ot-instruction">Tap the target!</p>
-                <div className="ot-arena">
-                  <button
-                    className="ot-target"
-                    style={{ left: `${currentTask.x}%`, top: `${currentTask.y}%` }}
-                    onClick={handleTargetClick}
-                  />
-                </div>
-              </div>
-            )}
+            {/* Clue — keyed by qIdx so animation re-triggers each question */}
+            <div className="ot-clue" key={`clue-${qIdx}`}>
+              <span className="ot-clue__tag">SCANNING</span>
+              {currentQ.clue}
+            </div>
 
-            {currentTask.type === "type" && (
-              <div className="ot-task-area">
-                <p className="ot-instruction">Type the alien name!</p>
-                <div className="ot-word">{currentTask.word}</div>
-                <input
-                  ref={inputRef}
-                  className={`ot-input${inputError ? " error" : ""}`}
-                  value={typeInput}
-                  onChange={handleTypeChange}
-                  autoComplete="off"
-                  autoCorrect="off"
-                  autoCapitalize="characters"
-                  spellCheck={false}
-                  placeholder="TYPE HERE…"
-                />
-              </div>
-            )}
+            {/* Choices — keyed by qIdx for stagger re-trigger */}
+            <div className="ot-choices" key={`choices-${qIdx}`}>
+              {currentQ.choices.map((name, i) => (
+                <button
+                  key={name}
+                  className={[
+                    "ot-choice",
+                    `ot-choice--${i}`,
+                    correctPick === name                               ? "ot-choice--correct" : "",
+                    phase === "wrong" && name === wrongPick           ? "ot-choice--wrong"   : "",
+                    phase === "wrong" && name === currentQ.answer     ? "ot-choice--reveal"  : "",
+                  ].filter(Boolean).join(" ")}
+                  onClick={() => handleChoice(name)}
+                  disabled={phase !== "playing"}
+                >
+                  <span className="ot-choice__letter">{String.fromCharCode(65 + i)}</span>
+                  {name}
+                </button>
+              ))}
+            </div>
+
           </div>
         )}
 
@@ -239,8 +232,8 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
         {phase === "roundComplete" && (
           <div className="ot-screen ot-screen--result">
             <div className="ot-result-emoji">✅</div>
-            <h3 className="ot-result-title">Round {roundIdx + 1} Cleared!</h3>
-            <p className="ot-result-sub">Omnitrix holding… Get ready for Round {roundIdx + 2}!</p>
+            <h3 className="ot-result-title">Scan {roundIdx + 1} Complete!</h3>
+            <p className="ot-result-sub">Omnitrix stable… Initiating deeper scan for Round {roundIdx + 2}!</p>
             <button className="ot-btn ot-btn--green" onClick={handleNextRound}>Next Round →</button>
           </div>
         )}
@@ -250,18 +243,18 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
           <div className="ot-screen ot-screen--result">
             <div className="ot-result-emoji">⏰</div>
             <h3 className="ot-result-title">Omnitrix Timed Out!</h3>
-            <p className="ot-result-sub">Round {roundIdx + 1} · Task {taskIdx + 1} of {ROUNDS[roundIdx].tasks}</p>
+            <p className="ot-result-sub">Round {roundIdx + 1} · Q{qIdx + 1} of {OMNITRIX_ROUNDS[roundIdx].questions}</p>
             <button className="ot-btn" onClick={reset}>Try Again</button>
           </div>
         )}
 
         {/* VICTORY */}
         {phase === "victory" && (
-          <div className="ot-screen ot-screen--result">
+          <div className="ot-screen ot-screen--result ot-screen--victory">
             <div className="ot-result-emoji">🟢</div>
-            <h3 className="ot-result-title">Omnitrix Master!</h3>
-            <p className="ot-result-sub">All 3 rounds cleared before timeout. Achievement unlocked!</p>
-            <button className="ot-btn ot-btn--green" onClick={reset}>Play Again</button>
+            <h3 className="ot-result-title">Full Scan Complete!</h3>
+            <p className="ot-result-sub">You decoded how this portfolio was built. Achievement unlocked!</p>
+            <button className="ot-btn ot-btn--green" onClick={reset}>Scan Again</button>
           </div>
         )}
 

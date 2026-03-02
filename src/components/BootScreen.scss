@@ -90,7 +90,7 @@
       drop-shadow(0 0 24px var(--t-glow1h, rgba(220, 38, 38, 0.65)))
       drop-shadow(0 0 8px  var(--t-glow1,  rgba(220, 38, 38, 0.3)));
 
-    svg {
+    svg, img {
       width: 100%;
       height: auto;
       display: block;

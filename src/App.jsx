@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useRef } from 'react'
+import React, { useState, useContext, useCallback, useRef, useEffect } from 'react'
 import "./app.scss"
 import Dock from './components/Dock'
 import Nav from './components/Nav'
@@ -19,6 +19,8 @@ import WebCursorTrail from './components/WebCursorTrail'
 import DesktopSpider from './components/DesktopSpider'
 import DesktopParticles from './components/DesktopParticles'
 import { AchievementContext } from './context/AchievementContext'
+import { useTheme } from './context/ThemeContext'
+import { ACHIEVEMENTS } from './config/constants'
 
 import DesktopOnly from "./components/DesktopOnly";
 
@@ -48,7 +50,14 @@ const App = () => {
     setWindowZ(wz => ({ ...wz, [name]: zCounter.current }));
   }, []);
 
-  const { popup } = useContext(AchievementContext);
+  const { popup, unlockAchievement } = useContext(AchievementContext);
+  const { visitedThemes, themes } = useTheme();
+
+  useEffect(() => {
+    if (visitedThemes.size >= Object.keys(themes).length) {
+      unlockAchievement(ACHIEVEMENTS.SPIDER_VERSE);
+    }
+  }, [visitedThemes.size]);
 
   const handleContextMenu = (e) => {
     e.preventDefault()

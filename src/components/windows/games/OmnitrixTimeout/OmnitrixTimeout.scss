@@ -1,3 +1,77 @@
+/* ── Keyframes ────────────────────────────────────────────── */
+
+@keyframes ot-idle-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+@keyframes ot-scan-beam {
+  0%   { top: -2px; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 0.6; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes ot-shake {
+  from { transform: translateX(-2px); }
+  to   { transform: translateX(2px); }
+}
+
+@keyframes ot-clue-in {
+  from { opacity: 0; transform: translateY(10px); filter: blur(3px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+@keyframes ot-choice-in {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes ot-correct-flash {
+  0%   { box-shadow: 0 0 10px rgba(0,255,65,0.4); }
+  40%  { box-shadow: 0 0 32px rgba(0,255,65,1), 0 0 64px rgba(0,255,65,0.4); }
+  100% { box-shadow: 0 0 14px rgba(0,255,65,0.6); }
+}
+
+@keyframes ot-wrong-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60%  { transform: translateX(-6px); }
+  40%, 80%  { transform: translateX(6px); }
+}
+
+@keyframes ot-screen-flash-green {
+  0%   { background: #070d07; }
+  20%  { background: rgba(0, 255, 65, 0.07); }
+  100% { background: #070d07; }
+}
+
+@keyframes ot-screen-flash-red {
+  0%   { background: #070d07; }
+  20%  { background: rgba(239, 68, 68, 0.07); }
+  100% { background: #070d07; }
+}
+
+@keyframes ot-idle-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes ot-tag-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+@keyframes ot-victory-glow {
+  0%, 100% { text-shadow: 0 0 12px rgba(0,255,65,0.55); }
+  50%       { text-shadow: 0 0 28px rgba(0,255,65,1), 0 0 48px rgba(0,255,65,0.4); }
+}
+
+@keyframes ot-result-in {
+  from { opacity: 0; transform: scale(0.92) translateY(12px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+/* ── Root ─────────────────────────────────────────────────── */
 .omnitrix-timeout {
   display: flex;
   flex-direction: column;
@@ -6,20 +80,37 @@
   color: #e2ffe2;
   font-family: 'Courier New', monospace;
   overflow: hidden;
+  position: relative;
+
+  /* CRT scanlines overlay */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.1) 2px,
+      rgba(0, 0, 0, 0.1) 4px
+    );
+    pointer-events: none;
+    z-index: 8;
+  }
 }
 
 /* ── Header ─────────────────────────────────────────────── */
 .ot-header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1rem 0.5rem;
+  gap: 0.55rem;
+  padding: 0.65rem 1rem 0.5rem;
   border-bottom: 1px solid rgba(0, 255, 65, 0.12);
+  flex-shrink: 0;
 
   .ot-logo {
-    font-size: 1.3rem;
-    color: #00ff41;
-    filter: drop-shadow(0 0 6px #00ff41);
+    font-size: 1.4rem;
+    filter: drop-shadow(0 0 8px #00ff41);
   }
 
   .ot-title {
@@ -29,6 +120,15 @@
     letter-spacing: 0.08em;
     color: #00ff41;
     text-shadow: 0 0 10px rgba(0, 255, 65, 0.55);
+    line-height: 1.1;
+  }
+
+  .ot-subtitle {
+    margin: 0;
+    font-size: 0.6rem;
+    color: rgba(0, 255, 65, 0.4);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
 }
 
@@ -41,9 +141,10 @@
   justify-content: center;
   gap: 1rem;
   padding: 1rem;
+  position: relative;
 }
 
-/* ── SVG Ring shared ──────────────────────────────────────── */
+/* ── SVG Ring ─────────────────────────────────────────────── */
 .ot-ring-track {
   fill: none;
   stroke: rgba(0, 255, 65, 0.1);
@@ -57,19 +158,17 @@
   stroke-linecap: round;
   filter: drop-shadow(0 0 5px #00ff41);
 
-  &--idle {
-    animation: ot-idle-pulse 2s ease-in-out infinite;
-  }
+  &--idle { animation: ot-idle-pulse 2s ease-in-out infinite; }
 
   &.urgent {
     stroke: #ef4444;
-    filter: drop-shadow(0 0 8px #ef4444);
+    filter: drop-shadow(0 0 10px #ef4444);
   }
-}
 
-@keyframes ot-idle-pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.35; }
+  &.correct {
+    stroke: #00ff41;
+    filter: drop-shadow(0 0 14px #00ff41);
+  }
 }
 
 .ot-ring-icon {
@@ -79,40 +178,67 @@
 }
 
 .ot-ring-timer {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 700;
   fill: #00ff41;
   font-family: 'Courier New', monospace;
 }
 
 /* ── Idle screen ─────────────────────────────────────────── */
-.ot-idle-ring svg { overflow: visible; }
+.ot-screen--idle {
+  gap: 0.85rem;
+}
 
-.ot-desc {
-  margin: 0;
-  font-size: 0.83rem;
-  color: rgba(226, 255, 226, 0.65);
+.ot-idle-ring {
+  animation: ot-idle-float 3s ease-in-out infinite;
+  svg { overflow: visible; }
+}
+
+.ot-intro {
   text-align: center;
-  max-width: 300px;
+  max-width: 340px;
+
+  &__headline {
+    margin: 0 0 0.35rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #00ff41;
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+    letter-spacing: 0.04em;
+  }
+
+  &__body {
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: rgba(226, 255, 226, 0.6);
+  }
 }
 
 .ot-preview {
   list-style: none;
   margin: 0;
-  padding: 0.6rem 1.1rem;
+  padding: 0.5rem 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  font-size: 0.8rem;
-  color: rgba(226, 255, 226, 0.55);
+  gap: 0.2rem;
+  font-size: 0.78rem;
   border: 1px solid rgba(0, 255, 65, 0.15);
   border-radius: 6px;
   background: rgba(0, 255, 65, 0.03);
+  width: 100%;
+  max-width: 280px;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    color: rgba(226, 255, 226, 0.5);
+  }
 
   strong { color: #00ff41; }
 }
 
-/* ── Buttons ─────────────────────────────────────────────── */
+/* ── Shared button ───────────────────────────────────────── */
 .ot-btn {
   padding: 0.45rem 1.4rem;
   border: 1px solid rgba(226, 255, 226, 0.25);
@@ -133,12 +259,12 @@
   &--green {
     border-color: rgba(0, 255, 65, 0.45);
     color: #00ff41;
-    text-shadow: 0 0 8px rgba(0, 255, 65, 0.45);
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
 
     &:hover {
       background: rgba(0, 255, 65, 0.1);
       border-color: #00ff41;
-      box-shadow: 0 0 10px rgba(0, 255, 65, 0.25);
+      box-shadow: 0 0 12px rgba(0, 255, 65, 0.3);
     }
   }
 }
@@ -146,156 +272,173 @@
 /* ── Playing screen ──────────────────────────────────────── */
 .ot-screen--playing {
   justify-content: flex-start;
-  padding-top: 0.8rem;
-  gap: 0.6rem;
+  padding-top: 0.65rem;
+  gap: 0.7rem;
+
+  /* Moving scan beam */
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 65, 0.5) 50%, transparent 100%);
+    animation: ot-scan-beam 3.5s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  &.ot-screen--correct { animation: ot-screen-flash-green 0.5s ease both; }
+  &.ot-screen--wrong   { animation: ot-screen-flash-red   0.9s ease both; }
 }
 
+/* ── Timer ───────────────────────────────────────────────── */
 .ot-timer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.2rem;
+  gap: 0.15rem;
   flex-shrink: 0;
-
   svg { overflow: visible; }
 
-  &.urgent {
-    animation: ot-shake 0.09s ease-in-out infinite alternate;
-  }
-}
-
-@keyframes ot-shake {
-  from { transform: translateX(-1.5px); }
-  to   { transform: translateX(1.5px); }
+  &.urgent { animation: ot-shake 0.08s ease-in-out infinite alternate; }
 }
 
 .ot-progress-label {
-  font-size: 0.68rem;
-  color: rgba(226, 255, 226, 0.4);
-  letter-spacing: 0.09em;
-  text-align: center;
-}
-
-.ot-task-area {
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 0;
-}
-
-.ot-instruction {
-  margin: 0;
-  font-size: 0.75rem;
-  color: rgba(226, 255, 226, 0.45);
+  font-size: 0.65rem;
+  color: rgba(226, 255, 226, 0.38);
   letter-spacing: 0.1em;
+  text-align: center;
   text-transform: uppercase;
 }
 
-/* Click task */
-.ot-arena {
-  position: relative;
+/* ── Clue box ────────────────────────────────────────────── */
+.ot-clue {
   width: 100%;
-  flex: 1;
-  min-height: 0;
-  border: 1px solid rgba(0, 255, 65, 0.12);
-  border-radius: 8px;
-  background: rgba(0, 255, 65, 0.02);
-  overflow: hidden;
-}
-
-.ot-target {
-  position: absolute;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: 2px solid #00ff41;
-  background: rgba(0, 255, 65, 0.18);
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  animation: ot-target-pulse 0.75s ease-in-out infinite;
-  box-shadow: 0 0 10px rgba(0, 255, 65, 0.45), inset 0 0 6px rgba(0, 255, 65, 0.15);
-  transition: background 0.1s, box-shadow 0.1s;
-
-  &:hover {
-    background: rgba(0, 255, 65, 0.38);
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
-  }
-
-  &:active {
-    transform: translate(-50%, -50%) scale(0.82);
-  }
-}
-
-@keyframes ot-target-pulse {
-  0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 65, 0.45); }
-  50%       { box-shadow: 0 0 22px rgba(0, 255, 65, 0.9), 0 0 38px rgba(0, 255, 65, 0.25); }
-}
-
-/* Type task */
-.ot-word {
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  color: #00ff41;
-  text-shadow: 0 0 18px rgba(0, 255, 65, 0.65);
-  text-align: center;
-}
-
-.ot-input {
-  width: 100%;
-  max-width: 300px;
-  padding: 0.5rem 0.75rem;
+  padding: 0.7rem 0.9rem;
   background: rgba(0, 255, 65, 0.04);
-  border: 1px solid rgba(0, 255, 65, 0.28);
-  border-radius: 4px;
-  color: #00ff41;
-  font-family: 'Courier New', monospace;
-  font-size: 1rem;
-  letter-spacing: 0.18em;
-  text-align: center;
-  outline: none;
-  caret-color: #00ff41;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  border: 1px solid rgba(0, 255, 65, 0.2);
+  border-radius: 8px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: rgba(226, 255, 226, 0.88);
+  letter-spacing: 0.015em;
+  flex-shrink: 0;
+  position: relative;
 
-  &::placeholder {
-    color: rgba(0, 255, 65, 0.25);
-    letter-spacing: 0.06em;
-  }
+  /* Slide + blur in on each new question */
+  animation: ot-clue-in 0.35s ease both;
 
-  &:focus {
-    border-color: #00ff41;
-    box-shadow: 0 0 8px rgba(0, 255, 65, 0.28);
-  }
-
-  &.error {
-    border-color: #ef4444;
-    color: #ef4444;
-    box-shadow: 0 0 8px rgba(239, 68, 68, 0.28);
-    animation: ot-shake-input 0.28s ease;
+  &__tag {
+    display: block;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    color: rgba(0, 255, 65, 0.5);
+    margin-bottom: 0.35rem;
+    animation: ot-tag-blink 1.2s ease-in-out infinite;
   }
 }
 
-@keyframes ot-shake-input {
-  0%, 100% { transform: translateX(0); }
-  20%, 60%  { transform: translateX(-4px); }
-  40%, 80%  { transform: translateX(4px); }
+/* ── Choice grid ─────────────────────────────────────────── */
+.ot-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.ot-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid rgba(0, 255, 65, 0.2);
+  border-radius: 7px;
+  background: rgba(0, 255, 65, 0.03);
+  color: #b8f5b8;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s, border-color 0.12s, box-shadow 0.12s, transform 0.08s;
+
+  /* Stagger-in per index */
+  &--0 { animation: ot-choice-in 0.25s 0.05s ease both; }
+  &--1 { animation: ot-choice-in 0.25s 0.12s ease both; }
+  &--2 { animation: ot-choice-in 0.25s 0.19s ease both; }
+  &--3 { animation: ot-choice-in 0.25s 0.26s ease both; }
+
+  &:hover:not(:disabled) {
+    background: rgba(0, 255, 65, 0.1);
+    border-color: #00ff41;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) { transform: scale(0.97); }
+  &:disabled              { cursor: default; }
+
+  &__letter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    font-size: 0.65rem;
+    color: rgba(0, 255, 65, 0.6);
+    flex-shrink: 0;
+  }
+
+  /* Correct pick — green flash */
+  &--correct {
+    border-color: #00ff41 !important;
+    background: rgba(0, 255, 65, 0.15) !important;
+    color: #00ff41 !important;
+    animation: ot-correct-flash 0.5s ease both !important;
+
+    .ot-choice__letter {
+      border-color: #00ff41;
+      color: #00ff41;
+    }
+  }
+
+  /* Reveal correct answer after wrong pick */
+  &--reveal {
+    border-color: rgba(0, 255, 65, 0.5) !important;
+    background: rgba(0, 255, 65, 0.08) !important;
+    color: rgba(0, 255, 65, 0.7) !important;
+  }
+
+  /* Wrong pick — red shake */
+  &--wrong {
+    border-color: #ef4444 !important;
+    background: rgba(239, 68, 68, 0.15) !important;
+    color: #ef4444 !important;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.35) !important;
+    animation: ot-wrong-shake 0.35s ease both !important;
+
+    .ot-choice__letter { border-color: #ef4444; color: #ef4444; }
+  }
 }
 
 /* ── Result screens ───────────────────────────────────────── */
-.ot-screen--result { gap: 0.7rem; }
+.ot-screen--result {
+  gap: 0.75rem;
+  animation: ot-result-in 0.4s ease both;
+}
 
 .ot-result-emoji {
-  font-size: 3rem;
+  font-size: 3.2rem;
   line-height: 1;
   filter: drop-shadow(0 0 10px rgba(0, 255, 65, 0.4));
 }
 
 .ot-result-title {
   margin: 0;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #00ff41;
   text-shadow: 0 0 12px rgba(0, 255, 65, 0.55);
@@ -307,4 +450,10 @@
   font-size: 0.8rem;
   color: rgba(226, 255, 226, 0.55);
   text-align: center;
+  max-width: 280px;
+}
+
+/* Victory extra glow */
+.ot-screen--victory .ot-result-title {
+  animation: ot-victory-glow 1.5s ease-in-out infinite;
 }

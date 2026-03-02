@@ -175,39 +175,6 @@ export const SPIDER_CHARS = {
     ),
   },
 
-  mewtwo: {
-    name: 'Mewtwo',
-    sub:  'Psychic Type · Genetic Pokémon',
-    svg: (
-      <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Tube from back of head */}
-        <path d="M60 22 Q78 12 84 28" fill="none" stroke="#C084FC" strokeWidth="5" strokeLinecap="round"/>
-        <path d="M60 22 Q78 12 84 28" fill="none" stroke="#E879F9" strokeWidth="2" strokeLinecap="round" opacity="0.7"/>
-        {/* Long tail */}
-        <path d="M64 94 Q84 104 86 84 Q84 64 72 70" fill="none" stroke="#C084FC" strokeWidth="4" strokeLinecap="round"/>
-        <path d="M64 94 Q84 104 86 84 Q84 64 72 70" fill="none" stroke="#D946EF" strokeWidth="1.5" strokeLinecap="round" opacity="0.65"/>
-        {/* Slim body */}
-        <path d="M32 80 Q30 114 50 118 Q70 114 68 80 Q60 70 50 70 Q40 70 32 80Z" fill="#c8a8d8"/>
-        <path d="M32 80 Q30 114 50 118 Q70 114 68 80 Q60 70 50 70 Q40 70 32 80Z"
-          fill="none" stroke="#D946EF" strokeWidth="1.2"/>
-        {/* Belly lighter */}
-        <ellipse cx="50" cy="96" rx="12" ry="15" fill="#e8d0f0" opacity="0.75"/>
-        {/* Large head */}
-        <ellipse cx="50" cy="42" rx="34" ry="36" fill="#d4b8e0"/>
-        <ellipse cx="50" cy="42" rx="34" ry="36" fill="none" stroke="#D946EF" strokeWidth="1.5"/>
-        {/* Psychic gem */}
-        <circle cx="50" cy="18" r="5" fill="#D946EF" opacity="0.9"/>
-        <circle cx="50" cy="18" r="3" fill="#E879F9"/>
-        {/* Narrow intense eyes */}
-        <path d="M20 44 Q34 30 46 40 Q34 52 20 44Z" fill="#1a1230"/>
-        <path d="M54 40 Q66 30 80 44 Q66 52 54 40Z" fill="#1a1230"/>
-        {/* Cyan iris */}
-        <path d="M24 44 Q34 32 44 40 Q34 50 24 44Z" fill="#67E8F9" opacity="0.65"/>
-        <path d="M56 40 Q66 32 76 44 Q66 50 56 40Z" fill="#67E8F9" opacity="0.65"/>
-      </svg>
-    ),
-  },
-
   gengar: {
     name: 'Gengar',
     sub:  'Ghost & Poison Type · Shadow',
@@ -242,52 +209,6 @@ export const SPIDER_CHARS = {
   // ║           BEN  10  UNIVERSE          ║
   // ╚══════════════════════════════════════╝
 
-  fourarms: {
-    name: 'Four Arms',
-    sub:  'Four Arms · Ben 10',
-    svg: (
-      <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* BACK lower arms — behind body, drawn first */}
-        <path d="M14 66 Q2 74 6 92 L20 88 Q14 76 22 70Z" fill="#8B1200" opacity="0.72"/>
-        <path d="M86 66 Q98 74 94 92 L80 88 Q86 76 78 70Z" fill="#8B1200" opacity="0.72"/>
-        {/* Wide muscular body */}
-        <path d="M16 82 Q14 122 50 124 Q86 122 84 82 Q66 68 50 68 Q34 68 16 82Z" fill="#CC2200"/>
-        <path d="M16 82 Q14 122 50 124 Q86 122 84 82 Q66 68 50 68 Q34 68 16 82Z"
-          fill="none" stroke="#EF4444" strokeWidth="1.5"/>
-        {/* Omnitrix — the green watch on chest */}
-        <circle cx="50" cy="96" r="11" fill="#15803d"/>
-        <circle cx="50" cy="96" r="8"  fill="#16A34A"/>
-        <circle cx="50" cy="96" r="5"  fill="#4ADE80"/>
-        <path d="M47 93 L50 87 L53 93 L53 99 L47 99Z" fill="#14532d" opacity="0.85"/>
-        {/* FRONT upper arms — on top, drawn after body */}
-        <path d="M16 78 Q0 82 0 100 L16 98 Q12 84 26 82Z" fill="#CC2200"/>
-        <path d="M16 78 Q0 82 0 100 L16 98 Q12 84 26 82Z" fill="none" stroke="#EF4444" strokeWidth="1.2"/>
-        {/* Fist left */}
-        <ellipse cx="6" cy="100" rx="9" ry="8" fill="#CC2200" stroke="#EF4444" strokeWidth="1"/>
-        <path d="M84 78 Q100 82 100 100 L84 98 Q88 84 74 82Z" fill="#CC2200"/>
-        <path d="M84 78 Q100 82 100 100 L84 98 Q88 84 74 82Z" fill="none" stroke="#EF4444" strokeWidth="1.2"/>
-        {/* Fist right */}
-        <ellipse cx="94" cy="100" rx="9" ry="8" fill="#CC2200" stroke="#EF4444" strokeWidth="1"/>
-        {/* Large rectangular head */}
-        <rect x="14" y="22" width="72" height="52" rx="11" fill="#CC2200"/>
-        <rect x="14" y="22" width="72" height="52" rx="11" fill="none" stroke="#EF4444" strokeWidth="1.5"/>
-        {/* 4 yellow eyes: top row, bottom row */}
-        <ellipse cx="32" cy="38" rx="8"   ry="9"   fill="#FBBF24"/>
-        <ellipse cx="68" cy="38" rx="8"   ry="9"   fill="#FBBF24"/>
-        <ellipse cx="32" cy="57" rx="7"   ry="8"   fill="#FBBF24"/>
-        <ellipse cx="68" cy="57" rx="7"   ry="8"   fill="#FBBF24"/>
-        {/* Dark pupils */}
-        <circle cx="32" cy="38" r="4"   fill="#1a0500"/>
-        <circle cx="68" cy="38" r="4"   fill="#1a0500"/>
-        <circle cx="32" cy="57" r="3.5" fill="#1a0500"/>
-        <circle cx="68" cy="57" r="3.5" fill="#1a0500"/>
-        {/* Eye highlights */}
-        <circle cx="34" cy="35" r="1.8" fill="white" opacity="0.7"/>
-        <circle cx="70" cy="35" r="1.8" fill="white" opacity="0.7"/>
-      </svg>
-    ),
-  },
-
   diamondhead: {
     name: 'Diamondhead',
     sub:  'Diamondhead · Ben 10',
@@ -306,7 +227,7 @@ export const SPIDER_CHARS = {
         <path d="M36 86 L50 80 L64 86 L64 104 L50 110 L36 104Z" fill="#047857" opacity="0.5"/>
         <path d="M36 86 L50 80 L64 86" fill="none" stroke="#34D399" strokeWidth="1" opacity="0.65"/>
         <line x1="36" y1="95" x2="64" y2="95" stroke="#34D399" strokeWidth="0.8" opacity="0.4"/>
-        {/* Hexagonal crystal head — multiple cut facets */}
+        {/* Hexagonal crystal head */}
         <path d="M50 4 L82 26 L82 66 L50 86 L18 66 L18 26Z" fill="#059669"/>
         <path d="M50 4 L82 26 L82 66 L50 86 L18 66 L18 26Z"
           fill="none" stroke="#10B981" strokeWidth="1.5"/>
@@ -314,17 +235,16 @@ export const SPIDER_CHARS = {
         <path d="M50 4 L82 26 L50 40 L18 26Z" fill="#047857" opacity="0.55"/>
         <path d="M50 4 L82 26 L50 40" fill="none" stroke="#34D399" strokeWidth="0.9" opacity="0.7"/>
         <path d="M50 4 L18 26 L50 40" fill="none" stroke="#34D399" strokeWidth="0.9" opacity="0.55"/>
-        {/* Girdle / equator line */}
+        {/* Girdle line */}
         <line x1="18" y1="40" x2="82" y2="40" stroke="#34D399" strokeWidth="0.9" opacity="0.5"/>
         {/* Pavilion facet lines */}
         <line x1="18" y1="26" x2="50" y2="40" stroke="#34D399" strokeWidth="0.7" opacity="0.45"/>
         <line x1="82" y1="26" x2="50" y2="40" stroke="#34D399" strokeWidth="0.7" opacity="0.45"/>
         <line x1="18" y1="54" x2="50" y2="40" stroke="#34D399" strokeWidth="0.7" opacity="0.35"/>
         <line x1="82" y1="54" x2="50" y2="40" stroke="#34D399" strokeWidth="0.7" opacity="0.35"/>
-        {/* Rectangular flat eyes — Diamondhead's look */}
+        {/* Rectangular flat eyes */}
         <rect x="20" y="50" width="22" height="9" rx="2" fill="white" opacity="0.95"/>
         <rect x="58" y="50" width="22" height="9" rx="2" fill="white" opacity="0.95"/>
-        {/* Green crystal tint in eyes */}
         <rect x="20" y="50" width="22" height="9" rx="2" fill="#34D399" opacity="0.42"/>
         <rect x="58" y="50" width="22" height="9" rx="2" fill="#34D399" opacity="0.42"/>
       </svg>

@@ -18,23 +18,19 @@
   padding: 0.35rem;
   border-radius: 0.75rem;
 
-  background: linear-gradient(
-    160deg,
-    rgba(18, 8, 10, 0.96),
-    rgba(10, 8, 20, 0.94)
-  );
+  background: linear-gradient(160deg, var(--t-bg2) 0%, var(--t-bg1) 100%);
 
   backdrop-filter: blur(24px) saturate(1.2);
   -webkit-backdrop-filter: blur(24px) saturate(1.2);
 
-  border: 1px solid rgba(220, 38, 38, 0.25);
-  border-top-color: rgba(220, 38, 38, 0.4);
+  border: 1px solid var(--t-border);
+  border-top-color: var(--t-border-top);
 
   box-shadow:
     0 12px 40px rgba(0, 0, 0, 0.85),
     0 0 0 1px rgba(255, 255, 255, 0.04),
     inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 0 24px rgba(220, 38, 38, 0.08);
+    0 0 24px var(--t-glow1);
 
   animation: ctx-appear 0.18s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   transform-origin: top left;
@@ -50,13 +46,13 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(220, 38, 38, 0.85);
-  border-bottom: 1px solid rgba(220, 38, 38, 0.15);
+  color: var(--t-primary);
+  border-bottom: 1px solid var(--t-web);
 }
 
 .ctx-menu__spider {
   font-size: 0.9rem;
-  filter: drop-shadow(0 0 4px rgba(220, 38, 38, 0.6));
+  filter: drop-shadow(0 0 4px var(--t-glow1h));
 }
 
 .ctx-menu__divider {
@@ -82,11 +78,7 @@
   transition: background 0.14s ease, color 0.14s ease, transform 0.1s ease;
 
   &:hover {
-    background: linear-gradient(
-      90deg,
-      rgba(220, 38, 38, 0.18),
-      rgba(29, 78, 216, 0.1)
-    );
+    background: linear-gradient(90deg, var(--t-c1), var(--t-c2));
     color: rgba(255, 255, 255, 0.95);
     transform: translateX(2px);
   }

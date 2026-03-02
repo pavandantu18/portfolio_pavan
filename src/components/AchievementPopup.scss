@@ -58,14 +58,10 @@
   padding: 0.85rem 1.2rem;
   border-radius: 14px;
 
-  background: linear-gradient(
-    135deg,
-    rgba(16, 8, 10, 0.97),
-    rgba(10, 8, 18, 0.95)
-  );
+  background: linear-gradient(135deg, var(--t-bg2) 0%, var(--t-bg1) 100%);
 
-  border: 1px solid rgba(220, 38, 38, 0.55);
-  border-top-color: rgba(220, 38, 38, 0.8);
+  border: 1px solid var(--t-border);
+  border-top-color: var(--t-border-top);
 
   backdrop-filter: blur(20px) saturate(1.2);
   -webkit-backdrop-filter: blur(20px) saturate(1.2);
@@ -73,8 +69,8 @@
   box-shadow:
     0 16px 40px rgba(0, 0, 0, 0.8),
     0 0 0 1px rgba(255, 255, 255, 0.04),
-    0 0 24px rgba(220, 38, 38, 0.3),
-    0 0 60px rgba(220, 38, 38, 0.12),
+    0 0 24px var(--t-glow1),
+    0 0 60px var(--t-glow2),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
   /* Pulse ring behind card */
@@ -83,7 +79,7 @@
     position: absolute;
     inset: -1px;
     border-radius: inherit;
-    border: 2px solid rgba(220, 38, 38, 0.6);
+    border: 2px solid var(--t-glow1h);
     animation: pulse-ring 1.2s ease-out 0.3s both;
     pointer-events: none;
   }
@@ -95,7 +91,7 @@
   font-size: 2rem;
   line-height: 1;
   flex-shrink: 0;
-  filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.6));
+  filter: drop-shadow(0 0 8px var(--t-glow1h));
 }
 
 /* ===================== TEXT BLOCK ===================== */
@@ -112,7 +108,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(220, 38, 38, 0.85);
+  color: var(--t-primary);
 }
 
 .popup-inner .text {
@@ -127,7 +123,7 @@
     90deg,
     #f5f5f5 20%,
     #ffffff 40%,
-    rgba(220, 38, 38, 0.9) 50%,
+    var(--t-primary) 50%,
     #ffffff 60%,
     #f5f5f5 80%
   );

@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { Rnd } from 'react-rnd'
+import { PERSONAL_INFO } from '../../config/constants'
 import "./MacWindow.scss"
 
 const MacWindow = ({
@@ -8,6 +9,8 @@ const MacWindow = ({
   setwindowState,
   initialWidth  = 700,
   initialHeight = 500,
+  minWidth      = 480,
+  minHeight     = 320,
   zIndex        = 100,
   onFocus,
 }) => {
@@ -115,8 +118,8 @@ const MacWindow = ({
         width:  isMaximized ? maxWidth  : rndSize.width,
         height: isMinimized ? 34 : isMaximized ? maxHeight : rndSize.height,
       }}
-      minWidth={300}
-      minHeight={100}
+      minWidth={minWidth}
+      minHeight={minHeight}
       maxWidth={maxWidth}
       maxHeight={maxHeight}
       onResize={handleResize}
@@ -165,7 +168,7 @@ const MacWindow = ({
             />
           </div>
           <div className="title">
-            <p>pavankumar — {windowName}</p>
+            <p>{PERSONAL_INFO.USERNAME} — {windowName}</p>
           </div>
         </div>
         {!isMinimized && !isMinimizing && (
