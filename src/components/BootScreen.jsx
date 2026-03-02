@@ -50,8 +50,8 @@ const BootScreen = ({ onDone }) => {
           <span className="boot-title__dot">.</span>
           <span className="boot-title__role">dev</span>
         </h1>
-        <p className="boot-char-name">{char.name}</p>
-        <p className="boot-sub">{char.sub}</p>
+        <p className="boot-sub">Portfolio</p>
+        <p className="boot-char-name">{char.name} Edition</p>
         <div className="boot-bar">
           <div className="boot-bar__fill" />
         </div>
