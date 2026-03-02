@@ -119,7 +119,8 @@
     background  0.22s ease;
 
   filter: saturate(1.18) brightness(1.08);
-  transform-origin: bottom center;
+  transform-origin: center center;     /* pivot around face-center for rotateX/Y tilt */
+  transform-style: preserve-3d;        /* let rotateX/Y live in the dock's 3D space */
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
@@ -129,7 +130,9 @@
 }
 
 .dock .icon:hover {
-  transform: translateY(-12px) scale(1.55) translateZ(28px);
+  /* JS inline style immediately overrides this; these values serve as the
+     one-frame CSS fallback and the starting point for the JS transition. */
+  transform: translateY(-24px) scale(1.62) translateZ(34px);
   z-index: 4;
   background: linear-gradient(
     135deg,
@@ -230,3 +233,21 @@
 }
 
 .dock .icon:hover { animation: none; }
+
+// ── Tablet tweaks (768-1023px) — larger touch targets, no 3D tilt ────────────
+@media (max-width: 1023px) and (min-width: 768px) {
+  .dock .icon {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+
+  // Disable complex magnification on touch
+  .dock:hover .icon,
+  .dock .icon:hover,
+  .dock .icon:hover + .icon,
+  .dock .icon:has(+ .icon:hover),
+  .dock .icon:hover + .icon + .icon,
+  .dock .icon:has(+ .icon + .icon:hover) {
+    transform: none;
+  }
+}

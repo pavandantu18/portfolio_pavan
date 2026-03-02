@@ -1,10 +1,16 @@
 .spotify-window {
     width: 100%;
     height: 100%;
+    overflow: hidden;
 
     iframe {
         width: 100%;
         height: 100%;
         border: none;
+        display: block;
+        // Ensure iframe never generates an outer scrollbar
+        overflow: hidden;
+        scrollbar-width: none;
+        &::-webkit-scrollbar { display: none; }
     }
 }

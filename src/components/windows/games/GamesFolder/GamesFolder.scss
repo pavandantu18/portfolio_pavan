@@ -6,12 +6,27 @@
 }
 
 .games-folder {
-  height: 100%;
+  min-height: 100%;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  align-content: center;  // packs wrapped rows together instead of spreading
+  flex-wrap: wrap;
+  gap: 1.4rem;
   padding: 1.25rem 1.5rem;
+}
+
+@media (max-width: 767px) {
+  .games-folder {
+    gap: 1rem 0.8rem;
+    padding: 1rem;
+    justify-content: center;
+  }
+
+  .game-tile {
+    flex: 0 0 calc(33.33% - 0.6rem);
+  }
 }
 
 /* ===================== GAME TILE ===================== */
@@ -32,6 +47,7 @@
   &:nth-child(2) { animation-delay: 0.08s; }
   &:nth-child(3) { animation-delay: 0.16s; }
   &:nth-child(4) { animation-delay: 0.24s; }
+  &:nth-child(5) { animation-delay: 0.32s; }
 
   &:hover .game-tile__icon {
     transform: translateY(-6px) scale(1.08);

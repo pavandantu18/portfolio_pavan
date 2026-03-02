@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useContext, useCallback } from "react";
 import { AchievementContext } from "../../../../context/AchievementContext";
-import { ACHIEVEMENTS, OMNITRIX_QUESTIONS, OMNITRIX_ROUNDS, OMNITRIX_URGENT_MS, WINDOW_SIZES } from "../../../../config/constants";
+import { ACHIEVEMENTS, OMNITRIX_QUESTIONS, OMNITRIX_ROUNDS, OMNITRIX_URGENT_MS, OMNITRIX_HINT_DELAY, WINDOW_SIZES } from "../../../../config/constants";
 import MacWindow from "../../MacWindow";
 import "./OmnitrixTimeout.scss";
 
@@ -22,6 +22,7 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
   const [timeLeft,     setTimeLeft]    = useState(0);
   const [correctPick,  setCorrectPick] = useState(null);
   const [wrongPick,    setWrongPick]   = useState(null);
+  const [showHint,     setShowHint]    = useState(false);
 
   const endTimeRef   = useRef(0);
   const totalTimeRef = useRef(0);
@@ -48,6 +49,14 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
   useEffect(() => {
     if (phase === "victory") unlockAchievement(ACHIEVEMENTS.OMNITRIX_TIMEOUT);
   }, [phase]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Hint: glow the correct answer after OMNITRIX_HINT_DELAY ms of inactivity
+  useEffect(() => {
+    setShowHint(false);
+    if (phase !== "playing") return;
+    const id = setTimeout(() => setShowHint(true), OMNITRIX_HINT_DELAY);
+    return () => clearTimeout(id);
+  }, [qIdx, phase]);
 
   const beginRound = useCallback((rIdx) => {
     const r = OMNITRIX_ROUNDS[rIdx];
@@ -212,9 +221,10 @@ export default function OmnitrixTimeout({ windowName, setwindowState, zIndex, on
                   className={[
                     "ot-choice",
                     `ot-choice--${i}`,
-                    correctPick === name                               ? "ot-choice--correct" : "",
-                    phase === "wrong" && name === wrongPick           ? "ot-choice--wrong"   : "",
-                    phase === "wrong" && name === currentQ.answer     ? "ot-choice--reveal"  : "",
+                    correctPick === name                                             ? "ot-choice--correct" : "",
+                    phase === "wrong" && name === wrongPick                         ? "ot-choice--wrong"   : "",
+                    phase === "wrong" && name === currentQ.answer                   ? "ot-choice--reveal"  : "",
+                    showHint && !correctPick && !wrongPick && name === currentQ.answer ? "ot-choice--hint"    : "",
                   ].filter(Boolean).join(" ")}
                   onClick={() => handleChoice(name)}
                   disabled={phase !== "playing"}

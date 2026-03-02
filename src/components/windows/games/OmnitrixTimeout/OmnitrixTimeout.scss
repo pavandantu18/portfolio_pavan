@@ -71,6 +71,11 @@
   to   { opacity: 1; transform: scale(1)    translateY(0); }
 }
 
+@keyframes ot-hint-pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(0,255,65,0.25);  border-color: rgba(0,255,65,0.35); }
+  50%       { box-shadow: 0 0 22px rgba(0,255,65,0.85), 0 0 44px rgba(0,255,65,0.3); border-color: #00ff41; }
+}
+
 /* ── Root ─────────────────────────────────────────────────── */
 .omnitrix-timeout {
   display: flex;
@@ -421,6 +426,17 @@
     animation: ot-wrong-shake 0.35s ease both !important;
 
     .ot-choice__letter { border-color: #ef4444; color: #ef4444; }
+  }
+
+  /* Hint — correct answer glows after 4.5s of inactivity */
+  &--hint {
+    animation: ot-hint-pulse 1.1s ease-in-out infinite !important;
+    color: rgba(0, 255, 65, 0.8) !important;
+
+    .ot-choice__letter {
+      border-color: rgba(0, 255, 65, 0.6);
+      color: rgba(0, 255, 65, 0.7);
+    }
   }
 }
 

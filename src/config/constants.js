@@ -130,7 +130,7 @@ export const SPOTIFY_EMBED_URL =
 // ─── Window sizes (spread onto MacWindow as props) ─────────────────────────
 export const WINDOW_SIZES = {
   CLI:            { initialWidth: 700, initialHeight: 500 },
-  GAMES_FOLDER:   { initialWidth: 660, initialHeight: 260 },
+  GAMES_FOLDER:   { initialWidth: 780, initialHeight: 270 },
   MEMORY_WEB:     { initialWidth: 680, initialHeight: 580 },
   SPIDER_TYPE:    { initialWidth: 640, initialHeight: 390 },
   OMNITRIX:       { initialWidth: 600, initialHeight: 530, minWidth: 600, minHeight: 480 },
@@ -144,6 +144,7 @@ export const GAMES_LIST = [
   { key: "memory",          emoji: "🕸",  name: "Memory Web",     desc: "Match the cards" },
   { key: "spiderType",      emoji: "⌨️", name: "Spider-Type",    desc: "Type to test speed" },
   { key: "omnitrixTimeout", emoji: "🟢", name: "Code Scan",       desc: "Identify the tech behind this portfolio before the Omnitrix times out" },
+  { key: "achievement",     emoji: "🏆", name: "Achievements",    desc: "View trophies earned while exploring" },
 ];
 
 // ─── SpiderType game ───────────────────────────────────────────────────────
@@ -252,4 +253,5 @@ export const OMNITRIX_ROUNDS = [
   { questions: 6, time: 35 },
 ];
 
-export const OMNITRIX_URGENT_MS = 5000;
+export const OMNITRIX_URGENT_MS  = 5000;
+export const OMNITRIX_HINT_DELAY = 4500;

@@ -135,6 +135,9 @@ const DesktopParticles = () => {
         pointerEvents: 'none',
         zIndex:        0,
         opacity:       0.55,
+        /* depth layer 3 — medium shift */
+        transform:     'translate(var(--p3x, 0px), var(--p3y, 0px))',
+        willChange:    'transform',
       }}
     />
   )

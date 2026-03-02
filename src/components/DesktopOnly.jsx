@@ -1,33 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import "./desktopOnly.css";
 
+const MobileLayout = lazy(() => import("./MobileLayout"));
+
+function getBreakpoint() {
+  const w = window.innerWidth;
+  if (w < 768)  return "mobile";
+  if (w < 1024) return "tablet";
+  return "desktop";
+}
+
 const DesktopOnly = ({ children }) => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [bp, setBp] = useState(getBreakpoint);
 
   useEffect(() => {
-    const checkScreen = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
+    document.body.dataset.screen = bp;
+  }, [bp]);
 
-    checkScreen();
-    window.addEventListener("resize", checkScreen);
-    return () => window.removeEventListener("resize", checkScreen);
+  useEffect(() => {
+    const update = () => setBp(getBreakpoint());
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
   }, []);
 
-  if (isMobile) {
+  if (bp === "mobile") {
     return (
-      <div className="desktop-only">
-        <div className="desktop-card">
-          <div className="icon">🕷️</div>
-          <h1>Desktop Experience Only</h1>
-          <p>
-            This portfolio is designed for desktop screens.
-          </p>
-          <p className="hint">
-            Open on a laptop or desktop for the full Spider-Verse experience.
-          </p>
-        </div>
-      </div>
+      <Suspense fallback={null}>
+        <MobileLayout />
+      </Suspense>
     );
   }
 

@@ -59,6 +59,44 @@ const App = () => {
     }
   }, [visitedThemes.size]);
 
+  // ── Parallax CSS vars ───────────────────────────────────────────────────────
+  // Pre-computes pixel offsets per layer so CSS never needs to multiply.
+  // Layers (slowest → fastest):
+  //   --p1x/y  background image        ±25 px
+  //   --p2x/y  body::before blobs      ±40 px
+  //   --p3x/y  DesktopParticles canvas ±55 px
+  useEffect(() => {
+    const target  = { x: 0, y: 0 }
+    const current = { x: 0, y: 0 }
+    let raf
+
+    const onMouse = (e) => {
+      target.x = e.clientX / window.innerWidth  - 0.5
+      target.y = e.clientY / window.innerHeight - 0.5
+    }
+    window.addEventListener('mousemove', onMouse)
+
+    const tick = () => {
+      current.x += (target.x - current.x) * 0.05
+      current.y += (target.y - current.y) * 0.05
+      const x = current.x, y = current.y
+      const root = document.documentElement
+      root.style.setProperty('--p1x', `${(x * 25).toFixed(2)}px`)
+      root.style.setProperty('--p1y', `${(y * 25).toFixed(2)}px`)
+      root.style.setProperty('--p2x', `${(x * 40).toFixed(2)}px`)
+      root.style.setProperty('--p2y', `${(y * 40).toFixed(2)}px`)
+      root.style.setProperty('--p3x', `${(x * 55).toFixed(2)}px`)
+      root.style.setProperty('--p3y', `${(y * 55).toFixed(2)}px`)
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+
+    return () => {
+      window.removeEventListener('mousemove', onMouse)
+      cancelAnimationFrame(raf)
+    }
+  }, [])
+
   const handleContextMenu = (e) => {
     e.preventDefault()
     setContextMenu({ x: e.clientX, y: e.clientY })
@@ -83,7 +121,7 @@ const App = () => {
       <main onContextMenu={handleContextMenu}>
         <Nav />
         {booted && <DesktopParticles />}
-        {booted && <DesktopSpider />}
+{booted && <DesktopSpider />}
         <Dock windowState={windowState} setwindowState={setwindowState} />
 
         {windowState.cli           && <ErrorBoundary><Cli                {...wp('cli')}           /></ErrorBoundary>}

@@ -101,6 +101,29 @@ const MacWindow = ({
   const maxX      = useMemo(() => Math.round((window.innerWidth - window.innerWidth * 0.83) / 2), []);
   const maxY      = NAV_H + PAD;
 
+  // ── Mobile: render as a bottom sheet instead of a floating window ────────────
+  const isMobile = window.innerWidth < 768;
+  if (isMobile) {
+    return (
+      <div
+        className={`mob-backdrop${isClosing ? ' mob-backdrop--closing' : ''}`}
+        style={{ zIndex }}
+        onMouseDown={onFocus}
+      >
+        <div className={`mob-sheet${isClosing ? ' mob-sheet--closing' : ''}`}>
+          <div className="mob-sheet__nav">
+            <button className="mob-sheet__close" onClick={handleClose}>✕</button>
+            <span className="mob-sheet__title">{windowName}</span>
+            <div style={{ width: 28 }} />
+          </div>
+          <div className="mob-sheet__content">
+            {children}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const windowTransform = (isMinimizing || isClosing)
     ? undefined
     : `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`;
@@ -122,6 +145,7 @@ const MacWindow = ({
       minHeight={minHeight}
       maxWidth={maxWidth}
       maxHeight={maxHeight}
+      bounds="window"
       onResize={handleResize}
       onDragStop={handleDragStop}
       enableResizing={{

@@ -6,6 +6,14 @@
   box-sizing: border-box;
 }
 
+// ── Themed scrollbar (updates automatically on theme switch) ──────────────────
+::-webkit-scrollbar              { width: 5px; height: 5px; }
+::-webkit-scrollbar-track        { background: transparent; }
+::-webkit-scrollbar-thumb        { background: var(--t-primary, #dc2626); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover  { background: var(--t-accent,  #ef4444); }
+// Firefox
+*                                { scrollbar-width: thin; scrollbar-color: var(--t-primary, #dc2626) transparent; }
+
 html,
 body,
 #root {
@@ -23,13 +31,15 @@ body {
   &::before {
     content: "";
     position: fixed;
-    inset: 0;
+    inset: -30px;                   /* slight overscan so translate never shows an edge */
     background:
       radial-gradient(circle at 20% 80%, var(--t-c1, rgba(220, 38, 38, 0.08)) 0%, transparent 50%),
       radial-gradient(circle at 80% 20%, var(--t-c2, rgba(29, 78, 216, 0.08)) 0%, transparent 50%);
     pointer-events: none;
     z-index: -1;
     transition: background 0.5s ease;
+    /* depth layer 2 — medium-slow shift */
+    transform: translate(var(--p2x, 0px), var(--p2y, 0px));
   }
 }
 
@@ -39,7 +49,10 @@ main {
   height: 100%;
   background-image: url("/background.png");
   background-repeat: no-repeat;
-  background-position: center;
+  /* depth layer 1 — slowest, farthest back */
+  background-position:
+    calc(50% + var(--p1x, 0px))
+    calc(50% + var(--p1y, 0px));
   background-size: 1000px;
   position: relative;
 

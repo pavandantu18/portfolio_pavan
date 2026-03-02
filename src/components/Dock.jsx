@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef } from "react";
 import { AchievementContext } from "../context/AchievementContext";
 import { ACHIEVEMENTS, SOCIAL_LINKS } from "../config/constants";
-import { RiGithubFill, RiMedalFill, RiSpotifyFill, RiMailFill, RiLinksLine, RiTerminalBoxFill, RiGamepadFill } from "@remixicon/react";
+import { RiGithubFill, RiSpotifyFill, RiMailFill, RiLinksLine, RiTerminalBoxFill, RiGamepadFill } from "@remixicon/react";
 import './Dock.scss'
 
 const Dock = ({ setwindowState }) => {
@@ -52,6 +52,62 @@ const Dock = ({ setwindowState }) => {
     }
   }, [])
 
+  // ── Per-icon 3D pop-up ────────────────────────────────────────────────────
+  // On hover: icon rises high and tilts its face toward the cursor in real time.
+  // JS inline styles override the CSS :hover rule; clearing them on leave
+  // lets the CSS transition animate the smooth return.
+  useEffect(() => {
+    const icons = dockRef.current?.querySelectorAll('.icon')
+    if (!icons) return
+
+    const cleanups = []
+
+    icons.forEach(icon => {
+      const onEnter = () => {
+        // CSS transition still active here — rise animates smoothly
+        icon.style.transform = 'translateY(-24px) scale(1.62) translateZ(34px)'
+        icon.style.filter    = 'saturate(1.45) brightness(1.22)'
+        icon.style.boxShadow =
+          '0 22px 44px rgba(0,0,0,0.8), 0 0 28px var(--t-glow1), 0 0 10px var(--t-glow2)'
+      }
+
+      const onMove = (e) => {
+        const rect = icon.getBoundingClientRect()
+        // Normalised offset within icon: -1 (top/left) → +1 (bottom/right)
+        const nx = (e.clientX - (rect.left + rect.width  / 2)) / (rect.width  / 2)
+        const ny = (e.clientY - (rect.top  + rect.height / 2)) / (rect.height / 2)
+        // rotateX: positive = bottom toward viewer; cursor at bottom → rx +
+        // rotateY: positive = left toward viewer;   cursor at left   → ry +
+        const rx = Math.max(-22, Math.min(22,  ny * 22))
+        const ry = Math.max(-22, Math.min(22, -nx * 22))
+        // Suppress transform transition so tilt tracks cursor without lag
+        icon.style.transition = 'box-shadow 0.25s ease, filter 0.22s ease'
+        icon.style.transform  =
+          `translateY(-24px) scale(1.62) translateZ(34px) rotateX(${rx.toFixed(1)}deg) rotateY(${ry.toFixed(1)}deg)`
+      }
+
+      const onLeave = () => {
+        // Restore CSS transition so the return animates smoothly
+        icon.style.transition = ''
+        icon.style.transform  = ''
+        icon.style.filter     = ''
+        icon.style.boxShadow  = ''
+      }
+
+      icon.addEventListener('mouseenter', onEnter)
+      icon.addEventListener('mousemove',  onMove)
+      icon.addEventListener('mouseleave', onLeave)
+
+      cleanups.push(() => {
+        icon.removeEventListener('mouseenter', onEnter)
+        icon.removeEventListener('mousemove',  onMove)
+        icon.removeEventListener('mouseleave', onLeave)
+      })
+    })
+
+    return () => cleanups.forEach(fn => fn())
+  }, [])
+
   return (
     <div className="dock-scene">
       <footer className='dock' ref={dockRef} role="navigation" aria-label="Application dock">
@@ -82,10 +138,6 @@ const Dock = ({ setwindowState }) => {
         <RiGamepadFill size={36} className='icon mail' onClick={
           () => { setwindowState(state => ({ ...state, games: true })) }
         } aria-label="Open Games" title="Games" />
-
-        <RiMedalFill size={36} className='icon spotify' onClick={
-          () => { setwindowState(state => ({ ...state, achievement: true })) }
-        } aria-label="View Achievements" title="Achievements" />
       </footer>
     </div>
   )
