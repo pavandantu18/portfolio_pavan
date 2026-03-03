@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useRef, useEffect } from 'react'
+import { useState, useContext, useCallback, useRef, useEffect } from 'react'
 import "./app.scss"
 import Dock from './components/Dock'
 import Nav from './components/Nav'
@@ -123,7 +123,7 @@ const App = () => {
       <main onContextMenu={handleContextMenu}>
         <Nav />
         {booted && <DesktopParticles />}
-{booted && <DesktopSpider />}
+        {booted && <DesktopSpider />}
         <Dock windowState={windowState} setwindowState={setwindowState} />
 
         {windowState.cli           && <ErrorBoundary><Cli                {...wp('cli')}           /></ErrorBoundary>}

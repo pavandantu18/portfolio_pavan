@@ -13,30 +13,6 @@
   display: flex;
   overflow: hidden;
 
-  /* Global HUD scan beam — sweeps top-to-bottom across the whole Finder */
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0; right: 0;
-    height: 3px;
-    top: -3px;
-    background: linear-gradient(90deg,
-      transparent 0%,
-      var(--t-primary) 20%,
-      var(--t-secondary) 50%,
-      var(--t-accent) 80%,
-      transparent 100%
-    );
-    opacity: 0.28;
-    animation: finder-hud-scan 14s linear infinite;
-    pointer-events: none;
-    z-index: 999;
-  }
-}
-
-@keyframes finder-hud-scan {
-  0%   { top: -3px; }
-  100% { top: 100%; }
 }
 
 /* ── Scroll-reveal — blur + scale + tilt entrance ───────────── */

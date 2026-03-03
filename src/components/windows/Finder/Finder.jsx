@@ -330,7 +330,7 @@ function Education() {
       <div className="f-block f-reveal" data-delay="170">
         <div className="f-block__label">Certifications & Courses</div>
         <div className="f-pills">
-          {["AWS Cloud Practitioner", "Spring Boot Mastery", "Kubernetes Fundamentals",
+          {["AWS Developer Associate", "Spring Boot Mastery", "Kubernetes Fundamentals",
             "System Design for Scale", "React Advanced Patterns"].map(s => (
             <span key={s} className="f-pill">{s}</span>
           ))}
