@@ -121,21 +121,18 @@ function Projects() {
     tab === "professional" ? p.type === "company" : p.type === tab
   );
 
-  // Re-run reveal whenever the tab switches
+  // Reveal cards after tab switch — use timeouts, not IntersectionObserver,
+  // because the Finder lives inside a draggable MacWindow whose content may
+  // not intersect the browser viewport at all.
   useEffect(() => {
     const grid = gridRef.current;
     if (!grid) return;
     const items = grid.querySelectorAll(".f-reveal");
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const delay = parseInt(entry.target.dataset.delay ?? "0", 10);
-        setTimeout(() => entry.target.classList.add("is-visible"), delay);
-        obs.unobserve(entry.target);
-      });
-    }, { threshold: 0.06, rootMargin: "0px 0px -8px 0px" });
-    items.forEach(el => obs.observe(el));
-    return () => obs.disconnect();
+    const timers = Array.from(items).map((el) => {
+      const delay = parseInt(el.dataset.delay ?? "0", 10);
+      return setTimeout(() => el.classList.add("is-visible"), 60 + delay);
+    });
+    return () => timers.forEach(clearTimeout);
   }, [tab]);
 
   const tilt = (e) => {
@@ -211,13 +208,8 @@ function About() {
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    const el = statsRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { setActive(true); obs.disconnect(); }
-    }, { threshold: 0.2 });
-    obs.observe(el);
-    return () => obs.disconnect();
+    const t = setTimeout(() => setActive(true), 120);
+    return () => clearTimeout(t);
   }, []);
 
   return (
@@ -491,13 +483,8 @@ function Skills() {
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { setActive(true); obs.disconnect(); }
-    }, { threshold: 0.05 });
-    obs.observe(el);
-    return () => obs.disconnect();
+    const t = setTimeout(() => setActive(true), 120);
+    return () => clearTimeout(t);
   }, []);
 
   return (
@@ -584,12 +571,22 @@ export default function Finder({ windowName, setwindowState, zIndex, onFocus }) 
     return () => clearInterval(timer);
   }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Scroll-reveal: watch all .f-reveal after each panel switch
+  // Scroll-reveal: reveal items on panel switch + lazy-reveal on scroll.
+  // Use panel as IntersectionObserver root so it works inside the MacWindow
+  // regardless of where the window is positioned on screen.
   useEffect(() => {
     const panel = panelRef.current;
     if (!panel) return;
 
     const items = panel.querySelectorAll(".f-reveal");
+
+    // Immediately reveal items already in view within the panel
+    const timers = Array.from(items).map((el) => {
+      const delay = parseInt(el.dataset.delay ?? "0", 10);
+      return setTimeout(() => el.classList.add("is-visible"), 60 + delay);
+    });
+
+    // Also watch for items revealed by scrolling within the panel
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
@@ -597,10 +594,10 @@ export default function Finder({ windowName, setwindowState, zIndex, onFocus }) 
         setTimeout(() => entry.target.classList.add("is-visible"), delay);
         obs.unobserve(entry.target);
       });
-    }, { threshold: 0.06, rootMargin: "0px 0px -8px 0px" });
+    }, { root: panel, threshold: 0.06 });
 
     items.forEach(el => obs.observe(el));
-    return () => obs.disconnect();
+    return () => { timers.forEach(clearTimeout); obs.disconnect(); };
   }, [selected]);
 
   return (
