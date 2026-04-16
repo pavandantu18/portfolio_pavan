@@ -5,12 +5,13 @@ import "./Finder.scss";
 
 // ── Sidebar config ───────────────────────────────────────────────────────────
 const SIDEBAR_ITEMS = [
-  { id: "projects",   icon: "📁", label: "Projects"   },
-  { id: "about",      icon: "👤", label: "About"       },
-  { id: "experience", icon: "💼", label: "Experience"  },
-  { id: "education",  icon: "🎓", label: "Education"   },
-  { id: "skills",     icon: "🛠", label: "Skills"      },
-  { id: "contact",    icon: "📞", label: "Contact"     },
+  { id: "projects",       icon: "📁", label: "Projects"       },
+  { id: "about",          icon: "👤", label: "About"           },
+  { id: "experience",     icon: "💼", label: "Experience"      },
+  { id: "education",      icon: "🎓", label: "Education"       },
+  { id: "certifications", icon: "🏅", label: "Certifications"  },
+  { id: "skills",         icon: "🛠", label: "Skills"          },
+  { id: "contact",        icon: "📞", label: "Contact"         },
 ];
 
 // ── Status colours — use only theme vars ─────────────────────────────────────
@@ -107,11 +108,40 @@ function SkillBar({ name, level, colorVar, active, delay }) {
 }
 
 // ── Panel: Projects ──────────────────────────────────────────────────────────
+const PROJECT_TABS = [
+  { id: "personal",     label: "Personal",     icon: "🧑‍💻" },
+  { id: "professional", label: "Professional", icon: "🏢"    },
+];
+
 function Projects() {
+  const [tab, setTab]   = useState("personal");
+  const gridRef         = useRef(null);
+
+  const filtered = FINDER_PROJECTS.filter(p =>
+    tab === "professional" ? p.type === "company" : p.type === tab
+  );
+
+  // Re-run reveal whenever the tab switches
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const items = grid.querySelectorAll(".f-reveal");
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const delay = parseInt(entry.target.dataset.delay ?? "0", 10);
+        setTimeout(() => entry.target.classList.add("is-visible"), delay);
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.06, rootMargin: "0px 0px -8px 0px" });
+    items.forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, [tab]);
+
   const tilt = (e) => {
-    const r  = e.currentTarget.getBoundingClientRect();
-    const x  = (e.clientX - r.left) / r.width  - 0.5;
-    const y  = (e.clientY - r.top)  / r.height - 0.5;
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width  - 0.5;
+    const y = (e.clientY - r.top)  / r.height - 0.5;
     e.currentTarget.style.setProperty("--rx", `${y * -14}deg`);
     e.currentTarget.style.setProperty("--ry", `${x * 14}deg`);
   };
@@ -121,46 +151,57 @@ function Projects() {
   };
 
   return (
-    <div className="f-projects">
-      {FINDER_PROJECTS.map((p, i) => {
-        const ss = STATUS_STYLE[p.status] ?? STATUS_STYLE.Internal;
-        return (
-          <div
-            key={p.name}
-            className="f-card f-reveal"
-            data-delay={i * 75}
-            onMouseMove={tilt}
-            onMouseLeave={resetTilt}
+    <>
+      <div className="f-proj-tabs">
+        {PROJECT_TABS.map(t => (
+          <button
+            key={t.id}
+            className={`f-proj-tab${tab === t.id ? " f-proj-tab--active" : ""}`}
+            onClick={() => setTab(t.id)}
           >
-            {/* HUD corner brackets */}
-            <div className="f-card__corner f-card__corner--tl" />
-            <div className="f-card__corner f-card__corner--br" />
-            {/* Vertical scan sweep */}
-            <div className="f-card__scan" />
-            {/* Status-ambient glow */}
-            <div className="f-card__glow" />
+            <span>{t.icon}</span>
+            <span>{t.label}</span>
+          </button>
+        ))}
+      </div>
+      <div className="f-projects" ref={gridRef}>
+        {filtered.map((p, i) => {
+          const ss = STATUS_STYLE[p.status] ?? STATUS_STYLE.Internal;
+          return (
+            <div
+              key={p.name}
+              className="f-card f-reveal"
+              data-delay={i * 75}
+              onMouseMove={tilt}
+              onMouseLeave={resetTilt}
+            >
+              <div className="f-card__corner f-card__corner--tl" />
+              <div className="f-card__corner f-card__corner--br" />
+              <div className="f-card__scan" />
+              <div className="f-card__glow" />
 
-            <div className="f-card__header">
-              <span className="f-card__emoji">{p.emoji}</span>
-              <span className="f-status" style={{ background: ss.bg, color: ss.color }}>
-                ● {p.status}
-              </span>
-            </div>
-            <div className="f-card__name">{p.name}</div>
-            <p className="f-card__desc">{p.desc}</p>
-            <div className="f-card__tags">
-              {p.tags.map((t) => <span key={t} className="f-tag">{t}</span>)}
-            </div>
-            <div className="f-card__foot">
-              <div className="f-card__links">
-                {p.github && <a href={p.github} target="_blank" rel="noopener noreferrer" className="f-link">GitHub ↗</a>}
-                {p.demo   && <a href={p.demo}   target="_blank" rel="noopener noreferrer" className="f-link f-link--demo">Demo ↗</a>}
+              <div className="f-card__header">
+                <span className="f-card__emoji">{p.emoji}</span>
+                <span className="f-status" style={{ background: ss.bg, color: ss.color }}>
+                  ● {p.status}
+                </span>
+              </div>
+              <div className="f-card__name">{p.name}</div>
+              <p className="f-card__desc">{p.desc}</p>
+              <div className="f-card__tags">
+                {p.tags.map((t) => <span key={t} className="f-tag">{t}</span>)}
+              </div>
+              <div className="f-card__foot">
+                <div className="f-card__links">
+                  {p.github && <a href={p.github} target="_blank" rel="noopener noreferrer" className="f-link">GitHub ↗</a>}
+                  {p.demo   && <a href={p.demo}   target="_blank" rel="noopener noreferrer" className="f-link f-link--demo">Demo ↗</a>}
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    </>
   );
 }
 
@@ -313,8 +354,9 @@ function Education() {
         <div className="f-strip" style={{ marginTop: "1rem" }}>
           <div className="f-strip__item"><span className="f-strip__label">GPA</span><span className="f-strip__val">{PERSONAL_INFO.GPA} / 4.0</span></div>
           <div className="f-strip__item"><span className="f-strip__label">Field</span><span className="f-strip__val">Computer Science</span></div>
-          <div className="f-strip__item"><span className="f-strip__label">Grad</span><span className="f-strip__val">2025</span></div>
+          <div className="f-strip__item"><span className="f-strip__label">Grad</span><span className="f-strip__val">Dec 2025</span></div>
         </div>
+
       </div>
 
       <div className="f-block f-reveal" data-delay="100">
@@ -328,14 +370,81 @@ function Education() {
       </div>
 
       <div className="f-block f-reveal" data-delay="170">
-        <div className="f-block__label">Certifications & Courses</div>
+        <div className="f-block__label">Courses & Training</div>
         <div className="f-pills">
-          {["AWS Developer Associate", "Spring Boot Mastery", "Kubernetes Fundamentals",
+          {["Spring Boot Mastery", "Kubernetes Fundamentals",
             "System Design for Scale", "React Advanced Patterns"].map(s => (
             <span key={s} className="f-pill">{s}</span>
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+// ── Panel: Certifications ────────────────────────────────────────────────────
+function Certifications() {
+  const certs = [
+    {
+      id: "aws-dev-associate",
+      name: "AWS Certified Developer – Associate",
+      issuer: "Amazon Web Services",
+      issued: "2024",
+      level: "Associate",
+      colorVar: "--t-primary",
+      credly: "https://www.credly.com/badges/d799dbd3-1a91-4a32-a2ac-5c523d4190a3",
+      skills: ["Lambda", "DynamoDB", "S3", "API Gateway", "CloudFormation", "IAM", "SQS/SNS"],
+      icon: (
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="38" height="38">
+          <path d="M14 34 Q24 38 34 34" stroke="var(--t-primary)" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+          <path d="M31 31 L34 34 L31 37" stroke="var(--t-primary)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+          <path d="M13 28 L16 18 L19.5 26 L23 18 L26 28" stroke="var(--t-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+          <path d="M28 18 L28 28 M28 22 L33 22 M33 18 L33 28" stroke="var(--t-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        </svg>
+      ),
+    },
+  ];
+
+  return (
+    <div className="f-section">
+      <div className="f-certs-header f-reveal">
+        <p className="f-para">Industry-recognized credentials validating cloud and software expertise.</p>
+      </div>
+
+      {certs.map((cert, i) => (
+        <div key={cert.id} className="f-cert-full f-reveal" data-delay={i * 100}
+          style={{ "--cert-color": `var(${cert.colorVar})`, "--cert-glow": `var(--t-glow1h)` }}>
+
+          {/* Top row */}
+          <div className="f-cert-full__top">
+            <div className="f-cert-full__icon">{cert.icon}</div>
+            <div className="f-cert-full__meta">
+              <div className="f-cert-full__name">{cert.name}</div>
+              <div className="f-cert-full__issuer">{cert.issuer}</div>
+            </div>
+            <div className="f-cert-full__right">
+              <span className="f-cert-full__level">{cert.level}</span>
+              <span className="f-cert-full__year">{cert.issued}</span>
+            </div>
+          </div>
+
+          {/* Skill tags */}
+          <div className="f-cert-full__skills">
+            {cert.skills.map(s => (
+              <span key={s} className="f-cert-full__tag">{s}</span>
+            ))}
+          </div>
+
+          {/* Footer */}
+          <div className="f-cert-full__foot">
+            <span className="f-cert-full__verified">✓ Verified Credential</span>
+            <a href={cert.credly} target="_blank" rel="noopener noreferrer"
+              className="f-cert-full__link">
+              View on Credly ↗
+            </a>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -447,12 +556,13 @@ function Contact() {
 
 // ── Panel map — functions so each switch creates fresh instances ───────────────
 const PANEL_MAP = {
-  projects:   () => <Projects />,
-  about:      () => <About />,
-  experience: () => <Experience />,
-  education:  () => <Education />,
-  skills:     () => <Skills />,
-  contact:    () => <Contact />,
+  projects:       () => <Projects />,
+  about:          () => <About />,
+  experience:     () => <Experience />,
+  education:      () => <Education />,
+  certifications: () => <Certifications />,
+  skills:         () => <Skills />,
+  contact:        () => <Contact />,
 };
 
 // ── Main component ───────────────────────────────────────────────────────────

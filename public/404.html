@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>404 – Page Not Found | Pavan.dev</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --red:      #dc2626;
+        --red-h:    rgba(220, 38, 38, 0.65);
+        --red-s:    rgba(220, 38, 38, 0.28);
+        --blue:     #1d4ed8;
+        --blue-s:   rgba(29, 78, 216, 0.22);
+        --bg:       #08080f;
+      }
+
+      /* ── Base ─────────────────────────────────────────── */
+      html, body {
+        width: 100%; height: 100%;
+        overflow: hidden;
+        font-family: 'Exo 2', system-ui, sans-serif;
+        background: var(--bg);
+        color: #fff;
+      }
+
+      .scene {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+          radial-gradient(ellipse at 28% 72%, var(--red-s)  0%, transparent 52%),
+          radial-gradient(ellipse at 72% 28%, var(--blue-s) 0%, transparent 52%),
+          linear-gradient(160deg, #08080f 0%, #0a080e 50%, #060810 100%);
+        animation: fade-in 0.6s ease both;
+      }
+
+      /* ── Spider web background ────────────────────────── */
+      .bg-web {
+        position: absolute;
+        top: 50%; left: 50%;
+        width: min(92vmin, 560px);
+        height: min(92vmin, 560px);
+        transform: translate(-50%, -50%);
+        animation: web-spin 28s linear infinite;
+        opacity: 0.22;
+        pointer-events: none;
+      }
+
+      /* ── Thread + hanging spider ──────────────────────── */
+      .thread-wrap {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transform-origin: top center;
+        animation: swing 3.6s ease-in-out infinite;
+      }
+
+      .thread {
+        width: 2px;
+        height: clamp(80px, 18vh, 140px);
+        background: linear-gradient(to bottom, rgba(255,255,255,0.12), rgba(255,255,255,0.35));
+        border-radius: 1px;
+      }
+
+      .hang-spider {
+        width: clamp(54px, 9vmin, 80px);
+        filter:
+          drop-shadow(0 0 18px var(--red-h))
+          drop-shadow(0 0 6px  rgba(220,38,38,0.3));
+        animation: spider-bob 3.6s ease-in-out infinite;
+      }
+
+      /* ── Content card ─────────────────────────────────── */
+      .content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        text-align: center;
+        padding: 0 1.5rem;
+        animation: rise-in 0.8s cubic-bezier(0.34,1.56,0.64,1) 0.3s both;
+      }
+
+      /* ── 404 number ───────────────────────────────────── */
+      .code {
+        font-size: clamp(5rem, 18vw, 10rem);
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        line-height: 1;
+        background: linear-gradient(135deg, #f87171 0%, var(--red) 40%, #1d4ed8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 0 28px var(--red-h));
+        animation: pulse-glow 3s ease-in-out infinite;
+      }
+
+      /* ── Web-crack divider ────────────────────────────── */
+      .crack-wrap {
+        width: clamp(160px, 40vw, 300px);
+        opacity: 0.55;
+      }
+
+      /* ── Headline ─────────────────────────────────────── */
+      .headline {
+        font-size: clamp(1rem, 3.2vw, 1.35rem);
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: -0.01em;
+        text-shadow: 0 0 20px var(--red-h);
+      }
+
+      .sub {
+        font-size: clamp(0.78rem, 2vw, 0.92rem);
+        font-weight: 400;
+        color: rgba(255,255,255,0.42);
+        letter-spacing: 0.04em;
+      }
+
+      /* ── Divider bar ──────────────────────────────────── */
+      .bar {
+        width: clamp(120px, 30vw, 220px);
+        height: 2px;
+        border-radius: 1px;
+        background: rgba(255,255,255,0.07);
+        overflow: hidden;
+      }
+      .bar__fill {
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--red), var(--blue), var(--red));
+        background-size: 200% 100%;
+        animation: slide-bar 2.8s ease-in-out infinite;
+      }
+
+      /* ── CTA button ───────────────────────────────────── */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.4rem;
+        padding: 0.7rem 1.8rem;
+        font-family: inherit;
+        font-size: 0.88rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #fff;
+        border: 1.5px solid rgba(220,38,38,0.45);
+        border-radius: 8px;
+        background: rgba(220,38,38,0.08);
+        cursor: pointer;
+        transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+      }
+      .btn:hover {
+        background: rgba(220,38,38,0.18);
+        border-color: rgba(220,38,38,0.75);
+        box-shadow: 0 0 20px var(--red-s), inset 0 0 12px rgba(220,38,38,0.06);
+        transform: translateY(-2px);
+      }
+      .btn:active { transform: translateY(0); }
+
+      /* ── Hint text ────────────────────────────────────── */
+      .hint {
+        font-size: 0.7rem;
+        color: rgba(255,255,255,0.2);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        animation: hint-blink 2.4s ease-in-out infinite;
+      }
+
+      /* ── Keyframes ────────────────────────────────────── */
+      @keyframes fade-in {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+      @keyframes rise-in {
+        from { opacity: 0; transform: translateY(28px) scale(0.95); }
+        to   { opacity: 1; transform: translateY(0)    scale(1); }
+      }
+      @keyframes web-spin {
+        from { transform: translate(-50%,-50%) rotate(0deg); }
+        to   { transform: translate(-50%,-50%) rotate(360deg); }
+      }
+      @keyframes swing {
+        0%, 100% { transform: translateX(-50%) rotate(-14deg); }
+        50%       { transform: translateX(-50%) rotate(14deg); }
+      }
+      @keyframes spider-bob {
+        0%, 100% { transform: rotate(14deg)  scale(1); }
+        50%       { transform: rotate(-14deg) scale(1.04); }
+      }
+      @keyframes pulse-glow {
+        0%, 100% { filter: drop-shadow(0 0 28px var(--red-h)); }
+        50%       { filter: drop-shadow(0 0 48px rgba(220,38,38,0.9)) drop-shadow(0 0 16px rgba(29,78,216,0.4)); }
+      }
+      @keyframes slide-bar {
+        0%   { background-position: 0%   50%; }
+        50%  { background-position: 100% 50%; }
+        100% { background-position: 0%   50%; }
+      }
+      @keyframes hint-blink {
+        0%, 100% { opacity: 0.2; }
+        50%       { opacity: 0.55; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scene">
+
+      <!-- Rotating web background -->
+      <svg class="bg-web" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- 8 radial spokes -->
+        <line x1="200" y1="200" x2="400" y2="200" stroke="#dc2626" stroke-width="1" opacity="0.6"/>
+        <line x1="200" y1="200" x2="341" y2="341" stroke="#dc2626" stroke-width="1" opacity="0.5"/>
+        <line x1="200" y1="200" x2="200" y2="400" stroke="#dc2626" stroke-width="1" opacity="0.6"/>
+        <line x1="200" y1="200" x2="59"  y2="341" stroke="#dc2626" stroke-width="1" opacity="0.5"/>
+        <line x1="200" y1="200" x2="0"   y2="200" stroke="#dc2626" stroke-width="1" opacity="0.6"/>
+        <line x1="200" y1="200" x2="59"  y2="59"  stroke="#dc2626" stroke-width="1" opacity="0.5"/>
+        <line x1="200" y1="200" x2="200" y2="0"   stroke="#dc2626" stroke-width="1" opacity="0.6"/>
+        <line x1="200" y1="200" x2="341" y2="59"  stroke="#dc2626" stroke-width="1" opacity="0.5"/>
+        <!-- Concentric rings -->
+        <circle cx="200" cy="200" r="32"  fill="none" stroke="#dc2626" stroke-width="1" opacity="0.35"/>
+        <circle cx="200" cy="200" r="68"  fill="none" stroke="#dc2626" stroke-width="1" opacity="0.28"/>
+        <circle cx="200" cy="200" r="108" fill="none" stroke="#dc2626" stroke-width="1" opacity="0.22"/>
+        <circle cx="200" cy="200" r="152" fill="none" stroke="#dc2626" stroke-width="1" opacity="0.18"/>
+        <circle cx="200" cy="200" r="198" fill="none" stroke="#dc2626" stroke-width="1" opacity="0.12"/>
+        <!-- Center dot -->
+        <circle cx="200" cy="200" r="5" fill="#dc2626" opacity="0.7"/>
+      </svg>
+
+      <!-- Swinging Spider-Man hanging from top -->
+      <div class="thread-wrap">
+        <div class="thread"></div>
+        <!-- Classic Spider-Man SVG (inline, no dep) -->
+        <svg class="hang-spider" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 86 Q22 114 50 114 Q78 114 78 86 Q66 76 50 76 Q34 76 22 86Z" fill="#1d4ed8"/>
+          <path d="M22 86 Q22 114 50 114 Q78 114 78 86 Q66 76 50 76 Q34 76 22 86Z" fill="none" stroke="#4f77e8" stroke-width="1.2"/>
+          <ellipse cx="50" cy="50" rx="34" ry="40" fill="#dc2626"/>
+          <ellipse cx="50" cy="50" rx="34" ry="40" fill="none" stroke="#f87171" stroke-width="1"/>
+          <line x1="50" y1="10" x2="50" y2="90" stroke="#7f1d1d" stroke-width="0.9" opacity="0.65"/>
+          <line x1="16" y1="50" x2="84" y2="50" stroke="#7f1d1d" stroke-width="0.9" opacity="0.65"/>
+          <path d="M19 34 Q50 20 81 34" fill="none" stroke="#7f1d1d" stroke-width="0.9" opacity="0.65"/>
+          <path d="M16 50 Q50 36 84 50" fill="none" stroke="#7f1d1d" stroke-width="0.9" opacity="0.65"/>
+          <path d="M19 66 Q50 80 81 66" fill="none" stroke="#7f1d1d" stroke-width="0.9" opacity="0.65"/>
+          <line x1="24" y1="16" x2="76" y2="84" stroke="#7f1d1d" stroke-width="0.8" opacity="0.45"/>
+          <line x1="76" y1="16" x2="24" y2="84" stroke="#7f1d1d" stroke-width="0.8" opacity="0.45"/>
+          <path d="M16 46 Q30 28 45 40 Q30 54 16 46Z" fill="white"/>
+          <path d="M55 40 Q70 28 84 46 Q70 54 55 40Z" fill="white"/>
+          <path d="M20 45 Q30 32 42 41 Q30 52 20 45Z" fill="rgba(200,230,255,0.18)"/>
+          <path d="M58 41 Q70 32 80 45 Q70 52 58 41Z" fill="rgba(200,230,255,0.18)"/>
+        </svg>
+      </div>
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="code">404</div>
+
+        <!-- Web crack SVG divider -->
+        <svg class="crack-wrap" viewBox="0 0 300 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 12 L60 12 L72 4 L84 18 L96 8 L108 16 L120 12 L180 12"
+            fill="none" stroke="#dc2626" stroke-width="1.2" opacity="0.55"/>
+          <circle cx="150" cy="12" r="3" fill="#dc2626" opacity="0.7"/>
+          <path d="M120 12 L180 12 L192 4 L204 18 L216 8 L228 16 L240 12 L300 12"
+            fill="none" stroke="#dc2626" stroke-width="1.2" opacity="0.55"/>
+          <!-- web threads from center -->
+          <line x1="150" y1="12" x2="130" y2="0"  stroke="#dc2626" stroke-width="0.8" opacity="0.35"/>
+          <line x1="150" y1="12" x2="170" y2="0"  stroke="#dc2626" stroke-width="0.8" opacity="0.35"/>
+          <line x1="150" y1="12" x2="128" y2="24" stroke="#dc2626" stroke-width="0.8" opacity="0.3"/>
+          <line x1="150" y1="12" x2="172" y2="24" stroke="#dc2626" stroke-width="0.8" opacity="0.3"/>
+        </svg>
+
+        <p class="headline">Looks like Spidey lost the thread.</p>
+        <p class="sub">The page you're looking for swung away.</p>
+
+        <div class="bar"><div class="bar__fill"></div></div>
+
+        <a class="btn" href="/">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 5l-7 7 7 7"/>
+          </svg>
+          Swing Back Home
+        </a>
+
+        <p class="hint">pavan.dev</p>
+      </div>
+
+    </div>
+  </body>
+</html>
